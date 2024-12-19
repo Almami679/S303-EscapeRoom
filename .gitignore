@@ -9,15 +9,6 @@
 target/
 build/
 
-# Ignore Maven wrapper files
-.mvn/
-mvnw
-mvnw.cmd
-
-# Ignore Gradle wrapper files
-.gradle/
-gradle-wrapper.jar
-
 # Ignore log files
 *.log
 
