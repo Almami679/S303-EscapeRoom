@@ -29,9 +29,5 @@ desktop.ini
 # Ignore coverage results
 jacoco.exec
 
-# Ignore testing reports
-/test-results/
-*.xml
-
 # Ignore configuration and environment files
 .env
