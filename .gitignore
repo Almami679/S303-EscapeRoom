@@ -9,9 +9,6 @@
 target/
 build/
 
-# Ignore log files
-*.log
-
 # Ignore temporary files
 *.swp
 *.swo
