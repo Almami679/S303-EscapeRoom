@@ -12,6 +12,7 @@ public class CommunicateFactory {
             case TICKET -> new TicketFactory().createCommunicate(player);
             case NOTIFICATION -> new NotificationFactory().createCommunicate(player);
             case GIFT -> new GiftFactory().createCommunicate(player);
+            case CERTIFICATE -> new CertificateFactory().createCommunicate(player);
         };
 
     }

@@ -8,6 +8,7 @@ public class PlayerTEST {
     private String name;
     private String email;
     private ArrayList<SaleTEST> sales;
+    private ArrayList<GameTEST> games;
 
     private boolean consent;
 
@@ -16,6 +17,7 @@ public class PlayerTEST {
         this.email = email;
         this.consent = consent;
         this.sales = new ArrayList<>();
+        this.games = new ArrayList<>();
     }
 
     public String getName() {
@@ -32,6 +34,14 @@ public class PlayerTEST {
 
     public void addSale(SaleTEST sale){
         this.sales.add(sale);
+    }
+
+    public void addGame(GameTEST game){
+        this.games.add(game);
+    }
+
+    public GameTEST getLastGame(){
+        return games.getLast();
     }
 
     public SaleTEST getSale() {

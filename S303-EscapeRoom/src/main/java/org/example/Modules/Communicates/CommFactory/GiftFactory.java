@@ -9,7 +9,7 @@ public class GiftFactory implements CommFactoryInterface{
     @Override
     public Gift createCommunicate(PlayerTEST player) {
         String text = "New Reward!\n" +
-                player.getName() +"You have finished our horror " +
+                player.getName() +" You have finished our horror " +
                 "escape room without using clues\n "+
                 "you have a gift sent to email " + player.getEmail();
 
