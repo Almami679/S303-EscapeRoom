@@ -3,7 +3,7 @@ package org.example.Modules.Communicates;
 import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
 
 
-public class Notification extends Communicate {
+public class Notification extends Communicate implements CommunicationInterface {
 
     private String text;
 
@@ -19,5 +19,14 @@ public class Notification extends Communicate {
     public Notification setText(String text) {
         this.text = text;
         return this;
+    }
+
+    @Override
+    public void send() {
+        System.out.println(super.getPlayer().getConsent()
+                ?
+                "sending email with Notification[id:" + super.getId() + "]"
+                :
+                "You do not have permissions to send Spam");
     }
 }

@@ -2,7 +2,7 @@ package org.example.Modules.Communicates;
 
 import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
 import org.example.Modules.Communicates.CLASESTEST.SaleTEST;
-import org.example.Modules.Communicates.CommFactory.CommunicationInterface;
+import org.example.Modules.Communicates.CommunicationInterface;
 
 public class Ticket extends Communicate implements CommunicationInterface {
 
@@ -37,7 +37,8 @@ public class Ticket extends Communicate implements CommunicationInterface {
 
     @Override
     public void send() {
-
+        System.out.println("sending to email " + super.getPlayer().getEmail() + "\n" +
+                "Ticket[id:" + super.getId() + "]");
 
     }
 }

@@ -1,11 +1,18 @@
 package org.example.Modules.Communicates.CommFactory;
 
+import org.example.Modules.Communicates.*;
 import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
 
-public interface CommunicateFactory {
 
-    void createComm(PlayerTEST player);
+public class CommunicateFactory {
 
+    public Object createCommunicate(CommunicateType communicate, PlayerTEST player) {
 
-///https://www.youtube.com/watch?v=v-NdSDNVb4U&ab_channel=ProgramandoenJAVA
+        return switch (communicate) {
+            case TICKET -> new TicketFactory().createCommunicate(player);
+            case NOTIFICATION -> new NotificationFactory().createCommunicate(player);
+            case GIFT -> new GiftFactory().createCommunicate(player);
+        };
+
+    }
 }

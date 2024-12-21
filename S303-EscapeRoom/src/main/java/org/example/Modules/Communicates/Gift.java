@@ -4,7 +4,7 @@ import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
 
 import java.util.ArrayList;
 
-public class Gift extends Communicate {
+public class Gift extends Communicate implements CommunicationInterface{
 
     private String text;
     private String discountKey;
@@ -13,7 +13,7 @@ public class Gift extends Communicate {
     public Gift(PlayerTEST player, String text) {
         super(player);
         this.text = text;
-        this.discountKey =
+        this.discountKey = generateKey();
     }
 
     public String getText() {
@@ -37,10 +37,24 @@ public class Gift extends Communicate {
     private static String generateKey(){
         StringBuilder kb = new StringBuilder();
         String upperLetters = "ABCDEFGHYJKLMNOPQRSTUVWZ";
-        int number = (int) (Math.random() * 10) + 1;
+        do {
 
-        kb.append(", Mundo!");
 
-        return ( kb;
+            int number = (int) (Math.random() * (upperLetters.length()-1));
+            kb.append(upperLetters.charAt(number) + "-");
+
+            number = (int) (Math.random() * 1000000000) + 1;
+            kb.append(number);
+
+        } while(KeysInUse.contains(kb.toString()));
+        KeysInUse.add(kb.toString());
+
+        return kb.toString();
+    }
+
+    @Override
+    public void send() {
+        System.out.println("sending email with GiftKey[id:" + super.getId() + "]\n" +
+                "Key: " + this.discountKey);
     }
 }
