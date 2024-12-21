@@ -2,24 +2,23 @@ package org.example.Repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
 
 public class DatabaseConnection implements RepositoryMGMT {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/mydb";
     private final static String USER = "root";
-    private final static  String PASSWORD = "mbernar910";
+    private final static String PASSWORD = "mbernar910";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
+    @Override
     public Connection dbConnect() {
         Connection connection;
         try {
@@ -31,4 +30,24 @@ public class DatabaseConnection implements RepositoryMGMT {
         }
         return connection;
     }
+
+    @Override
+    public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
+        return null;
+    }
+
+    @Override
+    public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
+    }
+
+    @Override
+    public EscapeRoomTEST getEscapeRoomById(int id) {
+        return null;
+    }
+
+    @Override
+    public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
+
+    }
+
 }

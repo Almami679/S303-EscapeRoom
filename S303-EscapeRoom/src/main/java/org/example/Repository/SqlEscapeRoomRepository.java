@@ -1,4 +1,110 @@
 package org.example.Repository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
 
-public class SqlEscapeRoomRepository {
+import java.sql.*;
+import java.util.ArrayList;
+
+public class SqlEscapeRoomRepository implements RepositoryMGMT {
+
+    Logger logger = LogManager.getLogger(SqlEscapeRoomRepository.class);
+
+    @Override
+    public Connection dbConnect() {
+        return new DatabaseConnection().dbConnect();
+    }
+
+    @Override
+    public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
+        ArrayList<EscapeRoomTEST> escapeRoomTESTList = new ArrayList<>();
+        String sql = "SELECT * FROM escaperoom WHERE EscapeRoom_deleted = 0 ORDER BY EscapeRoom_id DESC";
+        try (Connection connection = dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            logger.info("Received EscapeRoom.");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("EscapeRoom_id");
+                String name = resultSet.getString("EscapeRoom_name");
+                double price = resultSet.getDouble("EscapeRoom_price");
+                String theme = resultSet.getString("EscapeRoom_theme");
+                boolean delete = resultSet.getBoolean("EscapeRoom_deleted");
+                Timestamp createdAt = resultSet.getTimestamp("EscapeRoom_createdAt");
+                Timestamp updatedAt = resultSet.getTimestamp("EscapeRoom_updatedAt");
+
+                EscapeRoomTEST escapeRoomTEST = new EscapeRoomTEST(name, price, theme, delete, createdAt, updatedAt);
+                escapeRoomTEST.setId(id);
+                escapeRoomTESTList.add(escapeRoomTEST);
+                if (id > EscapeRoomTEST.getLatestId()) {
+                    EscapeRoomTEST.setLatestId(id);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to fetch EscapeRoom: ", e);
+        }
+        return escapeRoomTESTList;
+    }
+
+    @Override
+    public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
+        String sql = "INSERT INTO escaperoom (EscapeRoom_id, EscapeRoom_name, EscapeRoom_price, EscapeRoom_theme, EscapeRoom_deleted, EscapeRoom_createdAt, EscapeRoom_updatedAt)" +
+                " VALUES (?, ?, ?, ?, 0, ?, ?)";
+        try (Connection connection = dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, escapeRoomTEST.getId());
+            statement.setString(2, escapeRoomTEST.getName());
+            statement.setDouble(3, escapeRoomTEST.getPrice());
+            statement.setString(4, escapeRoomTEST.getTheme());
+            statement.setTimestamp(5, escapeRoomTEST.getCreated_at());
+            statement.setTimestamp(6, escapeRoomTEST.getUpdated_at());
+            statement.executeUpdate();
+            logger.info("EscapeRoom added.");
+        } catch (SQLException e) {
+            logger.error("Failed to add EscapeRoom: ", e);
+        }
+    }
+
+    @Override
+    public EscapeRoomTEST getEscapeRoomById(int id) {
+        EscapeRoomTEST escapeRoomTEST = null;
+        String sql = "SELECT * FROM escaperoom WHERE EscapeRoom_id = ? AND EscapeRoom_deleted = 0";
+        try (Connection connection = dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String name = resultSet.getString("EscapeRoom_name");
+                    double price = resultSet.getDouble("EscapeRoom_price");
+                    String theme = resultSet.getString("EscapeRoom_theme");
+                    boolean delete = resultSet.getBoolean("EscapeRoom_deleted");
+                    Timestamp createdAt = resultSet.getTimestamp("EscapeRoom_createdAt");
+                    Timestamp updatedAt = resultSet.getTimestamp("EscapeRoom_updatedAt");
+
+                    escapeRoomTEST = new EscapeRoomTEST(name, price, theme, delete, createdAt, updatedAt);
+                    escapeRoomTEST.setId(id);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to fetch EscapeRoom by ID: ", e);
+        }
+        return escapeRoomTEST;
+    }
+
+    @Override
+    public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
+        String sql = "UPDATE escaperoom SET EscapeRoom_name = ?, EscapeRoom_price = ?, EscapeRoom_theme = ?, EscapeRoom_deleted = ?, EscapeRoom_updatedAt = ? WHERE EscapeRoom_id = ?";
+        try (Connection connection = dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, escapeRoomTEST.getName());
+            statement.setDouble(2, escapeRoomTEST.getPrice());
+            statement.setString(3, escapeRoomTEST.getTheme());
+            statement.setBoolean(4, escapeRoomTEST.isDeleted());
+            statement.setTimestamp(5, escapeRoomTEST.getUpdated_at());
+            statement.setInt(6, escapeRoomTEST.getId());
+            statement.executeUpdate();
+            logger.info("EscapeRoom updated.");
+        } catch (SQLException e) {
+            logger.error("Failed to update EscapeRoom: ", e);
+        }
+    }
 }
