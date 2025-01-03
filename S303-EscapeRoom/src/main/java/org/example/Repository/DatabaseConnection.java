@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
+import org.example.Modules.CLASESTESTS.RoomTEST;
 
 public class DatabaseConnection implements RepositoryMGMT {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/mydb";
@@ -50,4 +51,23 @@ public class DatabaseConnection implements RepositoryMGMT {
 
     }
 
+    @Override
+    public ArrayList<RoomTEST> getAllRooms() {
+        return null;
+    }
+
+    @Override
+    public void addRoom(RoomTEST roomTEST) {
+
+    }
+
+    @Override
+    public RoomTEST getRoomById(int id) {
+        return null;
+    }
+
+    @Override
+    public void roomUpdate(RoomTEST roomTEST) {
+
+    }
 }
