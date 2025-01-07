@@ -1,19 +1,25 @@
 package org.example.Modules.CLASESTESTS;
 
+import java.util.ArrayList;
+
 public class PlayerTEST {
     private static int latestId = 0;
     private int id;
     private String name;
     private String email;
-    private int consentNotif;
+    private boolean consentNotif;
     private boolean deleted;
+    private ArrayList<SaleTEST> sales;
+    private ArrayList<GameTEST> games;
 
-    public PlayerTEST(String name, String email, int consentNotif, boolean deleted) {
+    public PlayerTEST(String name, String email, boolean consentNotif, boolean deleted) {
         this.id = ++latestId;
         this.name = name;
         this.email = email;
         this.consentNotif = consentNotif;
         this.deleted = deleted;
+        this.sales = new ArrayList<>();
+        this.games = new ArrayList<>();
     }
 
     public static int getLatestId() {
@@ -48,11 +54,11 @@ public class PlayerTEST {
         this.email = email;
     }
 
-    public int getConsentNotif() {
+    public boolean getConsentNotif() {
         return consentNotif;
     }
 
-    public void setConsentNotif(int consentNotif) {
+    public void setConsentNotif(boolean consentNotif) {
         this.consentNotif = consentNotif;
     }
 
@@ -60,8 +66,29 @@ public class PlayerTEST {
         return deleted;
     }
 
+    public void addSale(SaleTEST sale){
+        this.sales.add(sale);
+    }
+
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void addGame(GameTEST game){
+        this.games.add(game);
+    }
+
+    public GameTEST getLastGame(){
+        return games.getLast();
+    }
+
+    public SaleTEST getSale() {
+        try {
+
+            return this.sales.getLast();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

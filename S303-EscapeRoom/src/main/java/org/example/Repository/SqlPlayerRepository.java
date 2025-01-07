@@ -23,7 +23,7 @@ public class SqlPlayerRepository {
             statement.setInt(1, playerTEST.getId());
             statement.setString(2, playerTEST.getName());
             statement.setString(3, playerTEST.getEmail());
-            statement.setInt(4, playerTEST.getConsentNotif());
+            statement.setBoolean(4, playerTEST.getConsentNotif());
             statement.setBoolean(5, playerTEST.isDeleted());
             statement.executeUpdate();
             logger.info("Player created.");
@@ -42,7 +42,7 @@ public class SqlPlayerRepository {
                 if (resultSet.next()) {
                     String name = resultSet.getString("Player_name");
                     String email = resultSet.getString("Player_email");
-                    int consentNotif = resultSet.getInt("Player_consentNotif");
+                    boolean consentNotif = resultSet.getBoolean("Player_consentNotif");
                     boolean deleted = resultSet.getBoolean("Player_delete");
                     playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                     playerTEST.setId(id);
@@ -65,7 +65,7 @@ public class SqlPlayerRepository {
                 int id = resultSet.getInt("Player_id");
                 String name = resultSet.getString("Player_name");
                 String email = resultSet.getString("Player_email");
-                int consentNotif = resultSet.getInt("Player_consentNotif");
+                boolean consentNotif = resultSet.getBoolean("Player_consentNotif");
                 boolean deleted = resultSet.getBoolean("Player_delete");
                 PlayerTEST playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                 playerTEST.setId(id);
@@ -83,7 +83,7 @@ public class SqlPlayerRepository {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, playerTEST.getName());
             statement.setString(2, playerTEST.getEmail());
-            statement.setInt(3, playerTEST.getConsentNotif());
+            statement.setBoolean(3, playerTEST.getConsentNotif());
             statement.setBoolean(4, playerTEST.isDeleted());
             statement.setInt(5, playerTEST.getId());
             statement.executeUpdate();

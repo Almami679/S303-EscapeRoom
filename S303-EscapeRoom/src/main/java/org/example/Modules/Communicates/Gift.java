@@ -1,6 +1,6 @@
 package org.example.Modules.Communicates;
 
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 import java.util.ArrayList;
 
