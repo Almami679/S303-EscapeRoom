@@ -26,7 +26,7 @@ public class MainSQLTest {
         db.escapeRoomUpdate(escapeRoomTEST1);
         System.out.println("EscapeRoom id[1]: " + db.getEscapeRoomById(1));
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = db.getAllEscapeRooms();
-        escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
+        escapeRoomTESTS.forEach(System.out::println);
     }
     private static EscapeRoomTEST createEscapeRoomTEST1() {
         return new EscapeRoomTEST(
@@ -63,7 +63,7 @@ public class MainSQLTest {
         db.roomUpdate(roomTEST1);
         System.out.println("Room id[1]: " + db.getRoomById(1));
         ArrayList<RoomTEST> roomTESTS = db.getAllRooms();
-        roomTESTS.forEach(roomTEST -> System.out.println(roomTEST));
+        roomTESTS.forEach(System.out::println);
     }
     private static RoomTEST createRoomTEST1() {
         return new RoomTEST(
@@ -102,13 +102,13 @@ public class MainSQLTest {
         db.updatePlayer(playerTEST1);
         System.out.println("Player id[1]: " + db.getPlayerById(1));
         ArrayList<PlayerTEST> playerTESTS = db.getAllPlayers();
-        playerTESTS.forEach(playerTEST -> System.out.println(playerTEST));
+        playerTESTS.forEach(System.out::println);
     }
     private static PlayerTEST createPlayerTEST1() {
         return new PlayerTEST(
                 "Pepito Palotes",
                 "pepito@palotes.com",
-                1,
+                true,
                 false
         );
     }
@@ -116,11 +116,12 @@ public class MainSQLTest {
         return new PlayerTEST(
                 "Mojo Jojo",
                 "mojo@jojo.com",
-                0,
+                false,
                 false
         );
     }
     private static void updatePlayerTest(PlayerTEST playerTEST) {
-        playerTEST.setConsentNotif(2);
+
+        playerTEST.setConsentNotif(!playerTEST.getConsentNotif());
     }
 }

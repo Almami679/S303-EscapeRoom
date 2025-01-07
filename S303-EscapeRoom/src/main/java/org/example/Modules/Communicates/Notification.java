@@ -1,6 +1,6 @@
 package org.example.Modules.Communicates;
 
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 
 public class Notification extends Communicate implements CommunicationInterface {
@@ -23,7 +23,7 @@ public class Notification extends Communicate implements CommunicationInterface 
 
     @Override
     public void send() {
-        System.out.println(super.getPlayer().getConsent()
+        System.out.println(super.getPlayer().getConsentNotif()
                 ?
                 "sending email with Notification[id:" + super.getId() + "]"
                 :

@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates.CLASESTEST;
+package org.example.Modules.CLASESTESTS;
 
 public class SaleTEST {
 

@@ -1,8 +1,8 @@
 package org.example.Main;
 
-import org.example.Modules.Communicates.CLASESTEST.GameTEST;
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
-import org.example.Modules.Communicates.CLASESTEST.SaleTEST;
+import org.example.Modules.CLASESTESTS.GameTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Communicates.Gift;
@@ -18,8 +18,8 @@ public class MainTEST_LOCAL {
 
     public static void main(String[] args) {
 
-        PlayerTEST player1 = new PlayerTEST("Albert", "albert@gmail.com", true);
-        PlayerTEST player2 = new PlayerTEST("Inga", "Inga@gmail.com", false);
+        PlayerTEST player1 = new PlayerTEST("Albert", "albert@gmail.com",true, false);
+        PlayerTEST player2 = new PlayerTEST("Inga", "Inga@gmail.com",false, false);
 
 
         System.out.println("\n------------------------------\n" +
