@@ -9,18 +9,6 @@
 target/
 build/
 
-# Ignore Maven wrapper files
-.mvn/
-mvnw
-mvnw.cmd
-
-# Ignore Gradle wrapper files
-.gradle/
-gradle-wrapper.jar
-
-# Ignore log files
-*.log
-
 # Ignore temporary files
 *.swp
 *.swo
@@ -40,10 +28,6 @@ desktop.ini
 
 # Ignore coverage results
 jacoco.exec
-
-# Ignore testing reports
-/test-results/
-*.xml
 
 # Ignore configuration and environment files
 .env
