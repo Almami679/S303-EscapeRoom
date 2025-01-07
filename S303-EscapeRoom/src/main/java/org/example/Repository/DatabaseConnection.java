@@ -3,23 +3,32 @@ package org.example.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
+import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
+import org.example.Modules.CLASESTESTS.RoomTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
-import org.example.Modules.CLASESTESTS.RoomTEST;
-
-public class DatabaseConnection implements RepositoryMGMT {
+public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/mydb";
     private final static String USER = "root";
     private final static String PASSWORD = "mbernar910";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    @Override
+    private SqlEscapeRoomRepository escapeRoomRepository;
+    private SqlRoomRepository roomRepository;
+    private SqlPlayerRepository playerRepository;
+
+    public DatabaseConnection() {
+        this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
+        this.roomRepository = new SqlRoomRepository(this);
+        this.playerRepository = new SqlPlayerRepository(this);
+    }
+
     public Connection dbConnect() {
         Connection connection;
         try {
@@ -32,42 +41,54 @@ public class DatabaseConnection implements RepositoryMGMT {
         return connection;
     }
 
-    @Override
-    public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
-        return null;
-    }
-
-    @Override
+    // EscapeRoomTEST
     public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
+        escapeRoomRepository.addEscapeRoom(escapeRoomTEST);
     }
 
-    @Override
     public EscapeRoomTEST getEscapeRoomById(int id) {
-        return null;
+        return escapeRoomRepository.getEscapeRoomById(id);
     }
 
-    @Override
+    public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
+        return escapeRoomRepository.getAllEscapeRooms();
+    }
+
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
-
+        escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
     }
 
-    @Override
-    public ArrayList<RoomTEST> getAllRooms() {
-        return null;
-    }
-
-    @Override
+    // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
-
+        roomRepository.addRoom(roomTEST);
     }
 
-    @Override
     public RoomTEST getRoomById(int id) {
-        return null;
+        return roomRepository.getRoomById(id);
     }
 
-    @Override
-    public void roomUpdate(RoomTEST roomTEST) {
+    public ArrayList<RoomTEST> getAllRooms() {
+        return roomRepository.getAllRooms();
+    }
 
+    public void roomUpdate(RoomTEST roomTEST) {
+        roomRepository.roomUpdate(roomTEST);
+    }
+
+    // PlayerTEST
+    public void createPlayer(PlayerTEST playerTEST) {
+        playerRepository.createPlayer(playerTEST);
+    }
+
+    public PlayerTEST getPlayerById(int id) {
+        return playerRepository.getPlayerById(id);
+    }
+
+    public ArrayList<PlayerTEST> getAllPlayers() {
+        return playerRepository.getAllPlayers();
+    }
+
+    public void updatePlayer(PlayerTEST playerTEST) {
+        playerRepository.updatePlayer(playerTEST);
     }
 }

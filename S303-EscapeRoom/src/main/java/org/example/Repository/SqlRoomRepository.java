@@ -2,77 +2,23 @@ package org.example.Repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
 import org.example.Modules.CLASESTESTS.RoomTEST;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SqlRoomRepository implements RepositoryMGMT {
-
+public class SqlRoomRepository {
     Logger logger = LogManager.getLogger(SqlRoomRepository.class);
+    private DatabaseConnection dbConnection;
 
-    @Override
-    public Connection dbConnect() {
-        return new DatabaseConnection().dbConnect();
+    public SqlRoomRepository(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
-    @Override
-    public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
-        return null;
-    }
-
-    @Override
-    public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
-
-    }
-
-    @Override
-    public EscapeRoomTEST getEscapeRoomById(int id) {
-        return null;
-    }
-
-    @Override
-    public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
-
-    }
-
-    @Override
-    public ArrayList<RoomTEST> getAllRooms() {
-        ArrayList<RoomTEST> roomTESTList = new ArrayList<>();
-        String sql = "SELECT * FROM room WHERE Room_deleted = 0 ORDER BY Room_id DESC";
-        try (Connection connection = dbConnect();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-            logger.info("Received Room.");
-            while (resultSet.next()) {
-                int id = resultSet.getInt("Room_id");
-                String name = resultSet.getString("Room_name");
-                String difficulty = resultSet.getString("Room_difficulty");
-                double price = resultSet.getDouble("Room_price");
-                int escapeRoomId = resultSet.getInt("Room_escapeRoomid");
-                boolean delete = resultSet.getBoolean("Room_deleted");
-                Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
-                Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-
-                RoomTEST roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, delete, createdAt, updatedAt);
-                roomTEST.setId(id);
-                roomTESTList.add(roomTEST);
-                if (id > RoomTEST.getLatestId()) {
-                    RoomTEST.setLatestId(id);
-                }
-            }
-        } catch (SQLException e) {
-            logger.error("Failed to fetch Room: ", e);
-        }
-        return roomTESTList;
-    }
-
-    @Override
     public void addRoom(RoomTEST roomTEST) {
         String sql = "INSERT INTO room (Room_id, Room_name, Room_difficulty, Room_price, Room_escapeRoomid, Room_deleted, Room_createdAt, Room_updatedAt)" +
                 " VALUES (?, ?, ?, ?, ?, 0, ?, ?)";
-        try (Connection connection = dbConnect();
+        try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, roomTEST.getId());
             statement.setString(2, roomTEST.getName());
@@ -88,11 +34,10 @@ public class SqlRoomRepository implements RepositoryMGMT {
         }
     }
 
-    @Override
     public RoomTEST getRoomById(int id) {
         RoomTEST roomTEST = null;
         String sql = "SELECT * FROM room WHERE Room_id = ? AND Room_deleted = 0";
-        try (Connection connection = dbConnect();
+        try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -115,10 +60,36 @@ public class SqlRoomRepository implements RepositoryMGMT {
         return roomTEST;
     }
 
-    @Override
+    public ArrayList<RoomTEST> getAllRooms() {
+        ArrayList<RoomTEST> roomTESTList = new ArrayList<>();
+        String sql = "SELECT * FROM room WHERE Room_deleted = 0 ORDER BY Room_id DESC";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            logger.info("Received Room.");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("Room_id");
+                String name = resultSet.getString("Room_name");
+                String difficulty = resultSet.getString("Room_difficulty");
+                double price = resultSet.getDouble("Room_price");
+                int escapeRoomId = resultSet.getInt("Room_escapeRoomid");
+                boolean delete = resultSet.getBoolean("Room_deleted");
+                Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
+                Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
+
+                RoomTEST roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, delete, createdAt, updatedAt);
+                roomTEST.setId(id);
+                roomTESTList.add(roomTEST);
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to fetch Room: ", e);
+        }
+        return roomTESTList;
+    }
+
     public void roomUpdate(RoomTEST roomTEST) {
         String sql = "UPDATE room SET Room_name = ?, Room_difficulty = ?, Room_price = ?, Room_escapeRoomid = ?, Room_deleted = ?, Room_updatedAt = ? WHERE Room_id = ?";
-        try (Connection connection = dbConnect();
+        try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, roomTEST.getName());
             statement.setString(2, roomTEST.getDifficulty());
