@@ -1,15 +1,20 @@
 package org.example.Main;
 
-import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.CLASESTESTS.RoomTEST;
+import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
+import org.example.Modules.Communicates.Gift;
+import org.example.Modules.Communicates.Notification;
+import org.example.Modules.Communicates.Ticket;
 import org.example.Repository.DatabaseConnection;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainSQLTest {
     private static final DatabaseConnection db = new DatabaseConnection();
+    public static final CommunicateFactory mainFactoryCommunicate = new CommunicateFactory();
 
     public static void main(String[] args) {
         EscapeRoomTesting();
@@ -123,5 +128,46 @@ public class MainSQLTest {
     private static void updatePlayerTest(PlayerTEST playerTEST) {
 
         playerTEST.setConsentNotif(!playerTEST.getConsentNotif());
+    }
+
+    /////////////prueba ticket////////////
+    public void createTicketTest(PlayerTEST player) {
+        System.out.println("\n------------------------------\n" +
+                "Ticket TEST:");
+        SaleTEST sale1 = new SaleTEST(); //creando venta
+        player.addSale(sale1); //asignando venta a player1
+        Ticket ticket1 = (Ticket) mainFactoryCommunicate.createCommunicate(CommunicateType.TICKET, player);
+        System.out.println(ticket1.getText() + "\n" + ticket1.getClass());
+        ticket1.send();
+    }
+
+    //////////Prueba Gift/////////////////
+    public void createGiftTest(PlayerTEST player) {
+        System.out.println("\n------------------------------\n" +
+                "Gift TEST");
+        Gift gift1 = (Gift) mainFactoryCommunicate.createCommunicate(CommunicateType.GIFT,player);
+        System.out.println(gift1.getText() + "\n" + gift1.getClass());
+        gift1.send();
+    }
+
+    ////////////Prueba notification/////////
+    public void createNotificationTest() {
+        System.out.println("\n------------------------------\n" +
+                "Notification TEST");
+        new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())).forEach(player -> {
+            Notification notification1 = (Notification) mainFactoryCommunicate.createCommunicate(CommunicateType.NOTIFICATION,player);
+            System.out.println(notification1.getText() +
+                    "\n" + notification1.getClass());
+            notification1.send();
+        });
+    }
+
+    //////////Prueba Certificate/////////////////
+    public void createCertificateTest() {
+        System.out.println("\n------------------------------\n" +
+                "Certificate TEST");
+        GameTEST game = new GameTEST("SpaceDream",
+                new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
+        game.finishGame();
     }
 }

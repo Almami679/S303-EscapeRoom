@@ -6,7 +6,7 @@ import org.example.Modules.Communicates.CommunicateType;
 
 import java.util.ArrayList;
 
-import static org.example.Main.MainTEST_LOCAL.mainFactoryCommunicate;
+import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
 
 public class GameTEST {
 
