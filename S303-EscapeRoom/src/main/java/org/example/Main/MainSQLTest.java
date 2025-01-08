@@ -1,16 +1,17 @@
 package org.example.Main;
 
+import com.mysql.cj.log.Log;
+import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.*;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
-import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Notification;
-import org.example.Modules.Communicates.Ticket;
 import org.example.Repository.DatabaseConnection;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static com.mysql.cj.conf.PropertyKey.logger;
 
 public class MainSQLTest {
     private static final DatabaseConnection db = new DatabaseConnection();
@@ -130,44 +131,43 @@ public class MainSQLTest {
         playerTEST.setConsentNotif(!playerTEST.getConsentNotif());
     }
 
-    /////////////prueba ticket////////////
+    ///////////// Prueba ticket + Logger ////////////
     public void createTicketTest(PlayerTEST player) {
-        System.out.println("\n------------------------------\n" +
-                "Ticket TEST:");
-        SaleTEST sale1 = new SaleTEST(); //creando venta
-        player.addSale(sale1); //asignando venta a player1
+        SaleTEST sale1 = new SaleTEST();
+        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
+        player.addSale(sale1);
+        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() +
+                "] assigned to PlayerId: " + player.getId());
         Ticket ticket1 = (Ticket) mainFactoryCommunicate.createCommunicate(CommunicateType.TICKET, player);
-        System.out.println(ticket1.getText() + "\n" + ticket1.getClass());
+        LogManager.getLogger(Ticket.class).info(ticket1.getText());
         ticket1.send();
     }
 
-    //////////Prueba Gift/////////////////
+    ////////// Prueba Gift + Logger /////////////////
     public void createGiftTest(PlayerTEST player) {
-        System.out.println("\n------------------------------\n" +
-                "Gift TEST");
         Gift gift1 = (Gift) mainFactoryCommunicate.createCommunicate(CommunicateType.GIFT,player);
-        System.out.println(gift1.getText() + "\n" + gift1.getClass());
+        LogManager.getLogger(Gift.class).info("GiftId:" + gift1.getId() +
+                " created with text:\n" + gift1.getText());
         gift1.send();
     }
 
-    ////////////Prueba notification/////////
+    //////////// Prueba notification + Logger /////////
     public void createNotificationTest() {
-        System.out.println("\n------------------------------\n" +
-                "Notification TEST");
         new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())).forEach(player -> {
             Notification notification1 = (Notification) mainFactoryCommunicate.createCommunicate(CommunicateType.NOTIFICATION,player);
-            System.out.println(notification1.getText() +
-                    "\n" + notification1.getClass());
+            LogManager.getLogger(Notification.class).info("NotificationId: " + notification1.getId() +
+                    " created with text:\n" + notification1.getText());
             notification1.send();
         });
     }
 
+    ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
+    /// ir a la clase GameTEST, ahi esta la logica
     //////////Prueba Certificate/////////////////
     public void createCertificateTest() {
-        System.out.println("\n------------------------------\n" +
-                "Certificate TEST");
         GameTEST game = new GameTEST("SpaceDream",
                 new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
-        game.finishGame();
+        game.finishGame().send();
+        LogManager.getLogger(Certificate.class).info(certificate.getText());
     }
 }

@@ -1,5 +1,6 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 import org.example.Modules.Communicates.CommunicateType;
@@ -13,15 +14,25 @@ public class GameTEST {
     private String escapeRoom;
     private ArrayList<PlayerTEST> players;
     private boolean finish;
+    private Certificate gameCertificate;
 
     public GameTEST(String escapeRoom, ArrayList<PlayerTEST> players) {
         this.escapeRoom = escapeRoom;
         this.players = players;
         this.finish = false;
+        this.gameCertificate = null;
     }
 
     public String getEscapeRoom() {
         return escapeRoom;
+    }
+
+    public void setGameCertificate(Certificate gameCertificate) {
+        this.gameCertificate = gameCertificate;
+    }
+
+    public Certificate getGameCertificate() {
+        return gameCertificate;
     }
 
     public void setEscapeRoom(String escapeRoom) {
@@ -44,14 +55,17 @@ public class GameTEST {
         });
 
     }
-
-    private void createGameCertificate(PlayerTEST player) {
+///ARREGLAR LA PARTE DE CERTIFICADOS A LA HORA DE CREARLOS ES UN POCO MEH
+    private Certificate createGameCertificate(PlayerTEST player) {
         if (this.finish) {
-            Certificate certificate = (Certificate) mainFactoryCommunicate.createCommunicate
-                                                                (CommunicateType.CERTIFICATE,player);
-            System.out.println(certificate.getText());
-            certificate.send();
-
+            if(this.gameCertificate == null) {
+                this.gameCertificate = (Certificate) mainFactoryCommunicate.createCommunicate
+                        (CommunicateType.CERTIFICATE, player);
+            }
+        } else {
+            LogManager.getLogger(Certificate.class).error("Certificate not created, because this game status["
+                    + this.finish +"]");
         }
+        return this.gameCertificate;
     }
 }

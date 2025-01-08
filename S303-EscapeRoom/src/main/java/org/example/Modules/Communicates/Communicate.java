@@ -4,6 +4,7 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 public class Communicate {
 
+
     private static Long nextId = 1L;
     private Long id;
     private PlayerTEST player;
