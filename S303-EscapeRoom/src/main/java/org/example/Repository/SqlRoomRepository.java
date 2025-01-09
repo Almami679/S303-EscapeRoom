@@ -69,7 +69,6 @@ public class SqlRoomRepository {
                     int deleted = resultSet.getInt("Room_deleted");
                     Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                     Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-
                     roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
                     roomTEST.setId(id);
                 }
@@ -87,7 +86,7 @@ public class SqlRoomRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received Room.");
-            while (resultSet.next()) {
+            do{
                 int id = resultSet.getInt("Room_id");
                 String name = resultSet.getString("Room_name");
                 String difficulty = resultSet.getString("Room_difficulty");
@@ -96,11 +95,10 @@ public class SqlRoomRepository {
                 int deleted = resultSet.getInt("Room_deleted");
                 Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                 Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-
                 RoomTEST roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
                 roomTEST.setId(id);
                 roomTESTList.add(roomTEST);
-            }
+            }while (resultSet.next());
         } catch (SQLException e) {
             logger.error("Failed to fetch Room: ", e);
         }

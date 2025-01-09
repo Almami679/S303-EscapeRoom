@@ -81,7 +81,7 @@ public class SqlPlayerRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received Player.");
-            while (resultSet.next()) {
+            do {
                 int id = resultSet.getInt("Player_id");
                 String name = resultSet.getString("Player_name");
                 String email = resultSet.getString("Player_email");
@@ -90,7 +90,7 @@ public class SqlPlayerRepository {
                 PlayerTEST playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                 playerTEST.setId(id);
                 playerTESTList.add(playerTEST);
-            }
+            }while (resultSet.next());
         } catch (SQLException e) {
             logger.error("Failed to fetch Players: ", e);
         }

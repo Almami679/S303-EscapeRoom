@@ -1,4 +1,4 @@
-package org.example.Modules.CLASESTESTS;
+/*package org.example.Modules.CLASESTESTS;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
@@ -54,4 +54,4 @@ public class GameTEST {
 
         }
     }
-}
+}*/

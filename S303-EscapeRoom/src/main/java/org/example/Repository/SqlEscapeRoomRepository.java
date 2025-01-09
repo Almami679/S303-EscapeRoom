@@ -80,7 +80,7 @@ public class SqlEscapeRoomRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received EscapeRoom.");
-            while (resultSet.next()) {
+            do {
                 int id = resultSet.getInt("EscapeRoom_id");
                 String name = resultSet.getString("EscapeRoom_name");
                 double price = resultSet.getDouble("EscapeRoom_price");
@@ -92,7 +92,7 @@ public class SqlEscapeRoomRepository {
                 EscapeRoomTEST escapeRoomTEST = new EscapeRoomTEST(name, price, theme, deleted, createdAt, updatedAt);
                 escapeRoomTEST.setId(id);
                 escapeRoomTESTList.add(escapeRoomTEST);
-            }
+            }while (resultSet.next());
         } catch (SQLException e) {
             logger.error("Failed to fetch EscapeRoom: ", e);
         }

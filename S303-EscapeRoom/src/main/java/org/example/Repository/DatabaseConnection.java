@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
+import org.example.Modules.CLASESTESTS.ObjectDecoTEST;
 import org.example.Modules.CLASESTESTS.RoomTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
@@ -20,11 +21,13 @@ public class DatabaseConnection {
     private SqlEscapeRoomRepository escapeRoomRepository;
     private SqlRoomRepository roomRepository;
     private SqlPlayerRepository playerRepository;
+    private SqlObjectDecoRepository objectDecoRepository;
 
     public DatabaseConnection() {
         this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
         this.roomRepository = new SqlRoomRepository(this);
         this.playerRepository = new SqlPlayerRepository(this);
+        this.objectDecoRepository = new SqlObjectDecoRepository(this);
     }
 
     public Connection dbConnect() {
@@ -133,6 +136,38 @@ public class DatabaseConnection {
             logger.error("Failed to fetch latest Player ID: ", e);
         }
         return latestId;
+    }
+
+    //ObjectDecoTEST
+    public int getLatestObjectDecoId() {
+        int latestId = 0;
+        String sql = "SELECT MAX(ObjectDeco_id) AS latestId FROM objectdeco";
+        try (Connection connection = dbConnect();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            if (resultSet.next()) {
+                latestId = resultSet.getInt("latestId");
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to fetch latest ObjectDeco ID: ", e);
+        }
+        return latestId;
+    }
+    public void addObjectDeco(ObjectDecoTEST objectDecoTEST) {
+        if (!objectDecoRepository.isDuplicateObjectDeco(objectDecoTEST.getName())) {
+            objectDecoRepository.addObjectDeco(objectDecoTEST);
+        } else {
+            logger.warn("Duplicate ObjectDeco entry detected: " + objectDecoTEST.getName());
+        }
+    }
+    public ObjectDecoTEST getObjectDecoById(int id) {
+        return objectDecoRepository.getObjectDecoById(id);
+    }
+    public ArrayList<ObjectDecoTEST> getAllObjectDecos() {
+        return objectDecoRepository.getAllObjectDecos();
+    }
+    public void updateObjectDeco(ObjectDecoTEST objectDecoTEST) {
+        objectDecoRepository.updateObjectDeco(objectDecoTEST);
     }
 
 
