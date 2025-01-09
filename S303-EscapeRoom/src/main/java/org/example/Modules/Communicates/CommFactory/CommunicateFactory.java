@@ -1,7 +1,7 @@
 package org.example.Modules.Communicates.CommFactory;
 
 import org.example.Modules.Communicates.*;
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 
 public class CommunicateFactory {

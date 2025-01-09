@@ -1,12 +1,12 @@
-package org.example.Modules.Communicates.CLASESTEST;
+package org.example.Modules.CLASESTESTS;
 
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Communicates.Notification;
 
 import java.util.ArrayList;
 
-import static org.example.Main.MainTEST_LOCAL.mainFactoryCommunicate;
+import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
 
 public class GameTEST {
 

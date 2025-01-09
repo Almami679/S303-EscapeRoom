@@ -1,7 +1,7 @@
 package org.example.Modules.Communicates.CommFactory;
 
-import org.example.Modules.Communicates.CLASESTEST.GameTEST;
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
+import org.example.Modules.CLASESTESTS.GameTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
     private final static String USER = "root";
-    private final static String PASSWORD = "mbernar910";
+    private final static String PASSWORD = "";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 

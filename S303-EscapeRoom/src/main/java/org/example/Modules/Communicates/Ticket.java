@@ -1,8 +1,7 @@
 package org.example.Modules.Communicates;
 
-import org.example.Modules.Communicates.CLASESTEST.PlayerTEST;
-import org.example.Modules.Communicates.CLASESTEST.SaleTEST;
-import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.CLASESTESTS.SaleTEST;
 
 public class Ticket extends Communicate implements CommunicationInterface {
 
