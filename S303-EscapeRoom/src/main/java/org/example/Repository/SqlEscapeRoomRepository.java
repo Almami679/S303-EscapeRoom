@@ -15,6 +15,22 @@ public class SqlEscapeRoomRepository {
         this.dbConnection = dbConnection;
     }
 
+    public boolean isDuplicateEscapeRoom(String escapeRoomName) {
+        String sql = "SELECT COUNT(*) FROM escaperoom WHERE EscapeRoom_name = ?";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, escapeRoomName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to check for duplicate EscapeRoom: ", e);
+        }
+        return false;
+    }
+
     public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
         String sql = "INSERT INTO escaperoom (EscapeRoom_id, EscapeRoom_name, EscapeRoom_price, EscapeRoom_theme, EscapeRoom_deleted, EscapeRoom_createdAt, EscapeRoom_updatedAt)" +
                 " VALUES (?, ?, ?, ?, 0, ?, ?)";
@@ -44,11 +60,10 @@ public class SqlEscapeRoomRepository {
                     String name = resultSet.getString("EscapeRoom_name");
                     double price = resultSet.getDouble("EscapeRoom_price");
                     String theme = resultSet.getString("EscapeRoom_theme");
-                    boolean delete = resultSet.getBoolean("EscapeRoom_deleted");
+                    int deleted = resultSet.getInt("EscapeRoom_deleted");
                     Timestamp createdAt = resultSet.getTimestamp("EscapeRoom_createdAt");
                     Timestamp updatedAt = resultSet.getTimestamp("EscapeRoom_updatedAt");
-
-                    escapeRoomTEST = new EscapeRoomTEST(name, price, theme, delete, createdAt, updatedAt);
+                    escapeRoomTEST = new EscapeRoomTEST(name, price, theme, deleted, createdAt, updatedAt);
                     escapeRoomTEST.setId(id);
                 }
             }
@@ -70,11 +85,11 @@ public class SqlEscapeRoomRepository {
                 String name = resultSet.getString("EscapeRoom_name");
                 double price = resultSet.getDouble("EscapeRoom_price");
                 String theme = resultSet.getString("EscapeRoom_theme");
-                boolean delete = resultSet.getBoolean("EscapeRoom_deleted");
+                int deleted = resultSet.getInt("EscapeRoom_deleted");
                 Timestamp createdAt = resultSet.getTimestamp("EscapeRoom_createdAt");
                 Timestamp updatedAt = resultSet.getTimestamp("EscapeRoom_updatedAt");
 
-                EscapeRoomTEST escapeRoomTEST = new EscapeRoomTEST(name, price, theme, delete, createdAt, updatedAt);
+                EscapeRoomTEST escapeRoomTEST = new EscapeRoomTEST(name, price, theme, deleted, createdAt, updatedAt);
                 escapeRoomTEST.setId(id);
                 escapeRoomTESTList.add(escapeRoomTEST);
             }
@@ -91,7 +106,7 @@ public class SqlEscapeRoomRepository {
             statement.setString(1, escapeRoomTEST.getName());
             statement.setDouble(2, escapeRoomTEST.getPrice());
             statement.setString(3, escapeRoomTEST.getTheme());
-            statement.setBoolean(4, escapeRoomTEST.isDeleted());
+            statement.setInt(4, escapeRoomTEST.isDeleted());
             statement.setTimestamp(5, escapeRoomTEST.getUpdated_at());
             statement.setInt(6, escapeRoomTEST.getId());
             statement.executeUpdate();

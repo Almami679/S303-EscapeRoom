@@ -1,41 +1,42 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.Repository.DatabaseConnection;
+
 import java.sql.Timestamp;
 
 public class EscapeRoomTEST {
-    private static int latestId = 0;
+    private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;
     private Double price;
     private String theme;
-    private boolean delete;
+    private int deleted;
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public EscapeRoomTEST(String name, Double price, String theme, boolean delete, Timestamp created_at, Timestamp updated_at) {
-        this.id = ++latestId;
+    public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
+        this.id = getLatestIdFromDB();
         this.name = name;
         this.price = price;
         this.theme = theme;
-        this.delete = delete;
+        this.deleted = deleted;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
-    public static int getLatestId() {
-        return latestId;
-    }
-
-    public static void setLatestId(int latestId) {
-        EscapeRoomTEST.latestId = latestId;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    private int getLatestIdFromDB() {
+        DatabaseConnection db = new DatabaseConnection();
+        return db.getLatestEscapeRoomId() + 1;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,8 +55,12 @@ public class EscapeRoomTEST {
         return theme;
     }
 
-    public boolean isDeleted() {
-        return delete;
+    public int isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getCreated_at() {
@@ -77,7 +82,7 @@ public class EscapeRoomTEST {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", theme='" + theme + '\'' +
-                ", delete=" + delete +
+                ", deleted=" + deleted +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
