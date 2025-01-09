@@ -1,27 +1,28 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.Repository.DatabaseConnection;
+
 public class PlayerTEST {
-    private static int latestId = 0;
+    private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;
     private String email;
     private int consentNotif;
-    private boolean deleted;
+    private int deleted;
 
-    public PlayerTEST(String name, String email, int consentNotif, boolean deleted) {
-        this.id = ++latestId;
+    public PlayerTEST(String name, String email, int consentNotif, int deleted) {
+        this.id = getLatestIdFromDB();
         this.name = name;
         this.email = email;
         this.consentNotif = consentNotif;
         this.deleted = deleted;
     }
 
-    public static int getLatestId() {
-        return latestId;
-    }
-
-    public static void setLatestId(int latestId) {
-        PlayerTEST.latestId = latestId;
+    private int getLatestIdFromDB() {
+        DatabaseConnection db = new DatabaseConnection();
+        return db.getLatestPlayerId() + 1;
     }
 
     public int getId() {
@@ -56,11 +57,11 @@ public class PlayerTEST {
         this.consentNotif = consentNotif;
     }
 
-    public boolean isDeleted() {
+    public int isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(int deleted) {
         this.deleted = deleted;
     }
 

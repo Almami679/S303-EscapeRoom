@@ -19,9 +19,9 @@ public class MainSQLTest {
 
     private static void EscapeRoomTesting() {
         EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
-        EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
+        //EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
         db.addEscapeRoom(escapeRoomTEST1);
-        db.addEscapeRoom(escapeRoomTEST2);
+        //db.addEscapeRoom(escapeRoomTEST2);
         updateEscapeRoomTest(escapeRoomTEST1);
         db.escapeRoomUpdate(escapeRoomTEST1);
         System.out.println("EscapeRoom id[1]: " + db.getEscapeRoomById(1));
@@ -33,7 +33,7 @@ public class MainSQLTest {
                 "Mystery",
                 150.0,
                 "Mystery",
-                false,
+                0,
                 new Timestamp(System.currentTimeMillis()),
                 new Timestamp(System.currentTimeMillis())
         );
@@ -43,7 +43,7 @@ public class MainSQLTest {
                 "Terror",
                 250.0,
                 "Terror",
-                false,
+                0,
                 new Timestamp(System.currentTimeMillis()),
                 new Timestamp(System.currentTimeMillis())
         );
@@ -58,7 +58,7 @@ public class MainSQLTest {
         RoomTEST roomTEST1 = createRoomTEST1();
         RoomTEST roomTEST2 = createRoomTEST2();
         db.addRoom(roomTEST1);
-        db.addRoom(roomTEST2);
+        //db.addRoom(roomTEST2);
         updateRoomTest(roomTEST1);
         db.roomUpdate(roomTEST1);
         System.out.println("Room id[1]: " + db.getRoomById(1));
@@ -71,7 +71,7 @@ public class MainSQLTest {
                 "Medium",
                 200.0,
                 1,
-                false,
+                0,
                 new Timestamp(System.currentTimeMillis()),
                 new Timestamp(System.currentTimeMillis())
         );
@@ -82,7 +82,7 @@ public class MainSQLTest {
                 "Hard",
                 350.0,
                 2,
-                false,
+                0,
                 new Timestamp(System.currentTimeMillis()),
                 new Timestamp(System.currentTimeMillis())
         );
@@ -97,7 +97,7 @@ public class MainSQLTest {
         PlayerTEST playerTEST1 = createPlayerTEST1();
         PlayerTEST playerTEST2 = createPlayerTEST2();
         db.createPlayer(playerTEST1);
-        db.createPlayer(playerTEST2);
+        //db.createPlayer(playerTEST2);
         updatePlayerTest(playerTEST1);
         db.updatePlayer(playerTEST1);
         System.out.println("Player id[1]: " + db.getPlayerById(1));
@@ -109,7 +109,7 @@ public class MainSQLTest {
                 "Pepito Palotes",
                 "pepito@palotes.com",
                 1,
-                false
+                0
         );
     }
     private static PlayerTEST createPlayerTEST2() {
@@ -117,7 +117,7 @@ public class MainSQLTest {
                 "Mojo Jojo",
                 "mojo@jojo.com",
                 0,
-                false
+                0
         );
     }
     private static void updatePlayerTest(PlayerTEST playerTEST) {

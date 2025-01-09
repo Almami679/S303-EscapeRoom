@@ -15,26 +15,46 @@ public class SqlPlayerRepository {
         this.dbConnection = dbConnection;
     }
 
-    public void createPlayer(PlayerTEST playerTEST) {
-        String sql = "INSERT INTO player (Player_id, Player_name, Player_email, Player_consentNotif, Player_delete)" +
-                " VALUES (?, ?, ?, ?, ?)";
+    public boolean isDuplicatePlayer(String playerName) {
+        String sql = "SELECT COUNT(*) FROM player WHERE Player_name = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, playerTEST.getId());
-            statement.setString(2, playerTEST.getName());
-            statement.setString(3, playerTEST.getEmail());
-            statement.setInt(4, playerTEST.getConsentNotif());
-            statement.setBoolean(5, playerTEST.isDeleted());
-            statement.executeUpdate();
-            logger.info("Player created.");
+            statement.setString(1, playerName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
+            }
         } catch (SQLException e) {
-            logger.error("Failed to create Player: ", e);
+            logger.error("Failed to check for duplicate Player: ", e);
+        }
+        return false;
+    }
+
+    public void createPlayer(PlayerTEST playerTEST) {
+        if (!isDuplicatePlayer(playerTEST.getName())) {
+            String sql = "INSERT INTO player (Player_id, Player_name, Player_email, Player_consentNotif, Player_deleted)" +
+                    " VALUES (?, ?, ?, ?, ?)";
+            try (Connection connection = dbConnection.dbConnect();
+                 PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, playerTEST.getId());
+                statement.setString(2, playerTEST.getName());
+                statement.setString(3, playerTEST.getEmail());
+                statement.setInt(4, playerTEST.getConsentNotif());
+                statement.setInt(5, playerTEST.isDeleted());
+                statement.executeUpdate();
+                logger.info("Player created.");
+            } catch (SQLException e) {
+                logger.error("Failed to create Player: ", e);
+            }
+        } else {
+            logger.warn("Duplicate Player entry detected: " + playerTEST.getName());
         }
     }
 
     public PlayerTEST getPlayerById(int id) {
         PlayerTEST playerTEST = null;
-        String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_delete = 0";
+        String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
@@ -43,7 +63,7 @@ public class SqlPlayerRepository {
                     String name = resultSet.getString("Player_name");
                     String email = resultSet.getString("Player_email");
                     int consentNotif = resultSet.getInt("Player_consentNotif");
-                    boolean deleted = resultSet.getBoolean("Player_delete");
+                    int deleted = resultSet.getInt("Player_deleted");
                     playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                     playerTEST.setId(id);
                 }
@@ -56,7 +76,7 @@ public class SqlPlayerRepository {
 
     public ArrayList<PlayerTEST> getAllPlayers() {
         ArrayList<PlayerTEST> playerTESTList = new ArrayList<>();
-        String sql = "SELECT * FROM player WHERE Player_delete = 0 ORDER BY Player_id DESC";
+        String sql = "SELECT * FROM player WHERE Player_deleted = 0 ORDER BY Player_id DESC";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -66,7 +86,7 @@ public class SqlPlayerRepository {
                 String name = resultSet.getString("Player_name");
                 String email = resultSet.getString("Player_email");
                 int consentNotif = resultSet.getInt("Player_consentNotif");
-                boolean deleted = resultSet.getBoolean("Player_delete");
+                int deleted = resultSet.getInt("Player_deleted");
                 PlayerTEST playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                 playerTEST.setId(id);
                 playerTESTList.add(playerTEST);
@@ -78,13 +98,13 @@ public class SqlPlayerRepository {
     }
 
     public void updatePlayer(PlayerTEST playerTEST) {
-        String sql = "UPDATE player SET Player_name = ?, Player_email = ?, Player_consentNotif = ?, Player_delete = ? WHERE Player_id = ?";
+        String sql = "UPDATE player SET Player_name = ?, Player_email = ?, Player_consentNotif = ?, Player_deleted = ? WHERE Player_id = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, playerTEST.getName());
             statement.setString(2, playerTEST.getEmail());
             statement.setInt(3, playerTEST.getConsentNotif());
-            statement.setBoolean(4, playerTEST.isDeleted());
+            statement.setInt(4, playerTEST.isDeleted());
             statement.setInt(5, playerTEST.getId());
             statement.executeUpdate();
             logger.info("Player updated.");
