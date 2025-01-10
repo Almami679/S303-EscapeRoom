@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class DatabaseConnection {
     private SqlPlayerRepository playerRepository;
     private SqlObjectDecoRepository objectDecoRepository;
     private SqlTipsRepository tipsRepository;
+    private SqlTicketRepository ticketRepository;
 
     public DatabaseConnection() {
         this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
@@ -27,6 +29,7 @@ public class DatabaseConnection {
         this.playerRepository = new SqlPlayerRepository(this);
         this.objectDecoRepository = new SqlObjectDecoRepository(this);
         this.tipsRepository = new SqlTipsRepository(this);
+        this.ticketRepository = new SqlTicketRepository(this);
     }
 
     public Connection dbConnect() {
@@ -210,4 +213,17 @@ public class DatabaseConnection {
     }
 
 
+    //Ticket
+    public void addTicket(Ticket ticket) {
+        ticketRepository.addTicket(ticket);
+    }
+    public Ticket getTicketById(int id) {
+        return ticketRepository.getTicketById(id);
+    }
+    public ArrayList<Ticket> getAllTickets() {
+        return ticketRepository.getAllTickets();
+    }
+    public void updateTicket(Ticket ticket) {
+        ticketRepository.updateTicket(ticket);
+    }
 }
