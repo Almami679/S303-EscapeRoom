@@ -113,7 +113,7 @@ public class SqlEscapeRoomRepository {
             statement.setTimestamp(5, escapeRoomTEST.getUpdated_at());
             statement.setInt(6, escapeRoomTEST.getId());
             statement.executeUpdate();
-            logger.info("EscapeRoom updated.");
+            logger.info("EscapeRoom with ID: " + escapeRoomTEST.getId()+ " updated.");
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update EscapeRoom: ", e);

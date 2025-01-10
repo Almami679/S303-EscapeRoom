@@ -90,8 +90,8 @@ public class ObjectDecoTEST {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedat() {
+        this.updatedAt = (new Timestamp(System.currentTimeMillis()));
     }
 
     @Override

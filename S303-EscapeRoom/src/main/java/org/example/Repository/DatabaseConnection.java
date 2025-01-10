@@ -66,7 +66,7 @@ public class DatabaseConnection {
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
     }
-    public int getLatestEscapeRoomId() {
+    /*public int getLatestEscapeRoomId() {
         int latestId = 0;
         String sql = "SELECT MAX(EscapeRoom_id) AS latestId FROM escaperoom";
         try (Connection connection = dbConnect();
@@ -79,7 +79,7 @@ public class DatabaseConnection {
             logger.error("Failed to fetch latest EscapeRoom ID: ", e);
         }
         return latestId;
-    }
+    }*/
 
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
@@ -98,7 +98,7 @@ public class DatabaseConnection {
     public void roomUpdate(RoomTEST roomTEST) {
         roomRepository.roomUpdate(roomTEST);
     }
-    public int getLatestRoomId() {
+    /*public int getLatestRoomId() {
         int latestId = 0;
         String sql = "SELECT MAX(Room_id) AS latestId FROM room";
         try (Connection connection = dbConnect();
@@ -111,7 +111,7 @@ public class DatabaseConnection {
             logger.error("Failed to fetch latest Room ID: ", e);
         }
         return latestId;
-    }
+    }*/
 
     // PlayerTEST
     public void createPlayer(PlayerTEST playerTEST) {
@@ -130,7 +130,7 @@ public class DatabaseConnection {
     public void updatePlayer(PlayerTEST playerTEST) {
         playerRepository.updatePlayer(playerTEST);
     }
-    public int getLatestPlayerId() {
+    /*public int getLatestPlayerId() {
         int latestId = 0;
         String sql = "SELECT MAX(Player_id) AS latestId FROM player";
         try (Connection connection = dbConnect();
@@ -143,10 +143,10 @@ public class DatabaseConnection {
             logger.error("Failed to fetch latest Player ID: ", e);
         }
         return latestId;
-    }
+    }*/
 
     //ObjectDecoTEST
-    public int getLatestObjectDecoId() {
+    /*public int getLatestObjectDecoId() {
         int latestId = 0;
         String sql = "SELECT MAX(ObjectDeco_id) AS latestId FROM objectdeco";
         try (Connection connection = dbConnect();
@@ -159,7 +159,7 @@ public class DatabaseConnection {
             logger.error("Failed to fetch latest ObjectDeco ID: ", e);
         }
         return latestId;
-    }
+    }*/
     public void addObjectDeco(ObjectDecoTEST objectDecoTEST) {
         if (!objectDecoRepository.isDuplicateObjectDeco(objectDecoTEST.getName())) {
             objectDecoRepository.addObjectDeco(objectDecoTEST);
