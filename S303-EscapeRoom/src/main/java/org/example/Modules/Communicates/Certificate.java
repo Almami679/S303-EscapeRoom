@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates;
+/*package org.example.Modules.Communicates;
 
 import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
@@ -30,3 +30,4 @@ public class Certificate extends Communicate implements CommunicationInterface{
 
     }
 }
+*/
