@@ -13,7 +13,7 @@ public class PlayerTEST {
     private int deleted;
 
     public PlayerTEST(String name, String email, int consentNotif, int deleted) {
-        this.id = getLatestIdFromDB();
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.email = email;
         this.consentNotif = consentNotif;

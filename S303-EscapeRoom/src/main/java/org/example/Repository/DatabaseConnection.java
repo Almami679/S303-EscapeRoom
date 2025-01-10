@@ -3,10 +3,7 @@ package org.example.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
-import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
-import org.example.Modules.CLASESTESTS.ObjectDecoTEST;
-import org.example.Modules.CLASESTESTS.RoomTEST;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.CLASESTESTS.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
     private final static String USER = "root";
-    private final static String PASSWORD = "";
+    private final static String PASSWORD = "mbernar910";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
@@ -22,12 +19,14 @@ public class DatabaseConnection {
     private SqlRoomRepository roomRepository;
     private SqlPlayerRepository playerRepository;
     private SqlObjectDecoRepository objectDecoRepository;
+    private SqlTipsRepository tipsRepository;
 
     public DatabaseConnection() {
         this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
         this.roomRepository = new SqlRoomRepository(this);
         this.playerRepository = new SqlPlayerRepository(this);
         this.objectDecoRepository = new SqlObjectDecoRepository(this);
+        this.tipsRepository = new SqlTipsRepository(this);
     }
 
     public Connection dbConnect() {
@@ -40,6 +39,14 @@ public class DatabaseConnection {
             throw new DatabaseConnectionFailed(e.getMessage());
         }
         return connection;
+    }
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+            logger.info("Connection closed.");
+        } catch (SQLException e) {
+            logger.error("Failed to close connection: ", e);
+        }
     }
 
     // EscapeRoomTEST
@@ -168,6 +175,38 @@ public class DatabaseConnection {
     }
     public void updateObjectDeco(ObjectDecoTEST objectDecoTEST) {
         objectDecoRepository.updateObjectDeco(objectDecoTEST);
+    }
+
+    //TipsTEST
+    public int getLatestTipsId() {
+        int latestId = 0;
+        String sql = "SELECT MAX(Tips_id) AS latestId FROM tips";
+        try (Connection connection = dbConnect();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            if (resultSet.next()) {
+                latestId = resultSet.getInt("latestId");
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to fetch latest Tips ID: ", e);
+        }
+        return latestId;
+    }
+    public void addTips(TipsTEST tipsTEST) {
+        if (!tipsRepository.isDuplicateTips(tipsTEST.getText())) {
+            tipsRepository.addTips(tipsTEST);
+        } else {
+            logger.warn("Duplicate Tips entry detected: " + tipsTEST.getText());
+        }
+    }
+    public TipsTEST getTipsById(int id) {
+        return tipsRepository.getTipsById(id);
+    }
+    public ArrayList<TipsTEST> getAllTips() {
+        return tipsRepository.getAllTips();
+    }
+    public void updateTips(TipsTEST tipsTEST) {
+        tipsRepository.updateTips(tipsTEST);
     }
 
 

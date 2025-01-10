@@ -19,9 +19,9 @@ public class MainSQLTest {
 
     private static void EscapeRoomTesting() {
         EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
-        //EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
+        EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
         db.addEscapeRoom(escapeRoomTEST1);
-        //db.addEscapeRoom(escapeRoomTEST2);
+        db.addEscapeRoom(escapeRoomTEST2);
         updateEscapeRoomTest(escapeRoomTEST1);
         db.escapeRoomUpdate(escapeRoomTEST1);
         System.out.println("EscapeRoom id[1]: " + db.getEscapeRoomById(1));
@@ -58,7 +58,7 @@ public class MainSQLTest {
         RoomTEST roomTEST1 = createRoomTEST1();
         RoomTEST roomTEST2 = createRoomTEST2();
         db.addRoom(roomTEST1);
-        //db.addRoom(roomTEST2);
+        db.addRoom(roomTEST2);
         updateRoomTest(roomTEST1);
         db.roomUpdate(roomTEST1);
         System.out.println("Room id[1]: " + db.getRoomById(1));
@@ -97,7 +97,7 @@ public class MainSQLTest {
         PlayerTEST playerTEST1 = createPlayerTEST1();
         PlayerTEST playerTEST2 = createPlayerTEST2();
         db.createPlayer(playerTEST1);
-        //db.createPlayer(playerTEST2);
+        db.createPlayer(playerTEST2);
         updatePlayerTest(playerTEST1);
         db.updatePlayer(playerTEST1);
         System.out.println("Player id[1]: " + db.getPlayerById(1));

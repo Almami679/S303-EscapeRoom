@@ -15,7 +15,7 @@ public class ObjectDecoTEST {
     private Timestamp updatedAt;
 
     public ObjectDecoTEST(String name, String material, int roomId, double price, int deleted, Timestamp createdAt, Timestamp updatedAt) {
-        this.id = getLatestIdFromDB();
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.material = material;
         this.roomId = roomId;

@@ -25,6 +25,7 @@ public class SqlPlayerRepository {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to check for duplicate Player: ", e);
         }
@@ -44,6 +45,7 @@ public class SqlPlayerRepository {
                 statement.setInt(5, playerTEST.isDeleted());
                 statement.executeUpdate();
                 logger.info("Player created.");
+                dbConnection.closeConnection(connection);
             } catch (SQLException e) {
                 logger.error("Failed to create Player: ", e);
             }
@@ -68,6 +70,7 @@ public class SqlPlayerRepository {
                     playerTEST.setId(id);
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Player by ID: ", e);
         }
@@ -81,7 +84,7 @@ public class SqlPlayerRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received Player.");
-            do {
+            while (resultSet.next()){
                 int id = resultSet.getInt("Player_id");
                 String name = resultSet.getString("Player_name");
                 String email = resultSet.getString("Player_email");
@@ -90,7 +93,8 @@ public class SqlPlayerRepository {
                 PlayerTEST playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
                 playerTEST.setId(id);
                 playerTESTList.add(playerTEST);
-            }while (resultSet.next());
+            }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Players: ", e);
         }
@@ -108,6 +112,7 @@ public class SqlPlayerRepository {
             statement.setInt(5, playerTEST.getId());
             statement.executeUpdate();
             logger.info("Player updated.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update Player: ", e);
         }

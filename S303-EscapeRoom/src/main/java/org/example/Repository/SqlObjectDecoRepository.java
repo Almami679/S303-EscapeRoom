@@ -25,6 +25,7 @@ public class SqlObjectDecoRepository {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to check for duplicate ObjectDeco: ", e);
         }
@@ -46,6 +47,7 @@ public class SqlObjectDecoRepository {
             statement.setTimestamp(8, objectDecoTEST.getUpdatedAt());
             statement.executeUpdate();
             logger.info("ObjectDeco added.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to add ObjectDeco: ", e);
         }
@@ -70,6 +72,7 @@ public class SqlObjectDecoRepository {
                     objectDecoTEST.setId(id);
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch ObjectDeco by ID: ", e);
         }
@@ -96,6 +99,7 @@ public class SqlObjectDecoRepository {
                 objectDecoTEST.setId(id);
                 objectDecoTESTList.add(objectDecoTEST);
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch ObjectDeco: ", e);
         }
@@ -115,6 +119,7 @@ public class SqlObjectDecoRepository {
             statement.setInt(7, objectDecoTEST.getId());
             statement.executeUpdate();
             logger.info("ObjectDeco updated.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update ObjectDeco: ", e);
         }

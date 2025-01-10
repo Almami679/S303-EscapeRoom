@@ -1,5 +1,5 @@
 -- MySQL Workbench Synchronization
--- Generated: 2025-01-09 10:42
+-- Generated: 2025-01-10 17:37
 -- Model: New Model
 -- Version: 1.0
 -- Project: Name of the project
@@ -12,7 +12,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `EscapeRoomDB` DEFAULT CHARACTER SET utf8 ;
 
 CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`EscapeRoom` (
-  `EscapeRoom_id` INT(11) NOT NULL,
+  `EscapeRoom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `EscapeRoom_name` VARCHAR(45) NULL DEFAULT NULL,
   `EscapeRoom_price` DOUBLE NULL DEFAULT NULL,
   `EscapeRoom_theme` VARCHAR(45) NULL DEFAULT NULL,

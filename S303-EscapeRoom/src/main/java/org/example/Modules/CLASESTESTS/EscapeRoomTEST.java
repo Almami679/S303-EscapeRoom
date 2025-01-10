@@ -17,7 +17,7 @@ public class EscapeRoomTEST {
     private Timestamp updated_at;
 
     public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
-        this.id = getLatestIdFromDB();
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.price = price;
         this.theme = theme;
