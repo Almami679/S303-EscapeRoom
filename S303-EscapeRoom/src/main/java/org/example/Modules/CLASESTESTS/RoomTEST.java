@@ -15,7 +15,7 @@ public class RoomTEST {
     private Timestamp updated_at;
 
     public RoomTEST(String name, String difficulty, Double price, int escapeRoomId, int deleted, Timestamp created_at, Timestamp updated_at) {
-        this.id = getLatestIdFromDB();
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
@@ -90,8 +90,8 @@ public class RoomTEST {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdated_at() {
+        this.updated_at = (new Timestamp(System.currentTimeMillis()));
     }
 
     @Override

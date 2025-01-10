@@ -25,6 +25,7 @@ public class SqlEscapeRoomRepository {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to check for duplicate EscapeRoom: ", e);
         }
@@ -44,6 +45,7 @@ public class SqlEscapeRoomRepository {
             statement.setTimestamp(6, escapeRoomTEST.getUpdated_at());
             statement.executeUpdate();
             logger.info("EscapeRoom added.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to add EscapeRoom: ", e);
         }
@@ -67,6 +69,7 @@ public class SqlEscapeRoomRepository {
                     escapeRoomTEST.setId(id);
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch EscapeRoom by ID: ", e);
         }
@@ -80,7 +83,7 @@ public class SqlEscapeRoomRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received EscapeRoom.");
-            while (resultSet.next()) {
+            while (resultSet.next()){
                 int id = resultSet.getInt("EscapeRoom_id");
                 String name = resultSet.getString("EscapeRoom_name");
                 double price = resultSet.getDouble("EscapeRoom_price");
@@ -88,11 +91,11 @@ public class SqlEscapeRoomRepository {
                 int deleted = resultSet.getInt("EscapeRoom_deleted");
                 Timestamp createdAt = resultSet.getTimestamp("EscapeRoom_createdAt");
                 Timestamp updatedAt = resultSet.getTimestamp("EscapeRoom_updatedAt");
-
                 EscapeRoomTEST escapeRoomTEST = new EscapeRoomTEST(name, price, theme, deleted, createdAt, updatedAt);
                 escapeRoomTEST.setId(id);
                 escapeRoomTESTList.add(escapeRoomTEST);
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch EscapeRoom: ", e);
         }
@@ -110,7 +113,8 @@ public class SqlEscapeRoomRepository {
             statement.setTimestamp(5, escapeRoomTEST.getUpdated_at());
             statement.setInt(6, escapeRoomTEST.getId());
             statement.executeUpdate();
-            logger.info("EscapeRoom updated.");
+            logger.info("EscapeRoom with ID: " + escapeRoomTEST.getId()+ " updated.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update EscapeRoom: ", e);
         }

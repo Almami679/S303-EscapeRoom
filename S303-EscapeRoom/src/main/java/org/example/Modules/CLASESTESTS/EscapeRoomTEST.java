@@ -17,7 +17,7 @@ public class EscapeRoomTEST {
     private Timestamp updated_at;
 
     public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
-        this.id = getLatestIdFromDB();
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.price = price;
         this.theme = theme;
@@ -71,8 +71,8 @@ public class EscapeRoomTEST {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdated_at() {
+        this.updated_at = (new Timestamp(System.currentTimeMillis()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates.CommFactory;
+/*package org.example.Modules.Communicates.CommFactory;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
@@ -16,3 +16,4 @@ public class TicketFactory implements CommFactoryInterface{
 
     }
 }
+*/

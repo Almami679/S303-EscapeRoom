@@ -33,7 +33,6 @@ public class Ticket extends Communicate implements CommunicationInterface {
         return this;
     }
 
-
     @Override
     public void send() {
         System.out.println("sending to email " + super.getPlayer().getEmail() + "\n" +

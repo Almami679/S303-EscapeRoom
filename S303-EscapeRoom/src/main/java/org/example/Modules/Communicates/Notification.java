@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates;
+/*package org.example.Modules.Communicates;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
@@ -29,4 +29,4 @@ public class Notification extends Communicate implements CommunicationInterface 
                 :
                 "You do not have permissions to send Spam");
     }
-}
+}*/

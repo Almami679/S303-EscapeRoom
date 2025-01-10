@@ -24,6 +24,7 @@ public class SqlRoomRepository {
                     return resultSet.getInt(1) > 0;
                 }
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to check for duplicate Room: ", e);
         }
@@ -46,6 +47,7 @@ public class SqlRoomRepository {
                 statement.setTimestamp(7, roomTEST.getUpdated_at());
                 statement.executeUpdate();
                 logger.info("Room added.");
+                dbConnection.closeConnection(connection);
             } catch (SQLException e) {
                 logger.error("Failed to add Room: ", e);
             }
@@ -69,10 +71,10 @@ public class SqlRoomRepository {
                     int deleted = resultSet.getInt("Room_deleted");
                     Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                     Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-
                     roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
                     roomTEST.setId(id);
                 }
+                dbConnection.closeConnection(connection);
             }
         } catch (SQLException e) {
             logger.error("Failed to fetch Room by ID: ", e);
@@ -87,7 +89,7 @@ public class SqlRoomRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             logger.info("Received Room.");
-            while (resultSet.next()) {
+            while (resultSet.next()){
                 int id = resultSet.getInt("Room_id");
                 String name = resultSet.getString("Room_name");
                 String difficulty = resultSet.getString("Room_difficulty");
@@ -96,11 +98,11 @@ public class SqlRoomRepository {
                 int deleted = resultSet.getInt("Room_deleted");
                 Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                 Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-
                 RoomTEST roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
                 roomTEST.setId(id);
                 roomTESTList.add(roomTEST);
             }
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Room: ", e);
         }
@@ -120,6 +122,7 @@ public class SqlRoomRepository {
             statement.setInt(7, roomTEST.getId());
             statement.executeUpdate();
             logger.info("Room updated.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update Room: ", e);
         }
