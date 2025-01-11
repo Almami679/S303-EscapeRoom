@@ -1,10 +1,13 @@
 /*package org.example.Modules.Communicates;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 
 public class Notification extends Communicate implements CommunicationInterface {
 
+    Logger logger = LogManager.getLogger(Notification.class);
     private String text;
 
     public Notification(PlayerTEST player, String text) {
@@ -23,10 +26,13 @@ public class Notification extends Communicate implements CommunicationInterface 
 
     @Override
     public void send() {
-        System.out.println(super.getPlayer().getConsentNotif()
-                ?
-                "sending email with Notification[id:" + super.getId() + "]"
-                :
-                "You do not have permissions to send Spam");
+        if(super.getPlayer().getConsentNotif()) {
+            logger.info("sending email to " + super.getPlayer().getEmail() +
+                    " with Notification[id:" + super.getId() + "]");
+        } else {
+            logger.error("You don't have permissions to send Spam to playerId[" +
+                    super.getPlayer().getId() + "]");
+        }
+
     }
 }*/

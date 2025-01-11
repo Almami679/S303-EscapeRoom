@@ -1,10 +1,14 @@
 package org.example.Modules.Communicates;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 
+
 public class Ticket extends Communicate implements CommunicationInterface {
 
+    Logger logger = LogManager.getLogger(Ticket.class);
     private String text;
     private SaleTEST sale;
 
@@ -35,8 +39,8 @@ public class Ticket extends Communicate implements CommunicationInterface {
 
     @Override
     public void send() {
-        System.out.println("sending to email " + super.getPlayer().getEmail() + "\n" +
-                "Ticket[id:" + super.getId() + "]");
+        logger.info("sending Ticket to " + super.getPlayer().getEmail() + "\n" +
+                "Ticket[id: " + super.getId() + " || Value: " + getSale().getPrice() + "€]");
 
     }
 }

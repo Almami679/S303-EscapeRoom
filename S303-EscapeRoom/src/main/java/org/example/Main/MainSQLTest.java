@@ -1,10 +1,15 @@
 package org.example.Main;
 
+import com.mysql.cj.log.Log;
+import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.*;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Repository.DatabaseConnection;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import static com.mysql.cj.conf.PropertyKey.logger;
 
 public class MainSQLTest {
     private static final DatabaseConnection db = new DatabaseConnection();
@@ -142,6 +147,46 @@ public class MainSQLTest {
                 new Timestamp(System.currentTimeMillis())
         );
     }
+
+    ///////////// Prueba ticket + Logger ////////////
+    public void createTicketTest(PlayerTEST player) {
+        SaleTEST sale1 = new SaleTEST();
+        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
+        player.addSale(sale1);
+        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() +
+                "] assigned to PlayerId: " + player.getId());
+        Ticket ticket1 = (Ticket) mainFactoryCommunicate.createCommunicate(CommunicateType.TICKET, player);
+        LogManager.getLogger(Ticket.class).info(ticket1.getText());
+        ticket1.send();
+    }
+
+    ////////// Prueba Gift + Logger /////////////////
+    public void createGiftTest(PlayerTEST player) {
+        Gift gift1 = (Gift) mainFactoryCommunicate.createCommunicate(CommunicateType.GIFT,player);
+        LogManager.getLogger(Gift.class).info("GiftId:" + gift1.getId() +
+                " created with text:\n" + gift1.getText());
+        gift1.send();
+    }
+
+    //////////// Prueba notification + Logger /////////
+    public void createNotificationTest() {
+        new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())).forEach(player -> {
+            Notification notification1 = (Notification) mainFactoryCommunicate.createCommunicate(CommunicateType.NOTIFICATION,player);
+            LogManager.getLogger(Notification.class).info("NotificationId: " + notification1.getId() +
+                    " created with text:\n" + notification1.getText());
+            notification1.send();
+        });
+    }
+
+    ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
+    /// ir a la clase GameTEST, ahi esta la logica
+    //////////Prueba Certificate/////////////////
+    public void createCertificateTest() {
+        GameTEST game = new GameTEST("SpaceDream",
+                new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
+        game.finishGame().send();
+        LogManager.getLogger(Certificate.class).info(certificate.getText());
+
     private static ObjectDecoTEST createObjectDecoTEST2() {
         return new ObjectDecoTEST(
                 "key",
