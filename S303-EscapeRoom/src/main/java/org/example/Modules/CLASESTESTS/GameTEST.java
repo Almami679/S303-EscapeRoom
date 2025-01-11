@@ -1,4 +1,4 @@
-package org.example.Modules.CLASESTESTS;
+/*package org.example.Modules.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
@@ -68,4 +68,4 @@ public class GameTEST {
         }
         return this.gameCertificate;
     }
-}
+}*/

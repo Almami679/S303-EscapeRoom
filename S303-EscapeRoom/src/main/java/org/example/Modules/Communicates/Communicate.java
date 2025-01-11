@@ -4,24 +4,19 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 public class Communicate {
 
-
-    private static Long nextId = 1L;
-    private Long id;
+    private int id;
     private PlayerTEST player;
     private CommunicateType type;
 
     public Communicate(PlayerTEST player) {
         this.player = player;
-        this.id = nextId;
-        nextId++;
-        ///Tema id?? lo genera SQL? o lo asignamos desde la logica del constructor?
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public Communicate setId(Long id) {
+    public Communicate setId(int id) {
         this.id = id;
         return this;
     }

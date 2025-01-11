@@ -1,20 +1,21 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.example.Repository.DatabaseConnection;
+
 import java.sql.Timestamp;
 
 public class RoomTEST {
-    private static int latestId = 0;
     private int id;
     private String name;
     private String difficulty;
     private Double price;
     private int escapeRoomId;
-    private boolean deleted;
+    private int deleted;
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public RoomTEST(String name, String difficulty, Double price, int escapeRoomId, boolean deleted, Timestamp created_at, Timestamp updated_at) {
-        this.id = ++latestId;
+    public RoomTEST(String name, String difficulty, Double price, int escapeRoomId, int deleted, Timestamp created_at, Timestamp updated_at) {
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
@@ -24,12 +25,9 @@ public class RoomTEST {
         this.updated_at = updated_at;
     }
 
-    public static int getLatestId() {
-        return latestId;
-    }
-
-    public static void setLatestId(int latestId) {
-        RoomTEST.latestId = latestId;
+    private int getLatestIdFromDB() {
+        DatabaseConnection db = new DatabaseConnection();
+        return db.getLatestRoomId() + 1;
     }
 
     public void setId(int id) {
@@ -72,11 +70,11 @@ public class RoomTEST {
         this.escapeRoomId = escapeRoomId;
     }
 
-    public boolean isDeleted() {
+    public int isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(int deleted) {
         this.deleted = deleted;
     }
 
@@ -92,8 +90,8 @@ public class RoomTEST {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdated_at() {
+        this.updated_at = (new Timestamp(System.currentTimeMillis()));
     }
 
     @Override

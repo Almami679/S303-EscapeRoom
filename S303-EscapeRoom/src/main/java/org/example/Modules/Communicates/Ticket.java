@@ -37,7 +37,6 @@ public class Ticket extends Communicate implements CommunicationInterface {
         return this;
     }
 
-
     @Override
     public void send() {
         logger.info("sending Ticket to " + super.getPlayer().getEmail() + "\n" +

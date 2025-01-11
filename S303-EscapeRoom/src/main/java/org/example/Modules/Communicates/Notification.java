@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates;
+/*package org.example.Modules.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,4 +35,4 @@ public class Notification extends Communicate implements CommunicationInterface 
         }
 
     }
-}
+}*/

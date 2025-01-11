@@ -1,4 +1,4 @@
-package org.example.Modules.Communicates;
+/*package org.example.Modules.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,3 +33,4 @@ public class Certificate extends Communicate implements CommunicationInterface{
 
     }
 }
+*/
