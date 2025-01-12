@@ -4,30 +4,6 @@ import java.sql.Timestamp;
 
 public class SaleTEST {
 
-    /*private double price;
-    private int id;
-
-    public SaleTEST() {
-        this.price = Math.random()*500;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public SaleTEST setPrice(double price) {
-        this.price = price;
-        return this;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public SaleTEST setId(int id) {
-        this.id = id;
-        return this;
-    }*/
     private int id;
     private Timestamp date;
     private double price;

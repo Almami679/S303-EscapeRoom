@@ -25,10 +25,6 @@ public class ObjectDecoTEST {
         this.updatedAt = updatedAt;
     }
 
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestObjectDecoId() + 1;
-    }
 
     public int getId() {
         return id;

@@ -26,10 +26,6 @@ public class EscapeRoomTEST {
         this.updated_at = updated_at;
     }
 
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestEscapeRoomId() + 1;
-    }
 
     public int getId() {
         return id;
