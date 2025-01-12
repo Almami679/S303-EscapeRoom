@@ -8,15 +8,10 @@ public class TipsTEST {
     private int roomId;
 
     public TipsTEST(String text, int roomId) {
-       // this.id = getLatestIdFromDB();
         this.text = text;
         this.roomId = roomId;
     }
 
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestTipsId() + 1;
-    }
 
     public int getId() {
         return id;

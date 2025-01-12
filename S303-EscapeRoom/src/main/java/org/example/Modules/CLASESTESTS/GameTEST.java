@@ -1,30 +1,48 @@
-/*package org.example.Modules.CLASESTESTS;
+package org.example.Modules.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 import org.example.Modules.Communicates.CommunicateType;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
 
 public class GameTEST {
 
-    private String escapeRoom;
+    private int id;
+    private EscapeRoomTEST escapeRoom;
+    private Timestamp gameDate;
     private ArrayList<PlayerTEST> players;
+    private int deleted;
     private boolean finish;
     private Certificate gameCertificate;
 
-    public GameTEST(String escapeRoom, ArrayList<PlayerTEST> players) {
+    public GameTEST(EscapeRoomTEST escapeRoom, Timestamp date, ArrayList<PlayerTEST> players, int deleted) {
         this.escapeRoom = escapeRoom;
+        this.gameDate = date;
         this.players = players;
+        this.deleted = deleted;
         this.finish = false;
         this.gameCertificate = null;
     }
 
-    public String getEscapeRoom() {
+    public int getId() {
+        return id;
+    }
+
+    public EscapeRoomTEST getEscapeRoom() {
         return escapeRoom;
+    }
+
+    public Timestamp getGameDate() {
+        return this.gameDate;
+    }
+
+    public int getDeleted() {
+        return this.deleted;
     }
 
     public void setGameCertificate(Certificate gameCertificate) {
@@ -35,7 +53,7 @@ public class GameTEST {
         return gameCertificate;
     }
 
-    public void setEscapeRoom(String escapeRoom) {
+    public void setEscapeRoom(EscapeRoomTEST escapeRoom) {
         this.escapeRoom = escapeRoom;
     }
 
@@ -43,19 +61,21 @@ public class GameTEST {
         return players;
     }
 
-    public void setPlayers(ArrayList<PlayerTEST> players) {
-        this.players = players;
-    }
-
     public void finishGame(){
         this.finish = true;
+        LogManager.getLogger(GameTEST.class).info("GameId: " + this.id +
+                " has finish.");
         this.players.forEach(player -> {
             player.addGame(this);
-            createGameCertificate(player);
+            LogManager.getLogger(GameTEST.class).info("Finish Game with Id: " + this.id +
+                    " added to player " + player.getName());
         });
 
     }
-///ARREGLAR LA PARTE DE CERTIFICADOS A LA HORA DE CREARLOS ES UN POCO MEH
+    ///Comprobar estado de juego para llamar a certificate factory
+    ///
+    ///
+///pasar esto a factory
     private Certificate createGameCertificate(PlayerTEST player) {
         if (this.finish) {
             if(this.gameCertificate == null) {
@@ -68,4 +88,4 @@ public class GameTEST {
         }
         return this.gameCertificate;
     }
-}*/
+}

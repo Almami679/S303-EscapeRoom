@@ -11,6 +11,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
     Logger logger = LogManager.getLogger(Ticket.class);
     private String text;
     private SaleTEST sale;
+    private int id;
 
     public Ticket(PlayerTEST player, String text, SaleTEST sale) {
         super(player);
@@ -26,6 +27,10 @@ public class Ticket extends Communicate implements CommunicationInterface {
     public Ticket setText(String text) {
         this.text = text;
         return this;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public SaleTEST getSale() {

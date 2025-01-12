@@ -1,4 +1,4 @@
-/*package org.example.Modules.Communicates;
+package org.example.Modules.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +26,7 @@ public class Notification extends Communicate implements CommunicationInterface 
 
     @Override
     public void send() {
-        if(super.getPlayer().getConsentNotif()) {
+        if(super.getPlayer().getConsentNotif() == 1) {
             logger.info("sending email to " + super.getPlayer().getEmail() +
                     " with Notification[id:" + super.getId() + "]");
         } else {
@@ -35,4 +35,4 @@ public class Notification extends Communicate implements CommunicationInterface 
         }
 
     }
-}*/
+}

@@ -25,10 +25,6 @@ public class RoomTEST {
         this.updated_at = updated_at;
     }
 
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestRoomId() + 1;
-    }
 
     public void setId(int id) {
         this.id = id;
