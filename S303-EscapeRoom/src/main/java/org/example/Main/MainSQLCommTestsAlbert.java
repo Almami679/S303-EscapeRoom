@@ -81,16 +81,26 @@ public class MainSQLCommTestsAlbert {
 
 
     //////////// Prueba notification + Logger /////////
-    /*
-    public void createNotificationTest() {
-        new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())).forEach(player -> {
-            Notification notification1 = (Notification) mainFactoryCommunicate.createCommunicate(CommunicateType.NOTIFICATION,player);
+
+    private static Notification createNotification(PlayerTEST player) {
+        return (Notification) mainFactoryCommunicate.createCommunicate(
+                CommunicateType.NOTIFICATION,
+                player);
+    }
+
+    private static ArrayList<PlayerTEST> createListPlayers(){
+        return new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2()));
+    }
+    public static void logicNotificationTest() {
+        ArrayList<PlayerTEST> playersTEST = createListPlayers();
+        playersTEST.forEach(player -> {
+            Notification notification1 = createNotification(player);
             LogManager.getLogger(Notification.class).info("NotificationId: " + notification1.getId() +
                     " created with text:\n" + notification1.getText());
             notification1.send();
         });
     }
-
+/*
     ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
     /// ir a la clase GameTEST, ahi esta la logica
     //////////Prueba Certificate/////////////////
