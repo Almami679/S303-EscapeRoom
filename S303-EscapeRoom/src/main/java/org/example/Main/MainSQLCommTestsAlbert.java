@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
-import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Notification;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Communicates.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -100,19 +97,39 @@ public class MainSQLCommTestsAlbert {
             notification1.send();
         });
     }
-/*
+
     ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
     /// ir a la clase GameTEST, ahi esta la logica
     //////////Prueba Certificate/////////////////
-    public void createCertificateTest() {
-        GameTEST game = new GameTEST("SpaceDream",
-                new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
-        game.finishGame().send();
-        LogManager.getLogger(Certificate.class).info(certificate.getText());
+    private static Certificate createCertificateTest(PlayerTEST player) {
+        return (Certificate) mainFactoryCommunicate.createCommunicate(
+                CommunicateType.CERTIFICATE,
+                player);
+    }
+
+    public static void logicCertificate() {
+        GameTEST game = createGame();
+        if(game.checkGameStatus()) {
+            game.getPlayers().forEach(player-> {
+                createCertificateTest(player);
+                LogManager.getLogger(Certificate.class).info("Certificate for player " +
+                        player.getName() +
+                        "created");
+            });
+        } else {
+            LogManager.getLogger(Certificate.class).warn("Game id: " +
+                    game.getId() + " finish: " +
+                    game.checkGameStatus() +
+                    "\nCertificate not created.");
+        }
+
     }
 
 
 
- */
+
+
+
+
 }
 
