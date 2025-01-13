@@ -111,5 +111,8 @@ public class MainSQLCommTestsAlbert {
         LogManager.getLogger(Certificate.class).info(certificate.getText());
     }
 
-     */
+
+
+ */
 }
+
