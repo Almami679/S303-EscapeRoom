@@ -3,6 +3,7 @@ package org.example.Main;
 import org.example.Exceptions.ObjectAvailabilityException;
 import org.example.Exceptions.RoomAvailabilityException;
 import org.example.Exceptions.TipAvailabilityException;
+import org.example.Modules.EscapeRoomBuilder.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

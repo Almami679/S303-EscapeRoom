@@ -1,6 +1,4 @@
-package org.example.Main;
-
-import org.example.Exceptions.ObjectAvailabilityException;
+package org.example.Modules.EscapeRoomBuilder;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ public class Room {
     private ArrayList<Tips> tipsList;
     private String difficulty;
     private double price;
-    private static long idCounter=0;
-    private long id;
+    private static int idCounter=0;
+    private int id;
     private Timestamp created_at;
     private Timestamp updated_at;
 

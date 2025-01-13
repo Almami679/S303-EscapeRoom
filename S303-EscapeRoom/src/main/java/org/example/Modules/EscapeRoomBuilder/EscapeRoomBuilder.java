@@ -1,4 +1,4 @@
-package org.example.Main;
+package org.example.Modules.EscapeRoomBuilder;
 
 import java.util.ArrayList;
 

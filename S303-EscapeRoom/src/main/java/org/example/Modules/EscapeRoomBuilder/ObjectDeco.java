@@ -1,4 +1,4 @@
-package org.example.Main;
+package org.example.Modules.EscapeRoomBuilder;
 
 import java.util.Objects;
 
@@ -73,16 +73,4 @@ public class ObjectDeco {
         return ICOUNT;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        ObjectDeco that = (ObjectDeco) object;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

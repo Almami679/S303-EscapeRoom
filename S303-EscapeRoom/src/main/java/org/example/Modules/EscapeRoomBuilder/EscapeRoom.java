@@ -1,10 +1,9 @@
-package org.example.Main;
+package org.example.Modules.EscapeRoomBuilder;
 
 import org.example.Exceptions.ObjectAvailabilityException;
 import org.example.Exceptions.RoomAvailabilityException;
 import org.example.Exceptions.TipAvailabilityException;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
 
 public class EscapeRoom {
