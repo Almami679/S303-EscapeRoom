@@ -12,10 +12,6 @@ public class TipsTEST {
         this.roomId = roomId;
     }
 
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestTipsId() + 1;
-    }
 
     public int getId() {
         return id;

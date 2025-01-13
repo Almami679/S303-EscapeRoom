@@ -101,6 +101,7 @@ public class SqlPlayerRepository {
         return playerTESTList;
     }
 
+
     public void updatePlayer(PlayerTEST playerTEST) {
         String sql = "UPDATE player SET Player_name = ?, Player_email = ?, Player_consentNotif = ?, Player_deleted = ? WHERE Player_id = ?";
         try (Connection connection = dbConnection.dbConnect();
@@ -117,4 +118,6 @@ public class SqlPlayerRepository {
             logger.error("Failed to update Player: ", e);
         }
     }
+
+    /// -> AÑADIR CONEXIONES DE DB PARA COMPLETEDGAMES Y PLAYERSALES;
 }

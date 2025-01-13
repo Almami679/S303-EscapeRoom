@@ -1,13 +1,16 @@
 package org.example.Main;
 
 import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Repository.DatabaseConnection;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import static org.example.Main.MainSQLCommTestsAlbert.*;
+
 public class MainSQLTest {
-    private static final DatabaseConnection db = new DatabaseConnection();
+    public static final DatabaseConnection db = new DatabaseConnection();
+    public static CommunicateFactory mainFactoryCommunicate = new CommunicateFactory();
 
     public static void main(String[] args) {
         EscapeRoomTesting();
@@ -15,6 +18,11 @@ public class MainSQLTest {
         PlayerTesting();
         ObjectsDecoTesting();
         TipsTesting();
+        logicTicketTest(createPlayerTEST1());
+        //logicGiftTest(createPlayerTEST2());
+        //logicNotificationTest();
+
+
     }
 
     private static void EscapeRoomTesting() {
@@ -30,7 +38,7 @@ public class MainSQLTest {
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = db.getAllEscapeRooms();
         escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
     }
-    private static EscapeRoomTEST createEscapeRoomTEST1() {
+    public static EscapeRoomTEST createEscapeRoomTEST1() {
         return new EscapeRoomTEST(
                 "Mystery",
                 150.0,
@@ -40,7 +48,7 @@ public class MainSQLTest {
                 new Timestamp(System.currentTimeMillis())
         );
     }
-    private static EscapeRoomTEST createEscapeRoomTEST2() {
+    public static EscapeRoomTEST createEscapeRoomTEST2() {
         return new EscapeRoomTEST(
                 "Terror",
                 250.0,
@@ -99,7 +107,7 @@ public class MainSQLTest {
         ArrayList<PlayerTEST> playerTESTS = db.getAllPlayers();
         playerTESTS.forEach(playerTEST -> System.out.println(playerTEST));
     }
-    private static PlayerTEST createPlayerTEST1() {
+    public static PlayerTEST createPlayerTEST1() {
         return new PlayerTEST(
                 "Pepito Palotes",
                 "pepito@palotes.com",
@@ -107,7 +115,7 @@ public class MainSQLTest {
                 0
         );
     }
-    private static PlayerTEST createPlayerTEST2() {
+    public static PlayerTEST createPlayerTEST2() {
         return new PlayerTEST(
                 "Mojo Jojo",
                 "mojo@jojo.com",
@@ -142,6 +150,7 @@ public class MainSQLTest {
                 new Timestamp(System.currentTimeMillis())
         );
     }
+
     private static ObjectDecoTEST createObjectDecoTEST2() {
         return new ObjectDecoTEST(
                 "key",
@@ -173,7 +182,7 @@ public class MainSQLTest {
         TipsTEST tipsTEST1Updated = db.getTipsById(1);
         tipsTEST1Updated.setText("Use the flashlight to reveal hidden messages");
         db.updateTips(tipsTEST1Updated);
-        System.out.println("Tips id[1]: " + db.getTipsById(1));
+        //System.out.println("Tips id[1]: " + db.getTipsById(1));
         ArrayList<TipsTEST> tipsTESTS = db.getAllTips();
         tipsTESTS.forEach(tipsTEST -> System.out.println(tipsTEST));
     }

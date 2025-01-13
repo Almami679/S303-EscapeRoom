@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Communicates.Gift;
 import org.example.Modules.Communicates.Ticket;
 
 import java.sql.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
     private final static String USER = "root";
-    private final static String PASSWORD = "mbernar910";
+    private final static String PASSWORD = "Chefwork135731";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
@@ -22,6 +23,9 @@ public class DatabaseConnection {
     private SqlObjectDecoRepository objectDecoRepository;
     private SqlTipsRepository tipsRepository;
     private SqlTicketRepository ticketRepository;
+    private SqlSaleRepository saleRepository;
+    private SqlGiftRepository giftRepository;
+    private SqlGameRepository gameRepository;
 
     public DatabaseConnection() {
         this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
@@ -30,6 +34,9 @@ public class DatabaseConnection {
         this.objectDecoRepository = new SqlObjectDecoRepository(this);
         this.tipsRepository = new SqlTipsRepository(this);
         this.ticketRepository = new SqlTicketRepository(this);
+        this.saleRepository = new SqlSaleRepository(this);
+        this.giftRepository = new SqlGiftRepository(this);
+        this.gameRepository = new SqlGameRepository(this);
     }
 
     public Connection dbConnect() {
@@ -214,12 +221,24 @@ public class DatabaseConnection {
 
 
     //Ticket
+    public void addSale(SaleTEST sale){
+        saleRepository.createSale(sale);
+    }
     public void addTicket(Ticket ticket) {
         ticketRepository.addTicket(ticket);
     }
-    /*public Ticket getTicketById(int id) {
-        return ticketRepository.getTicketById(id);
-    }*/
+
+    public void addGift(Gift gift) {
+        giftRepository.addGift(gift);
+    }
+
+    public void addGame(GameTEST game) {
+        gameRepository.addGame(game);
+    }
+
+//    public Ticket getTicketById(int id) {
+//        return ticketRepository.getTicketById(id);
+//    }
     public ArrayList<Ticket> getAllTickets() {
         return ticketRepository.getAllTickets();
     }

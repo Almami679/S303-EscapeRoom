@@ -1,19 +1,25 @@
 package org.example.Modules.Communicates;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 import java.util.ArrayList;
 
 public class Gift extends Communicate implements CommunicationInterface{
 
+    Logger logger = LogManager.getLogger(Gift.class);
     private String text;
     private String discountKey;
     private static ArrayList<String> KeysInUse = new ArrayList<>();
+    private GameTEST game;
 
     public Gift(PlayerTEST player, String text) {
         super(player);
         this.text = text;
         this.discountKey = generateKey();
+        this.game = player.getGame();
     }
 
     public String getText() {
@@ -23,6 +29,10 @@ public class Gift extends Communicate implements CommunicationInterface{
     public Gift setText(String text) {
         this.text = text;
         return this;
+    }
+
+    public GameTEST getGame(){
+        return this.game;
     }
 
     public String getDiscountKey() {
@@ -54,7 +64,7 @@ public class Gift extends Communicate implements CommunicationInterface{
 
     @Override
     public void send() {
-        System.out.println("sending email with GiftKey[id:" + super.getId() + "]\n" +
-                "Key: " + this.discountKey);
+        logger.info("sending Gift to " + super.getPlayer().getEmail() +
+                " with GiftKey[id:" + super.getId() + " || Key: " + this.discountKey + "]");
     }
 }

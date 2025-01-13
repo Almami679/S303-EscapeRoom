@@ -18,12 +18,12 @@ public class SqlTicketRepository {
     }
 
     public void addTicket(Ticket ticket) {
-        String sql = "INSERT INTO ticket (Ticket_text, Ticket_saleId, Ticket_playerId) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO ticket (Ticket_id, Ticket_saleId) VALUES (?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, ticket.getText());
+            statement.setInt(1, ticket.getId());
             statement.setInt(2, ticket.getSale().getId());
-            statement.setInt(3, ticket.getPlayer().getId());
+            statement.setString(3, ticket.getText());
             statement.executeUpdate();
             logger.info("Ticket added.");
         } catch (SQLException e) {
