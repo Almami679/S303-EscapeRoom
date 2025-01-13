@@ -5,6 +5,7 @@ import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.*;
+import org.example.Repository.SqlSaleRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,15 +14,9 @@ import java.util.Arrays;
 import static org.example.Main.MainSQLTest.*;
 
 public class MainSQLCommTestsAlbert {
+    ///todo lo que no sea Notificaciones, cogerlo de la dB NO CREAR!///
 
     ///////////// Prueba ticket + Logger ////////////
-    private static SaleTEST createSale(){
-        return new SaleTEST(
-                new Timestamp(System.currentTimeMillis()),
-                800,
-                1,
-                0);
-    }
 
     private static Ticket createTicket(PlayerTEST player){
         return (Ticket) mainFactoryCommunicate.createCommunicate(
@@ -29,7 +24,7 @@ public class MainSQLCommTestsAlbert {
                 player);
     }
     public static void logicTicketTest(PlayerTEST player) {
-        SaleTEST sale1 = createSale();
+        SaleTEST sale1 = SqlSaleRepository.getSaleById(1);
         db.addSale(sale1);
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
         player.addSale(sale1);
