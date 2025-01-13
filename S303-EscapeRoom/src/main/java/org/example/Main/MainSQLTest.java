@@ -18,8 +18,9 @@ public class MainSQLTest {
         PlayerTesting();
         ObjectsDecoTesting();
         TipsTesting();
-        //logicTicketTest(createPlayerTEST1());
+        logicTicketTest(createPlayerTEST1());
         //logicGiftTest(createPlayerTEST2());
+        //logicNotificationTest();
 
 
     }
