@@ -15,7 +15,6 @@ public class RoomTEST {
     private Timestamp updated_at;
 
     public RoomTEST(String name, String difficulty, Double price, int escapeRoomId, int deleted, Timestamp created_at, Timestamp updated_at) {
-        //this.id = getLatestIdFromDB();
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
@@ -23,11 +22,6 @@ public class RoomTEST {
         this.deleted = deleted;
         this.created_at = created_at;
         this.updated_at = updated_at;
-    }
-
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestRoomId() + 1;
     }
 
     public void setId(int id) {

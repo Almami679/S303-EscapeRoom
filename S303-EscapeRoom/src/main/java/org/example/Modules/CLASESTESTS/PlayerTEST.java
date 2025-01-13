@@ -13,16 +13,10 @@ public class PlayerTEST {
     private int deleted;
 
     public PlayerTEST(String name, String email, int consentNotif, int deleted) {
-        //this.id = getLatestIdFromDB();
         this.name = name;
         this.email = email;
         this.consentNotif = consentNotif;
         this.deleted = deleted;
-    }
-
-    private int getLatestIdFromDB() {
-        DatabaseConnection db = new DatabaseConnection();
-        return db.getLatestPlayerId() + 1;
     }
 
     public int getId() {

@@ -217,9 +217,9 @@ public class DatabaseConnection {
     public void addTicket(Ticket ticket) {
         ticketRepository.addTicket(ticket);
     }
-    public Ticket getTicketById(int id) {
+    /*public Ticket getTicketById(int id) {
         return ticketRepository.getTicketById(id);
-    }
+    }*/
     public ArrayList<Ticket> getAllTickets() {
         return ticketRepository.getAllTickets();
     }

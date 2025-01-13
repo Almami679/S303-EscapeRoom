@@ -8,7 +8,6 @@ public class TipsTEST {
     private int roomId;
 
     public TipsTEST(String text, int roomId) {
-       // this.id = getLatestIdFromDB();
         this.text = text;
         this.roomId = roomId;
     }
