@@ -18,7 +18,7 @@ public class SqlTicketRepository {
     }
 
     public void addTicket(Ticket ticket) {
-        String sql = "INSERT INTO ticket (Ticket_id, Ticket_saleId, Ticket_text) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO ticket (Ticket_id, Ticket_saleId) VALUES (?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, ticket.getId());

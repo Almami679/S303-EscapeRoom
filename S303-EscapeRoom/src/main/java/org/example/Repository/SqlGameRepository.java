@@ -46,7 +46,7 @@ public class SqlGameRepository {
                     int escapeRoomId = resultSet.getInt("Game_escapeRoomId");
                     int finished = resultSet.getInt("Game_finished");
                     int deleted = resultSet.getInt("Game_deleted");
-                    gameTEST = new PlayerTEST(date, escapeRoomId, finished, deleted);
+                    gameTEST = new GameTEST(date, escapeRoomId, finished, deleted);
                     gameTEST.setId(id);
                 }
             }

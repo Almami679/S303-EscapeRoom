@@ -15,6 +15,7 @@ public class ObjectDecoTEST {
     private Timestamp updatedAt;
 
     public ObjectDecoTEST(String name, String material, int roomId, double price, int deleted, Timestamp createdAt, Timestamp updatedAt) {
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.material = material;
         this.roomId = roomId;
@@ -23,6 +24,7 @@ public class ObjectDecoTEST {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 
     public int getId() {
         return id;

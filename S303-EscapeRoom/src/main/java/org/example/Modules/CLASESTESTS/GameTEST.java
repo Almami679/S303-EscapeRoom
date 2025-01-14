@@ -91,20 +91,4 @@ public class GameTEST {
         });
 
     }
-    ///Comprobar estado de juego para llamar a certificate factory
-    ///
-    ///
-///pasar esto a factory
-    private Certificate createGameCertificate(PlayerTEST player) {
-        if (this.finish) {
-            if(this.gameCertificate == null) {
-                this.gameCertificate = (Certificate) mainFactoryCommunicate.createCommunicate
-                        (CommunicateType.CERTIFICATE, player);
-            }
-        } else {
-            LogManager.getLogger(Certificate.class).error("Certificate not created, because this game status["
-                    + this.finish +"]");
-        }
-        return this.gameCertificate;
-    }
 }

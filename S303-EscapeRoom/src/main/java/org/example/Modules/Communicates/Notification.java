@@ -2,6 +2,7 @@ package org.example.Modules.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.assertj.core.condition.Not;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 
@@ -12,6 +13,11 @@ public class Notification extends Communicate implements CommunicationInterface 
 
     public Notification(PlayerTEST player, String text) {
         super(player);
+        this.text = text;
+    }
+
+    public Notification(int id, int playerId, String text) {
+        super(id, playerId);
         this.text = text;
     }
 

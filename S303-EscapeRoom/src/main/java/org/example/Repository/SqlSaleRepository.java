@@ -35,17 +35,18 @@ public class SqlSaleRepository {
 
     public static SaleTEST getSaleById(int id) {
         SaleTEST saleTEST = null;
-        String sql = "SELECT * FROM sale WHERE Sale_id = ? AND Sale_deleted = 0";
+        String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
+                    int saleId = resultSet.getInt("Sale_id");
                     Timestamp date = resultSet.getTimestamp("Sale_date");
-                    double price = resultSet.getDouble("Sale_price");
+                    double price = resultSet.getInt("Sale_price");
                     int gameId = resultSet.getInt("Sale_gameId");
                     int deleted = resultSet.getInt("Sale_deleted");
-                    saleTEST = new SaleTEST(date, price, gameId, deleted);
+                    saleTEST = new SaleTEST(saleId, date, price, gameId, deleted);
                     saleTEST.setId(id);
                 }
             }

@@ -2,6 +2,8 @@ package org.example.Modules.Communicates;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
+import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+
 public class Communicate {
 
     private int id;
@@ -10,6 +12,11 @@ public class Communicate {
 
     public Communicate(PlayerTEST player) {
         this.player = player;
+    }
+
+    public Communicate(int id, int playerId) {
+        this.player = getPlayerById(playerId);
+        this.id = id;
     }
 
     public int getId() {

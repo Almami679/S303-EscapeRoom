@@ -7,10 +7,12 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 import java.util.ArrayList;
 
+import static org.example.Repository.SqlGameRepository.getGameById;
+import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+
 public class Gift extends Communicate implements CommunicationInterface{
 
     Logger logger = LogManager.getLogger(Gift.class);
-    private int id;
     private String text;
     private String discountKey;
     private static ArrayList<String> KeysInUse = new ArrayList<>();
@@ -23,9 +25,10 @@ public class Gift extends Communicate implements CommunicationInterface{
         this.game = player.getGame();
     }
 
-    public Gift(int id, int gameId, String text) {
-        this.id = id;
-        this.game =
+    public Gift(int id, int gameId, String text, int playerId) {
+        super(id, playerId);
+        this.game = getGameById(gameId);
+        this.text = text;
 
     }
 
