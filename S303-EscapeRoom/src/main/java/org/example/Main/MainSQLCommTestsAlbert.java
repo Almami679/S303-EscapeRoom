@@ -14,17 +14,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.example.Main.MainSQLTest.*;
+import static org.example.Repository.SqlGameRepository.getGameById;
+import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.SqlSaleRepository.getSaleById;
 
 public class MainSQLCommTestsAlbert {
 
     ///////////// Prueba ticket + Logger ////////////
-    private static SaleTEST createSale(){
-        return new SaleTEST(
-                new Timestamp(System.currentTimeMillis()),
-                800,
-                1,
-                0);
-    }
 
     private static Ticket createTicket(int idPlayer){
         return (Ticket) mainFactoryCommunicate.createCommunicate(
@@ -32,13 +28,13 @@ public class MainSQLCommTestsAlbert {
                 idPlayer);
     }
     public static void logicTicketTest(int idPlayer) {
-        SaleTEST sale1 = createSale();
-        db.addSale(sale1);
+        SaleTEST sale1 = getSaleById(1);
+        PlayerTEST player = getPlayerById(1);
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
         player.addSale(sale1);
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() +
                 "] assigned to PlayerId: " + player.getId());
-        Ticket ticket1 = createTicket(player);
+        Ticket ticket1 = createTicket(player.getId());
         db.addTicket(ticket1);
         LogManager.getLogger(Ticket.class).info(ticket1.getText());
         ticket1.send();
@@ -50,16 +46,15 @@ public class MainSQLCommTestsAlbert {
                 idPlayer);
     }
 
-    private static void logicGame() {
-        GameTEST game = createGame();
-        db.addGame(game);
+    private static GameTEST logicGame() {
+        GameTEST game = getGameById(1);
         LogManager.getLogger(GameTEST.class).info("GameId:" + game.getId() +
                 " created.");
         game.finishGame();
     }
 
     public static void logicGiftTest(int idPlayer) {
-        logicGame();
+        GameTEST game1 = logicGame();
         Gift gift1 = createGift(idPlayer);
         db.addGift(gift1);
         LogManager.getLogger(Gift.class).info("GiftId:" + gift1.getId() +

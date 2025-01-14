@@ -2,6 +2,7 @@ package org.example.Repository.CommunicatesRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Modules.Communicates.Notification;
 import org.example.Modules.Communicates.Ticket;
 import org.example.Repository.DatabaseConnection;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class SqlTicketRepository {
     private static final Logger logger = LogManager.getLogger(SqlTicketRepository.class);
-    private final DatabaseConnection dbConnection;
+    private static DatabaseConnection dbConnection;
 
     public SqlTicketRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -28,6 +29,27 @@ public class SqlTicketRepository {
         } catch (SQLException e) {
             logger.error("Failed to add Ticket: ", e);
         }
+    }
+
+    public static Ticket getTicketById(int id) {
+        Ticket ticket = null;
+        String sql = "SELECT * FROM ticket WHERE Ticket_id = ?";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int saleId = resultSet.getInt("Ticket_saleId");
+                    String text = resultSet.getString("Notification_text");
+                    int playerId = resultSet.getInt("Notification_playerId");
+                    ticket = new Ticket(id, playerId, saleId, text);
+                }
+            }
+            dbConnection.closeConnection(connection);
+        } catch (SQLException e) {
+            logger.error("Failed to fetch Notification by ID: " + id, e);
+        }
+        return ticket;
     }
 
     public ArrayList<Ticket> getAllTickets() {
