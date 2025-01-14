@@ -2,9 +2,7 @@ package org.example.Modules.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Repository.DatabaseConnection;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PlayerTEST {

@@ -1,7 +1,5 @@
 package org.example.Modules.CLASESTESTS;
 
-import org.example.Repository.DatabaseConnection;
-
 import java.sql.Timestamp;
 
 public class RoomTEST {

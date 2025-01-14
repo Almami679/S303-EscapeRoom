@@ -1,7 +1,5 @@
 package org.example.Modules.CLASESTESTS;
 
-import org.example.Repository.DatabaseConnection;
-
 public class TipsTEST {
     private int id;
     private String text;

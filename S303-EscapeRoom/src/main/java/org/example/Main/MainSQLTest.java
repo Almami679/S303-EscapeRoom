@@ -2,7 +2,7 @@ package org.example.Main;
 
 import org.example.Modules.CLASESTESTS.*;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
-import org.example.Repository.DatabaseConnection;
+import org.example.Repository.Common.DatabaseConnection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 

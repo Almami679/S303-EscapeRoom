@@ -1,10 +1,9 @@
-package org.example.Repository;
+package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SqlGiftRepository {
+public class SqlCertificateRepository {
     Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
     private DatabaseConnection dbConnection;
 
-    public SqlGiftRepository(DatabaseConnection dbConnection) {
+    public SqlCertificateRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
