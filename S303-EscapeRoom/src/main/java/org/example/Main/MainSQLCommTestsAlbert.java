@@ -4,10 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
-import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Notification;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Communicates.*;
+import org.example.Repository.SqlSaleRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,15 +14,9 @@ import java.util.Arrays;
 import static org.example.Main.MainSQLTest.*;
 
 public class MainSQLCommTestsAlbert {
+    ///todo lo que no sea Notificaciones, cogerlo de la dB NO CREAR!///
 
     ///////////// Prueba ticket + Logger ////////////
-    private static SaleTEST createSale(){
-        return new SaleTEST(
-                new Timestamp(System.currentTimeMillis()),
-                800,
-                1,
-                0);
-    }
 
     private static Ticket createTicket(PlayerTEST player){
         return (Ticket) mainFactoryCommunicate.createCommunicate(
@@ -32,7 +24,7 @@ public class MainSQLCommTestsAlbert {
                 player);
     }
     public static void logicTicketTest(PlayerTEST player) {
-        SaleTEST sale1 = createSale();
+        SaleTEST sale1 = SqlSaleRepository.getSaleById(1);
         db.addSale(sale1);
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
         player.addSale(sale1);
@@ -100,19 +92,39 @@ public class MainSQLCommTestsAlbert {
             notification1.send();
         });
     }
-/*
+
     ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
     /// ir a la clase GameTEST, ahi esta la logica
     //////////Prueba Certificate/////////////////
-    public void createCertificateTest() {
-        GameTEST game = new GameTEST("SpaceDream",
-                new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
-        game.finishGame().send();
-        LogManager.getLogger(Certificate.class).info(certificate.getText());
+    private static Certificate createCertificateTest(PlayerTEST player) {
+        return (Certificate) mainFactoryCommunicate.createCommunicate(
+                CommunicateType.CERTIFICATE,
+                player);
+    }
+
+    public static void logicCertificate() {
+        GameTEST game = createGame();
+        if(game.checkGameStatus()) {
+            game.getPlayers().forEach(player-> {
+                createCertificateTest(player);
+                LogManager.getLogger(Certificate.class).info("Certificate for player " +
+                        player.getName() +
+                        "created");
+            });
+        } else {
+            LogManager.getLogger(Certificate.class).warn("Game id: " +
+                    game.getId() + " finish: " +
+                    game.checkGameStatus() +
+                    "\nCertificate not created.");
+        }
+
     }
 
 
 
- */
+
+
+
+
 }
 
