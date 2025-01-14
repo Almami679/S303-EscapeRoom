@@ -5,7 +5,7 @@ import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.*;
-import org.example.Repository.SqlSaleRepository;
+import org.example.Repository.Old.SqlSaleRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

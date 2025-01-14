@@ -1,4 +1,4 @@
-package org.example.Repository;
+package org.example.Repository.Common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,6 +6,7 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.CLASESTESTS.*;
 import org.example.Modules.Communicates.Gift;
 import org.example.Modules.Communicates.Ticket;
+import org.example.Repository.Old.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class DatabaseConnection {
     private SqlSaleRepository saleRepository;
     private SqlGiftRepository giftRepository;
     private SqlGameRepository gameRepository;
+    private SqlCertificateRepository certificateRepository;
 
     public DatabaseConnection() {
         this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
@@ -37,6 +39,7 @@ public class DatabaseConnection {
         this.saleRepository = new SqlSaleRepository(this);
         this.giftRepository = new SqlGiftRepository(this);
         this.gameRepository = new SqlGameRepository(this);
+        this.certificateRepository = new SqlCertificateRepository(this);
     }
 
     public Connection dbConnect() {
@@ -76,21 +79,6 @@ public class DatabaseConnection {
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
     }
-    /*public int getLatestEscapeRoomId() {
-        int latestId = 0;
-        String sql = "SELECT MAX(EscapeRoom_id) AS latestId FROM escaperoom";
-        try (Connection connection = dbConnect();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                latestId = resultSet.getInt("latestId");
-            }
-        } catch (SQLException e) {
-            logger.error("Failed to fetch latest EscapeRoom ID: ", e);
-        }
-        return latestId;
-    }*/
-
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
         if (!roomRepository.isDuplicateRoom(roomTEST.getName())) {
@@ -108,21 +96,6 @@ public class DatabaseConnection {
     public void roomUpdate(RoomTEST roomTEST) {
         roomRepository.roomUpdate(roomTEST);
     }
-    /*public int getLatestRoomId() {
-        int latestId = 0;
-        String sql = "SELECT MAX(Room_id) AS latestId FROM room";
-        try (Connection connection = dbConnect();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                latestId = resultSet.getInt("latestId");
-            }
-        } catch (SQLException e) {
-            logger.error("Failed to fetch latest Room ID: ", e);
-        }
-        return latestId;
-    }*/
-
     // PlayerTEST
     public void createPlayer(PlayerTEST playerTEST) {
         if (!playerRepository.isDuplicatePlayer(playerTEST.getName())) {
@@ -140,36 +113,8 @@ public class DatabaseConnection {
     public void updatePlayer(PlayerTEST playerTEST) {
         playerRepository.updatePlayer(playerTEST);
     }
-    /*public int getLatestPlayerId() {
-        int latestId = 0;
-        String sql = "SELECT MAX(Player_id) AS latestId FROM player";
-        try (Connection connection = dbConnect();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                latestId = resultSet.getInt("latestId");
-            }
-        } catch (SQLException e) {
-            logger.error("Failed to fetch latest Player ID: ", e);
-        }
-        return latestId;
-    }*/
 
     //ObjectDecoTEST
-    /*public int getLatestObjectDecoId() {
-        int latestId = 0;
-        String sql = "SELECT MAX(ObjectDeco_id) AS latestId FROM objectdeco";
-        try (Connection connection = dbConnect();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                latestId = resultSet.getInt("latestId");
-            }
-        } catch (SQLException e) {
-            logger.error("Failed to fetch latest ObjectDeco ID: ", e);
-        }
-        return latestId;
-    }*/
     public void addObjectDeco(ObjectDecoTEST objectDecoTEST) {
         if (!objectDecoRepository.isDuplicateObjectDeco(objectDecoTEST.getName())) {
             objectDecoRepository.addObjectDeco(objectDecoTEST);
@@ -236,9 +181,9 @@ public class DatabaseConnection {
         gameRepository.addGame(game);
     }
 
-//    public Ticket getTicketById(int id) {
-//        return ticketRepository.getTicketById(id);
-//    }
+   public Ticket getTicketById(int id) {
+        return ticketRepository.getTicketById(id);
+    }
     public ArrayList<Ticket> getAllTickets() {
         return ticketRepository.getAllTickets();
     }
