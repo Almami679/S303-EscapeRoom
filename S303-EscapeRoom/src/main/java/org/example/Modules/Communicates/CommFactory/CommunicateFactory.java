@@ -6,13 +6,13 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 public class CommunicateFactory {
 
-    public Object createCommunicate(CommunicateType communicate, PlayerTEST player) {
+    public Object createCommunicate(CommunicateType communicate, int idPlayer) {
 
         return switch (communicate) {
-            case TICKET -> new TicketFactory().createCommunicate(player);
-            case NOTIFICATION -> new NotificationFactory().createCommunicate(player);
-            case GIFT -> new GiftFactory().createCommunicate(player);
-            case CERTIFICATE -> new CertificateFactory().createCommunicate(player);
+            case TICKET -> new TicketFactory().createCommunicate(idPlayer);
+            case NOTIFICATION -> new NotificationFactory().createCommunicate(idPlayer);
+            case GIFT -> new GiftFactory().createCommunicate(idPlayer);
+            case CERTIFICATE -> new CertificateFactory().createCommunicate(idPlayer);
         };
 
     }

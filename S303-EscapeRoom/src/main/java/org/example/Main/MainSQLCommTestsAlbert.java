@@ -26,12 +26,12 @@ public class MainSQLCommTestsAlbert {
                 0);
     }
 
-    private static Ticket createTicket(PlayerTEST player){
+    private static Ticket createTicket(int idPlayer){
         return (Ticket) mainFactoryCommunicate.createCommunicate(
                 CommunicateType.TICKET,
-                player);
+                idPlayer);
     }
-    public static void logicTicketTest(PlayerTEST player) {
+    public static void logicTicketTest(int idPlayer) {
         SaleTEST sale1 = createSale();
         db.addSale(sale1);
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
@@ -45,9 +45,9 @@ public class MainSQLCommTestsAlbert {
     }
 
     ////////// Prueba Gift + Logger /////////////////
-    private static Gift createGift(PlayerTEST player){
+    private static Gift createGift(int idPlayer){
         return (Gift) mainFactoryCommunicate.createCommunicate(CommunicateType.GIFT,
-                player);
+                idPlayer);
     }
 
     private static void logicGame() {
@@ -58,9 +58,9 @@ public class MainSQLCommTestsAlbert {
         game.finishGame();
     }
 
-    public static void logicGiftTest(PlayerTEST player) {
+    public static void logicGiftTest(int idPlayer) {
         logicGame();
-        Gift gift1 = createGift(player);
+        Gift gift1 = createGift(idPlayer);
         db.addGift(gift1);
         LogManager.getLogger(Gift.class).info("GiftId:" + gift1.getId() +
                 " created with text:\n" + gift1.getText());
@@ -82,19 +82,19 @@ public class MainSQLCommTestsAlbert {
 
     //////////// Prueba notification + Logger /////////
 
-    private static Notification createNotification(PlayerTEST player) {
+    private static Notification createNotification(int idPlayer) {
         return (Notification) mainFactoryCommunicate.createCommunicate(
                 CommunicateType.NOTIFICATION,
-                player);
+                idPlayer);
     }
 
     private static ArrayList<PlayerTEST> createListPlayers(){
-        return new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2()));
+        return new ArrayList<Integer>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2()));
     }
     public static void logicNotificationTest() {
-        ArrayList<PlayerTEST> playersTEST = createListPlayers();
-        playersTEST.forEach(player -> {
-            Notification notification1 = createNotification(player);
+        ArrayList<Integer> idPlayers = createListPlayers();
+        idPlayers.forEach(playerId -> {
+            Notification notification1 = createNotification(playerId);
             LogManager.getLogger(Notification.class).info("NotificationId: " + notification1.getId() +
                     " created with text:\n" + notification1.getText());
             notification1.send();

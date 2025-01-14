@@ -3,16 +3,15 @@ package org.example.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.GameTEST;
+import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Gift;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class SqlGameRepository {
 
-    Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
-    private DatabaseConnection dbConnection;
+    static Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
+    private static DatabaseConnection dbConnection;
 
     public SqlGameRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -33,5 +32,28 @@ public class SqlGameRepository {
         } catch (SQLException e) {
             logger.error("Failed to create Gift: ", e);
         }
+    }
+
+    public static GameTEST getGameById(int id) {
+        GameTEST gameTEST = null;
+        String sql = "SELECT * FROM game WHERE Game_id = ? AND Game_deleted = 0";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Timestamp date = resultSet.getTimestamp("Game_date");
+                    int escapeRoomId = resultSet.getInt("Game_escapeRoomId");
+                    int finished = resultSet.getInt("Game_finished");
+                    int deleted = resultSet.getInt("Game_deleted");
+                    gameTEST = new PlayerTEST(date, escapeRoomId, finished, deleted);
+                    gameTEST.setId(id);
+                }
+            }
+            dbConnection.closeConnection(connection);
+        } catch (SQLException e) {
+            logger.error("Failed to fetch Player by ID: ", e);
+        }
+        return gameTEST;
     }
 }

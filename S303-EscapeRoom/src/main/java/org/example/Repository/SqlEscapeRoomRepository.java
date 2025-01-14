@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SqlEscapeRoomRepository {
-    Logger logger = LogManager.getLogger(SqlEscapeRoomRepository.class);
-    private DatabaseConnection dbConnection;
+    static Logger logger = LogManager.getLogger(SqlEscapeRoomRepository.class);
+    private static DatabaseConnection dbConnection;
 
     public SqlEscapeRoomRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -51,7 +51,7 @@ public class SqlEscapeRoomRepository {
         }
     }
 
-    public EscapeRoomTEST getEscapeRoomById(int id) {
+    public static EscapeRoomTEST getEscapeRoomById(int id) {
         EscapeRoomTEST escapeRoomTEST = null;
         String sql = "SELECT * FROM escaperoom WHERE EscapeRoom_id = ? AND EscapeRoom_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();

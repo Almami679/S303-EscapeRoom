@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Gift extends Communicate implements CommunicationInterface{
 
     Logger logger = LogManager.getLogger(Gift.class);
+    private int id;
     private String text;
     private String discountKey;
     private static ArrayList<String> KeysInUse = new ArrayList<>();
@@ -20,6 +21,12 @@ public class Gift extends Communicate implements CommunicationInterface{
         this.text = text;
         this.discountKey = generateKey();
         this.game = player.getGame();
+    }
+
+    public Gift(int id, int gameId, String text) {
+        this.id = id;
+        this.game =
+
     }
 
     public String getText() {

@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
+import static org.example.Repository.SqlEscapeRoomRepository.getEscapeRoomById;
 
 public class GameTEST {
 
@@ -29,8 +30,22 @@ public class GameTEST {
         this.gameCertificate = null;
     }
 
+    public GameTEST (Timestamp date, int escapeRoomId, int finished, int deleted) {
+        this.gameDate = date;
+        this.escapeRoom = getEscapeRoomById(escapeRoomId);
+        this.finish = checkStatus(finished);
+        this.deleted = deleted;
+
+        ///Añadir lista de jugadores cuando tengamos el SQL de gameHasPLayers
+    }
+
     public int getId() {
         return id;
+    }
+
+    private boolean checkStatus(int status) {
+        boolean output = status != 0;
+        return output;
     }
 
     public EscapeRoomTEST getEscapeRoom() {
@@ -43,6 +58,10 @@ public class GameTEST {
 
     public int getDeleted() {
         return this.deleted;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setGameCertificate(Certificate gameCertificate) {
