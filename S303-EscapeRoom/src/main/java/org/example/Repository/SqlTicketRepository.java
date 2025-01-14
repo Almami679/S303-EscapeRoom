@@ -2,6 +2,7 @@ package org.example.Repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Modules.CLASESTESTS.EscapeRoomTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.Ticket;
@@ -33,7 +34,7 @@ public class SqlTicketRepository {
 
     public ArrayList<Ticket> getAllTickets() {
         ArrayList<Ticket> ticketList = new ArrayList<>();
-        /*String sql = "SELECT * FROM ticket";
+        String sql = "SELECT * FROM ticket";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -41,28 +42,49 @@ public class SqlTicketRepository {
                 int id = resultSet.getInt("Ticket_id");
                 String text = resultSet.getString("Ticket_text");
                 int saleId = resultSet.getInt("Ticket_saleId");
-
-                Ticket ticket = new Ticket(text, saleId);
+                /*/Ticket ticket = new Ticket(text,saleId); //Descomentar cuando esté la clase Ticket
                 ticket.setId(id);
-                ticketList.add(ticket);
+                ticketList.add(ticket);*/
             }
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Tickets: ", e);
-        }*/
+        }
         return ticketList;
     }
 
+    public Ticket getTicketById(int id) {
+        Ticket ticket = null;
+        String sql = "SELECT * FROM ticket WHERE Ticket_id = ?";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int idT = resultSet.getInt("Ticket_id");
+                    int saleId = resultSet.getInt("Ticket_saleId");
+                    String text = resultSet.getString("Ticket_text");
+                    /*ticket = new Ticket(saleId, text); //Descomentar cuando esté la clase Ticket
+                    ticket.setId(idT);*/
+                }
+            }
+            dbConnection.closeConnection(connection);
+        } catch (SQLException e) {
+            logger.error("Failed to fetch Ticket by ID: ", e);
+        }
+        return ticket;
+    }
+
     public void updateTicket(Ticket ticket) {
-        String sql = "UPDATE ticket SET Ticket_text = ?, Ticket_saleId = ?, Ticket_playerId = ? WHERE Ticket_id = ?";
+        String sql = "UPDATE ticket SET Ticket_text = ?, Ticket_saleId = ? WHERE Ticket_id = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, ticket.getText());
             statement.setInt(2, ticket.getSale().getId());
-            statement.setInt(3, ticket.getPlayer().getId());
-            statement.setInt(4, ticket.getId());
+            statement.setInt(3, ticket.getId());
             statement.executeUpdate();
             logger.info("Ticket updated.");
+            dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to update Ticket: ", e);
         }
