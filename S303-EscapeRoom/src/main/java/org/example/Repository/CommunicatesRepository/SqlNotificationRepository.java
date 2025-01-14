@@ -1,15 +1,16 @@
-package org.example.Repository;
+package org.example.Repository.CommunicatesRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.Gift;
+import org.example.Repository.DatabaseConnection;
+import org.example.Repository.SqlPlayerRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SqlGiftRepository {
+public class SqlNotificationRepository {
     Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
     private DatabaseConnection dbConnection;
 
@@ -17,8 +18,8 @@ public class SqlGiftRepository {
         this.dbConnection = dbConnection;
     }
 
-    public void addGift(Gift gift) {
-        String sql = "INSERT INTO gift (Gift_id, Gift_gameId, Gift_text)" +
+    public void addNotification(Gift gift) {
+        String sql = "INSERT INTO Notification (Gift_id, Gift_gameId, Gift_text)" +
                 " VALUES (?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
