@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.Communicates.Ticket;
 import org.example.Repository.Common.DatabaseConnection;
 import java.sql.*;
-import java.util.ArrayList;
+
 
 public class SqlTicketRepository {
     private static final Logger logger = LogManager.getLogger(SqlTicketRepository.class);

@@ -7,7 +7,7 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 
 import java.util.Date;
 
-import static org.example.Repository.SqlGameRepository.getGameById;
+import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
 public class Certificate extends Communicate implements CommunicationInterface{
 

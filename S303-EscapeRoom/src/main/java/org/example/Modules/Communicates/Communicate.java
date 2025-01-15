@@ -2,7 +2,7 @@ package org.example.Modules.Communicates;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 
-import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
 public class Communicate {
 
