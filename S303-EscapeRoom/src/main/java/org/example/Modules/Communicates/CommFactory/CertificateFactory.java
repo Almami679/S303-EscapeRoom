@@ -4,7 +4,7 @@ import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 
-import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
 
 public class CertificateFactory implements CommFactoryInterface{

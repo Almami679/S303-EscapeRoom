@@ -1,11 +1,12 @@
-package org.example.Repository;
+package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
+import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SqlSaleRepository {
     static Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
@@ -55,5 +56,28 @@ public class SqlSaleRepository {
             logger.error("Failed to fetch Player by ID: ", e);
         }
         return saleTEST;
+    }
+
+    public ArrayList<SaleTEST> getAllSales() {// Cambiar nombre cuando Sale esté implementado
+        ArrayList<SaleTEST> saleList = new ArrayList<>();
+        String sql = "SELECT * FROM sale";
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("Sale_id");
+                Timestamp date = resultSet.getTimestamp("Sale_date");
+                double price = resultSet.getDouble("Sale_price");
+                int gameId = resultSet.getInt("Sale_gameId");
+                int deleted = resultSet.getInt("Sale_deleted");
+                SaleTEST sale = new SaleTEST(date, price, gameId, deleted);
+                sale.setId(id);
+                saleList.add(sale);
+            }
+            dbConnection.closeConnection(connection);
+        } catch (SQLException e) {
+            logger.error("Failed to fetch Tickets: ", e);
+        }
+        return saleList;
     }
 }

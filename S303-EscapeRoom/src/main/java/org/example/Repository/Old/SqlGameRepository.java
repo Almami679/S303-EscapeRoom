@@ -1,10 +1,9 @@
-package org.example.Repository;
+package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.GameTEST;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.Communicates.Gift;
+import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
 

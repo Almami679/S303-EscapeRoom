@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 
-import static org.example.Repository.SqlSaleRepository.getSaleById;
+import static org.example.Repository.Old.SqlSaleRepository.getSaleById;
 
 
 public class Ticket extends Communicate implements CommunicationInterface {

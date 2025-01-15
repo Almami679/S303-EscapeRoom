@@ -4,7 +4,7 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.Ticket;
 
-import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
 public class TicketFactory implements CommFactoryInterface{
     @Override

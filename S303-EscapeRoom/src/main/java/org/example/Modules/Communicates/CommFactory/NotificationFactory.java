@@ -3,7 +3,7 @@ package org.example.Modules.Communicates.CommFactory;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Notification;
 
-import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
 
 public class NotificationFactory implements CommFactoryInterface{

@@ -4,11 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
-
 import java.util.ArrayList;
-
-import static org.example.Repository.SqlGameRepository.getGameById;
-import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
 public class Gift extends Communicate implements CommunicationInterface{
 
