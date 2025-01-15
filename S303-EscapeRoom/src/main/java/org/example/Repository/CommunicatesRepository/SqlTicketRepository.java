@@ -1,4 +1,4 @@
-package org.example.Repository.Old;
+package org.example.Repository.CommunicatesRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,26 +50,6 @@ public class SqlTicketRepository {
         return ticket;
     }
 
-    public ArrayList<Ticket> getAllTickets() {
-        ArrayList<Ticket> ticketList = new ArrayList<>();
-        String sql = "SELECT * FROM ticket";
-        try (Connection connection = dbConnection.dbConnect();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("Ticket_id");
-                String text = resultSet.getString("Ticket_text");
-                int saleId = resultSet.getInt("Ticket_saleId");
-                /*/Ticket ticket = new Ticket(text,saleId); //Descomentar cuando esté la clase Ticket
-                ticket.setId(id);
-                ticketList.add(ticket);*/
-            }
-            dbConnection.closeConnection(connection);
-        } catch (SQLException e) {
-            logger.error("Failed to fetch Tickets: ", e);
-        }
-        return ticketList;
-    }
 
     public void updateTicket(Ticket ticket) {
         String sql = "UPDATE ticket SET Ticket_text = ?, Ticket_saleId = ? WHERE Ticket_id = ?";

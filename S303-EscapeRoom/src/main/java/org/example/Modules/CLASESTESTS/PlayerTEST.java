@@ -17,6 +17,7 @@ public class PlayerTEST {
 
 
     public PlayerTEST(String name, String email, int consentNotif, int deleted) {
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.email = email;
         this.consentNotif = consentNotif;
@@ -24,6 +25,7 @@ public class PlayerTEST {
         this.completedGames = new ArrayList<>();
         this.playerSales = new ArrayList<>();
     }
+
 
     public int getId() {
         return id;

@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
+import static org.example.Repository.SqlEscapeRoomRepository.getEscapeRoomById;
 
 public class GameTEST {
 
@@ -17,18 +18,34 @@ public class GameTEST {
     private Timestamp gameDate;
     private ArrayList<PlayerTEST> players;
     private int deleted;
-    private int finish;
+    private boolean finish;
+    private Certificate gameCertificate;
 
     public GameTEST(EscapeRoomTEST escapeRoom, Timestamp date, ArrayList<PlayerTEST> players, int deleted) {
         this.escapeRoom = escapeRoom;
         this.gameDate = date;
         this.players = players;
         this.deleted = deleted;
-        this.finish = 0;
+        this.finish = false;
+        this.gameCertificate = null;
+    }
+
+    public GameTEST (Timestamp date, int escapeRoomId, int finished, int deleted) {
+        this.gameDate = date;
+        this.escapeRoom = getEscapeRoomById(escapeRoomId);
+        this.finish = checkStatus(finished);
+        this.deleted = deleted;
+
+        ///Añadir lista de jugadores cuando tengamos el SQL de gameHasPLayers
     }
 
     public int getId() {
         return id;
+    }
+
+    private boolean checkStatus(int status) {
+        boolean output = status != 0;
+        return output;
     }
 
     public EscapeRoomTEST getEscapeRoom() {
@@ -43,10 +60,17 @@ public class GameTEST {
         return this.deleted;
     }
 
-    public int getStatus() {
-        return this.finish;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    public void setGameCertificate(Certificate gameCertificate) {
+        this.gameCertificate = gameCertificate;
+    }
+
+    public Certificate getGameCertificate() {
+        return gameCertificate;
+    }
 
     public void setEscapeRoom(EscapeRoomTEST escapeRoom) {
         this.escapeRoom = escapeRoom;
@@ -57,7 +81,7 @@ public class GameTEST {
     }
 
     public void finishGame(){
-        this.finish = 1;
+        this.finish = true;
         LogManager.getLogger(GameTEST.class).info("GameId: " + this.id +
                 " has finish.");
         this.players.forEach(player -> {
@@ -67,13 +91,4 @@ public class GameTEST {
         });
 
     }
-
-    public boolean checkGameStatus() {
-        boolean output = false;
-        if (this.finish == 1) {
-            output = true;
-        }
-        return output;
-    }
-
 }

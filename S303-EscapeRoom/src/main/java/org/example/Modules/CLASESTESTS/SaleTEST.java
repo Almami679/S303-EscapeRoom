@@ -2,18 +2,27 @@ package org.example.Modules.CLASESTESTS;
 
 import java.sql.Timestamp;
 
+import static org.example.Repository.SqlGameRepository.getGameById;
+
 public class SaleTEST {
 
     private int id;
     private Timestamp date;
     private double price;
-    private int gameId;
+    private GameTEST game;
     private int deleted;
 
-    public SaleTEST(Timestamp date, double price, int gameId, int deleted) {
+    public SaleTEST(Timestamp date, double price, GameTEST game, int deleted) {
         this.date = date;
         this.price = price;
-        this.gameId = gameId;
+        this.game = game;
+        this.deleted = deleted;
+    }
+
+    public SaleTEST(int id, Timestamp date, double price, int gameId, int deleted) {
+        this.id = id;
+        this.price = price;
+        this.game = getGameById(gameId);
         this.deleted = deleted;
     }
 

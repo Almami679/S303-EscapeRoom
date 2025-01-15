@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 
+import static org.example.Repository.SqlSaleRepository.getSaleById;
+
 
 public class Ticket extends Communicate implements CommunicationInterface {
 
@@ -18,6 +20,12 @@ public class Ticket extends Communicate implements CommunicationInterface {
         this.text = text;
         this.sale = sale;
 
+    }
+
+    public Ticket(int id, int playerId, int saleId, String text) {
+        super(id, playerId);
+        this.sale = getSaleById(saleId);
+        this.text = text;
     }
 
     public String getText() {

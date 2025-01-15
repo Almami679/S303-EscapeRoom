@@ -4,9 +4,12 @@ import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.Ticket;
 
+import static org.example.Repository.SqlPlayerRepository.getPlayerById;
+
 public class TicketFactory implements CommFactoryInterface{
     @Override
-    public Ticket createCommunicate(PlayerTEST player) {
+    public Ticket createCommunicate(int idPlayer) {
+        PlayerTEST player = getPlayerById(idPlayer);
         SaleTEST sale = player.getSale();
         String text = "Last sale for " + sale.getPrice() + "€\n" +
                 "Payment success by " +player.getName() + "!";
