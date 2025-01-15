@@ -8,10 +8,8 @@ import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Communicates.Gift;
 import org.example.Modules.Communicates.Notification;
 import org.example.Modules.Communicates.Ticket;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import static org.example.Main.MainSQLTest.*;
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
@@ -82,28 +80,7 @@ public class MainSQLCommTestsAlbert {
                 CommunicateType.NOTIFICATION,
                 idPlayer);
     }
-//    public static void logicNotificationTest() {
-//        ArrayList<Integer> idPlayers = createListPlayers();
-//        idPlayers.forEach(playerId -> {
-//            Notification notification1 = createNotification(playerId);
-//            LogManager.getLogger(Notification.class).info("NotificationId: " + notification1.getId() +
-//                    " created with text:\n" + notification1.getText());
-//            notification1.send();
-//        });
-//    }
-/*
-    ///ARREGLANDO LA PARTE DE CREAR CERTIFICADOS CON PLAYERS PARA QUE NO SE DUPLIQUE A SACO,
-    /// ir a la clase GameTEST, ahi esta la logica
-    //////////Prueba Certificate/////////////////
-    public void createCertificateTest() {
-        GameTEST game = new GameTEST("SpaceDream",
-                new ArrayList<PlayerTEST>(Arrays.asList(createPlayerTEST1(), createPlayerTEST2())));
-        game.finishGame().send();
-        LogManager.getLogger(Certificate.class).info(certificate.getText());
-    }
 
 
-
- */
 }
 
