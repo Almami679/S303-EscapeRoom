@@ -1,5 +1,8 @@
 package org.example.Modules.EscapeRoomBuilder;
 
+import org.example.Repository.Common.EscapeRoomTEST;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class EscapeRoomBuilder {
@@ -8,10 +11,13 @@ public class EscapeRoomBuilder {
     private ArrayList<Tips> tips;
     private ArrayList<Room> rooms;
     private String theme;
+    private Double price;
+    private int deleted;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-
-    public EscapeRoom build(){
-        return new EscapeRoom(name, decorations, tips,rooms,theme,false);
+    public EscapeRoomTEST build() {
+        return new EscapeRoomTEST(name, price, theme, deleted, created_at, updated_at);
     }
 
     public void setName(String name) {
@@ -26,11 +32,27 @@ public class EscapeRoomBuilder {
         this.tips = tips;
     }
 
-    public void setRoom(ArrayList<Room> rooms) {
+    public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
     }
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setCreatedAt(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setUpdatedAt(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 }
