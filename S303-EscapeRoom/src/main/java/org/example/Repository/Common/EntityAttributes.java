@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum EntityAttributes {
-    CERTIFICATE(
+    certificate(
             "certificate_id",
             "certificate_gameId",
             "certificate_text",
             "certificate_createdAt",
             "player_player_id"
     ),
-    ESCAPEROOM(
+    escaperoom(
             "escaperoom_id",
             "escaperoom_name",
             "escaperoom_price",
@@ -21,7 +21,7 @@ public enum EntityAttributes {
             "escaperoom_createdAt",
             "escaperoom_updatedAt"
     ),
-    GAME(
+    game(
             "game_id",
             "game_escapeRoomId",
             "game_finished",
@@ -29,24 +29,24 @@ public enum EntityAttributes {
             "game_createdAt",
             "game_updatedAt"
     ),
-    GAMEHASPLAYER(
+    game_has_player(
             "game_game_id",
             "player_player_id"
     ),
-    GIFT(
+    gift(
             "gift_id",
             "gift_gameId",
             "gift_text",
             "gift_key",
             "player_player_id"
     ),
-    NOTIFICATION(
+    notification(
             "notification_id",
             "notification_playerId",
             "notification_text",
             "notification_createdAt"
     ),
-    OBJECTDECO(
+    objectdeco(
             "objectdeco_id",
             "objectdeco_name",
             "objectdeco_material",
@@ -55,7 +55,7 @@ public enum EntityAttributes {
             "objectdeco_createdAt",
             "objectdeco_updatedAt"
     ),
-    PLAYER(
+    player(
             "player_id",
             "player_name",
             "player_email",
@@ -64,7 +64,7 @@ public enum EntityAttributes {
             "player_createdAt",
             "player_updatedAt"
     ),
-    ROOM(
+    room(
             "room_id",
             "room_name",
             "room_difficulty",
@@ -74,28 +74,28 @@ public enum EntityAttributes {
             "room_createdAt",
             "room_updatedAt"
     ),
-    ROOMHASOBJECTDECO(
+    room_has_objectdeco(
             "room_room_id",
             "objectdeco_objectdeco_id"
     ),
-    ROOMHASTIPS(
+    room_has_tips(
             "room_room_id",
             "tips_tips_id"
     ),
-    SALE(
+    sale(
             "sale_id",
             "sale_price",
             "sale_gameId",
             "sale_deleted"
     ),
-    TICKET(
+    ticket(
             "ticket_id",
             "ticket_saleId",
             "ticket_text",
             "ticket_playerId",
             "ticket_createdAt"
     ),
-    TIPS(
+    tips(
             "tips_id",
             "tips_text"
     );
