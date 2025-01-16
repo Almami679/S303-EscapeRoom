@@ -2,6 +2,7 @@ package org.example.Repository.Common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public enum EntityAttributes {
@@ -91,13 +92,14 @@ public enum EntityAttributes {
             "Tips_Room_id"
     );
 
-    private final List<String> attributes;
+    private final ArrayList<String> attributes;
 
     EntityAttributes(String... attributes) {
-        this.attributes = new ArrayList<>(Arrays.asList(attributes));
+        this.attributes = new ArrayList<>();
+        Collections.addAll(this.attributes, attributes);
     }
 
-    public List<String> getAttributes() {
+    public ArrayList<String> getAttributes() {
         return attributes;
     }
 }
