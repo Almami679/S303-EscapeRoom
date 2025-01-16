@@ -207,6 +207,7 @@ CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`Gift` (
   `Gift_gameId` INT NOT NULL,
   `Gift_text` TEXT NULL,
   `Gift_playerId` INT NOT NULL,
+  `Gift_giftKey` VARCHAR(45) NULL,
   PRIMARY KEY (`Gift_id`),
   INDEX `fk_game_gift_idx` (`Gift_gameId` ASC) VISIBLE,
   CONSTRAINT `fk_game_gift`
