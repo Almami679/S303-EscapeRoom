@@ -57,12 +57,12 @@ VALUES
 (3, 4);
 
 INSERT INTO sale
-(`sale_date`, `sale_price`, `sale_gameId`, `sale_deleted`, `sale_createdAt`) 
+(`sale_price`, `sale_gameId`, `sale_deleted`, `sale_createdAt`) 
 VALUES 
-(NOW(), 120.50, 1, 0, NOW()),
-(NOW(), 100.00, 2, 0, NOW()),
-(NOW(), 150.75, 3, 0, NOW()),
-(NOW(), 180.00, 4, 0, NOW());
+(120.50, 1, 0, NOW()),
+(100.00, 2, 0, NOW()),
+(150.75, 3, 0, NOW()),
+(180.00, 4, 0, NOW());
 
 INSERT INTO ticket 
 (`ticket_saleId`, `ticket_text`, `ticket_playerId`, `ticket_createdAt`) 
