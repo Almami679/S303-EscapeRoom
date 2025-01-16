@@ -18,7 +18,7 @@ public class DatabaseConnection {
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    private SqlEscapeRoomRepository escapeRoomRepository;
+    //private SqlEscapeRoomRepository escapeRoomRepository;
     private SqlRoomRepository roomRepository;
     private SqlPlayerRepository playerRepository;
     private SqlObjectDecoRepository objectDecoRepository;
@@ -30,7 +30,7 @@ public class DatabaseConnection {
     private SqlCertificateRepository certificateRepository;
 
     public DatabaseConnection() {
-        this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
+        //this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
         this.roomRepository = new SqlRoomRepository(this);
         this.playerRepository = new SqlPlayerRepository(this);
         this.objectDecoRepository = new SqlObjectDecoRepository(this);
@@ -63,7 +63,7 @@ public class DatabaseConnection {
     }
 
     // EscapeRoomTEST
-    public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
+    /*public void addEscapeRoom(EscapeRoomTEST escapeRoomTEST) {
         if (!escapeRoomRepository.isDuplicateEscapeRoom(escapeRoomTEST.getName())) {
             escapeRoomRepository.addEscapeRoom(escapeRoomTEST);
         } else {
@@ -78,7 +78,7 @@ public class DatabaseConnection {
     }
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
-    }
+    }*/
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
         if (!roomRepository.isDuplicateRoom(roomTEST.getName())) {
