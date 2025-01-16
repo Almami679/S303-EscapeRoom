@@ -6,10 +6,8 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.CLASESTESTS.*;
 import org.example.Modules.Communicates.Gift;
 import org.example.Modules.Communicates.Ticket;
+import org.example.Repository.CommunicatesRepository.*;
 import org.example.Repository.Old.*;
-
-import org.example.Repository.CommunicatesRepository.SqlGiftRepository;
-import org.example.Repository.CommunicatesRepository.SqlTicketRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,6 +54,7 @@ public class DatabaseConnection {
         }
         return connection;
     }
+
     public void closeConnection(Connection connection) {
         try {
             connection.close();
@@ -73,15 +72,19 @@ public class DatabaseConnection {
             logger.warn("Duplicate EscapeRoom entry detected: " + escapeRoomTEST.getName());
         }
     }
+
     public EscapeRoomTEST getEscapeRoomById(int id) {
         return escapeRoomRepository.getEscapeRoomById(id);
     }
+
     public ArrayList<EscapeRoomTEST> getAllEscapeRooms() {
         return escapeRoomRepository.getAllEscapeRooms();
     }
+
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
     }*/
+
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
         if (!roomRepository.isDuplicateRoom(roomTEST.getName())) {
@@ -90,15 +93,19 @@ public class DatabaseConnection {
             logger.warn("Duplicate Room entry detected: " + roomTEST.getName());
         }
     }
+
     public RoomTEST getRoomById(int id) {
         return roomRepository.getRoomById(id);
     }
+
     public ArrayList<RoomTEST> getAllRooms() {
         return roomRepository.getAllRooms();
     }
+
     public void roomUpdate(RoomTEST roomTEST) {
         roomRepository.roomUpdate(roomTEST);
     }
+
     // PlayerTEST
     public void createPlayer(PlayerTEST playerTEST) {
         if (!playerRepository.isDuplicatePlayer(playerTEST.getName())) {
@@ -107,12 +114,15 @@ public class DatabaseConnection {
             logger.warn("Duplicate Player entry detected: " + playerTEST.getName());
         }
     }
+
     public PlayerTEST getPlayerById(int id) {
         return playerRepository.getPlayerById(id);
     }
+
     public ArrayList<PlayerTEST> getAllPlayers() {
         return playerRepository.getAllPlayers();
     }
+
     public void updatePlayer(PlayerTEST playerTEST) {
         playerRepository.updatePlayer(playerTEST);
     }
@@ -125,12 +135,15 @@ public class DatabaseConnection {
             logger.warn("Duplicate ObjectDeco entry detected: " + objectDecoTEST.getName());
         }
     }
+
     public ObjectDecoTEST getObjectDecoById(int id) {
         return objectDecoRepository.getObjectDecoById(id);
     }
+
     public ArrayList<ObjectDecoTEST> getAllObjectDecos() {
         return objectDecoRepository.getAllObjectDecos();
     }
+
     public void updateObjectDeco(ObjectDecoTEST objectDecoTEST) {
         objectDecoRepository.updateObjectDeco(objectDecoTEST);
     }
@@ -150,6 +163,7 @@ public class DatabaseConnection {
         }
         return latestId;
     }
+
     public void addTips(TipsTEST tipsTEST) {
         if (!tipsRepository.isDuplicateTips(tipsTEST.getText())) {
             tipsRepository.addTips(tipsTEST);
@@ -157,21 +171,25 @@ public class DatabaseConnection {
             logger.warn("Duplicate Tips entry detected: " + tipsTEST.getText());
         }
     }
+
     public TipsTEST getTipsById(int id) {
         return tipsRepository.getTipsById(id);
     }
+
     public ArrayList<TipsTEST> getAllTips() {
         return tipsRepository.getAllTips();
     }
+
     public void updateTips(TipsTEST tipsTEST) {
         tipsRepository.updateTips(tipsTEST);
     }
 
 
     //Ticket
-    public void addSale(SaleTEST sale){
+    public void addSale(SaleTEST sale) {
         saleRepository.createSale(sale);
     }
+
     public void addTicket(Ticket ticket) {
         ticketRepository.addTicket(ticket);
     }
@@ -182,15 +200,5 @@ public class DatabaseConnection {
 
     public void addGame(GameTEST game) {
         gameRepository.addGame(game);
-    }
-
-   public Ticket getTicketById(int id) {
-        return ticketRepository.getTicketById(id);
-    }
-    public ArrayList<Ticket> getAllTickets() {
-        return ticketRepository.getAllTickets();
-    }
-    public void updateTicket(Ticket ticket) {
-        ticketRepository.updateTicket(ticket);
     }
 }

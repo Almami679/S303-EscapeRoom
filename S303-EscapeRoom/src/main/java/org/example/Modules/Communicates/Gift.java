@@ -22,10 +22,12 @@ public class Gift extends Communicate implements CommunicationInterface{
         this.game = player.getGame();
     }
 
-    public Gift(int id, int gameId, String text, int playerId) {
+    public Gift(int id, int gameId, String text, int playerId, String giftKey) {
         super(id, playerId);
         this.game = getGameById(gameId);
         this.text = text;
+        this.discountKey = giftKey;
+        KeysInUse.add(giftKey);
 
     }
 
@@ -55,8 +57,6 @@ public class Gift extends Communicate implements CommunicationInterface{
         StringBuilder kb = new StringBuilder();
         String upperLetters = "ABCDEFGHYJKLMNOPQRSTUVWZ";
         do {
-
-
             int number = (int) (Math.random() * (upperLetters.length()-1));
             kb.append(upperLetters.charAt(number) + "-");
 
