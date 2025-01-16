@@ -1,4 +1,4 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Repository.Common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +50,7 @@ public class EscapeRoomTEST {
         return theme;
     }
 
-    public int isDeleted() {
+    public int getDeleted() {
         return deleted;
     }
 
@@ -66,8 +66,12 @@ public class EscapeRoomTEST {
         return updated_at;
     }
 
-    public void setUpdated_at() {
-        this.updated_at = (new Timestamp(System.currentTimeMillis()));
+    public void setUpdated_at(Timestamp escapeRoomUpdatedAt) {
+        this.updated_at = escapeRoomUpdatedAt;
+    }
+
+    public void setCreated_at(Timestamp escapeRoomCreatedAt) {
+        this.created_at = escapeRoomCreatedAt;
     }
 
     @Override
@@ -82,4 +86,5 @@ public class EscapeRoomTEST {
                 ", updated_at=" + updated_at +
                 '}';
     }
+
 }
