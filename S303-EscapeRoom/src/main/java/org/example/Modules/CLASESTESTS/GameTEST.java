@@ -31,7 +31,6 @@ public class GameTEST {
 
     public GameTEST (Timestamp date, int escapeRoomId, int finished, int deleted) {
         this.gameDate = date;
-       // this.escapeRoom = getEscapeRoomById(escapeRoomId);
         this.finish = checkStatus(finished);
         this.deleted = deleted;
 

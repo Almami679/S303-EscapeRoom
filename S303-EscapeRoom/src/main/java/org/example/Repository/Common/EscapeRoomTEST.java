@@ -4,8 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class EscapeRoomTEST {
+public class EscapeRoomTEST <T>{
     private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;
@@ -14,6 +16,7 @@ public class EscapeRoomTEST {
     private int deleted;
     private Timestamp created_at;
     private Timestamp updated_at;
+
 
     public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
         //this.id = getLatestIdFromDB();
@@ -64,6 +67,12 @@ public class EscapeRoomTEST {
 
     public Timestamp getUpdated_at() {
         return updated_at;
+    }
+
+    public ArrayList<String> getValues() {
+        ArrayList<String> values = new ArrayList(Arrays.asList
+                (name, price.toString(), theme, deleted, created_at.toString(), updated_at.toString()));
+        return values;
     }
 
     public void setUpdated_at(Timestamp escapeRoomUpdatedAt) {
