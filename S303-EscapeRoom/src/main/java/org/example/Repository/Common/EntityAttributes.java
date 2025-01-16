@@ -6,90 +6,99 @@ import java.util.Collections;
 import java.util.List;
 
 public enum EntityAttributes {
-    CERTIFICATE(
-            "Certificate_id",
-            "Certificate_gameId",
-            "Certificate_text",
-            "Certificate_playerId"
+    certificate(
+            "certificate_id",
+            "certificate_gameId",
+            "certificate_text",
+            "certificate_createdAt",
+            "player_player_id"
     ),
-    ESCAPEROOM(
-            "EscapeRoom_id",
-            "EscapeRoom_name",
-            "EscapeRoom_price",
-            "EscapeRoom_theme",
-            "EscapeRoom_deleted",
-            "EscapeRoom_createdAt",
-            "EscapeRoom_updatedAt"
+    escaperoom(
+            "escaperoom_id",
+            "escaperoom_name",
+            "escaperoom_price",
+            "escaperoom_theme",
+            "escaperoom_deleted",
+            "escaperoom_createdAt",
+            "escaperoom_updatedAt"
     ),
-    GAME(
-            "Game_id",
-            "Game_date",
-            "Game_escapeRoomId",
-            "Game_finished",
-            "Game_deleted"
+    game(
+            "game_id",
+            "game_escapeRoomId",
+            "game_finished",
+            "game_deleted",
+            "game_createdAt",
+            "game_updatedAt"
     ),
-    GAMEHASPLAYER(
-            "GameHasPlayer_gameId",
-            "GameHasPlayer_playerId"
+    game_has_player(
+            "game_game_id",
+            "player_player_id"
     ),
-    GIFT(
-            "Gift_id",
-            "Gift_gameId",
-            "Gift_text",
-            "Gift_playerId",
-            "Gift_giftKey"
+    gift(
+            "gift_id",
+            "gift_gameId",
+            "gift_text",
+            "gift_key",
+            "player_player_id"
     ),
-    NOTIFICATION(
-            "Notification_id",
-            "Notification_playerId",
-            "Notification_text"
-
+    notification(
+            "notification_id",
+            "notification_playerId",
+            "notification_text",
+            "notification_createdAt"
     ),
-    OBJECTDECO(
-            "ObjectDeco_id",
-            "ObjectDeco_name",
-            "ObjectDeco_material",
-            "ObjectDeco_roomId",
-            "ObjectDeco_price",
-            "ObjectDeco_deleted",
-            "ObjectDeco_createdAt",
-            "ObjectDeco_updatedAt"
+    objectdeco(
+            "objectdeco_id",
+            "objectdeco_name",
+            "objectdeco_material",
+            "objectdeco_price",
+            "objectdeco_deleted",
+            "objectdeco_createdAt",
+            "objectdeco_updatedAt"
     ),
-    PLAYER(
-            "Player_id",
-            "Player_name",
-            "Player_email",
-            "Player_consentNotif",
-            "Player_deleted"
+    player(
+            "player_id",
+            "player_name",
+            "player_email",
+            "player_consentNotif",
+            "player_deleted",
+            "player_createdAt",
+            "player_updatedAt"
     ),
-    ROOM(
-            "Room_id",
-            "Room_name",
-            "Room_difficulty",
-            "Room_price",
-            "Room_escapeRoomId",
-            "Room_deleted",
-            "Room_capacity",
-            "Room_createdAt",
-            "Room_updatedAt"
+    room(
+            "room_id",
+            "room_name",
+            "room_difficulty",
+            "room_price",
+            "room_escapeRoomId",
+            "room_deleted",
+            "room_createdAt",
+            "room_updatedAt"
     ),
-    SALE(
-            "Sale_id",
-            "Sale_date",
-            "Sale_price",
-            "Sale_gameId",
-            "Sale_deleted"
+    room_has_objectdeco(
+            "room_room_id",
+            "objectdeco_objectdeco_id"
     ),
-    TICKET(
-            "Ticket_id",
-            "Ticket_saleId",
-            "Ticket_text",
-            "Ticket_playerId"
+    room_has_tips(
+            "room_room_id",
+            "tips_tips_id"
     ),
-    TIPS(
-            "Tips_id",
-            "Tips_text",
-            "Tips_Room_id"
+    sale(
+            "sale_id",
+            "sale_price",
+            "sale_gameId",
+            "sale_deleted"
+    ),
+    ticket(
+            "ticket_id",
+            "ticket_saleId",
+            "ticket_text",
+            "ticket_playerId",
+            "ticket_createdAt"
+    ),
+    tips(
+            "tips_id",
+            "tips_text"
     );
 
     private final ArrayList<String> attributes;
