@@ -15,6 +15,11 @@ public class Notification extends Communicate implements CommunicationInterface 
         this.text = text;
     }
 
+    public Notification(int id, int playerId, String text) {
+        super(id, playerId);
+        this.text = text;
+    }
+
     public String getText() {
         return text;
     }

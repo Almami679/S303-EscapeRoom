@@ -9,8 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SqlPlayerRepository {
-    Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
-    private DatabaseConnection dbConnection;
+    static Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
+    private static DatabaseConnection dbConnection;
 
     public SqlPlayerRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -55,7 +55,7 @@ public class SqlPlayerRepository {
         }
     }
 
-    public PlayerTEST getPlayerById(int id) {
+    public static PlayerTEST getPlayerById(int id) {
         PlayerTEST playerTEST = null;
         String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();

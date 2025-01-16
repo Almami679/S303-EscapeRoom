@@ -8,6 +8,9 @@ import org.example.Modules.Communicates.Gift;
 import org.example.Modules.Communicates.Ticket;
 import org.example.Repository.Old.*;
 
+import org.example.Repository.CommunicatesRepository.SqlGiftRepository;
+import org.example.Repository.CommunicatesRepository.SqlTicketRepository;
+
 import java.sql.*;
 import java.util.ArrayList;
 
