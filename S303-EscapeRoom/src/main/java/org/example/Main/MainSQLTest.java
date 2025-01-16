@@ -3,10 +3,12 @@ package org.example.Main;
 import org.example.Modules.CLASESTESTS.*;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Repository.Common.DatabaseConnection;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.EscapeRoomImp;
+import org.example.Repository.Common.EscapeRoomTEST;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import static org.example.Main.MainSQLCommTestsAlbert.*;
 
 public class MainSQLTest {
     public static final DatabaseConnection db = new DatabaseConnection();
@@ -14,28 +16,50 @@ public class MainSQLTest {
 
     public static void main(String[] args) {
         EscapeRoomTesting();
-        RoomTesting();
+        /*RoomTesting();
         PlayerTesting();
         ObjectsDecoTesting();
         TipsTesting();
         logicTicketTest(createPlayerTEST1());
-        //logicGiftTest(createPlayerTEST2());
+        logicGiftTest(createPlayerTEST2());
         //logicNotificationTest();
+        //logicCertificate();*/
 
 
     }
 
     private static void EscapeRoomTesting() {
-        EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
+        /*EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
         EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
         db.addEscapeRoom(escapeRoomTEST1);
         db.addEscapeRoom(escapeRoomTEST2);
         EscapeRoomTEST escapeRoomTEST1Updated = db.getEscapeRoomById(1);
         escapeRoomTEST1Updated.setPrice(200.0);
-        escapeRoomTEST1Updated.setUpdated_at();
+        escapeRoomTEST1Updated.setUpdated_at(resultSet.getTimestamp("EscapeRoom_updatedAt"));
         db.escapeRoomUpdate(escapeRoomTEST1Updated);
         System.out.println("EscapeRoom id[1]: " + db.getEscapeRoomById(1));
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = db.getAllEscapeRooms();
+        escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));*/
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        EscapeRoomImp escapeRoomImp = new EscapeRoomImp(dbConnection);
+
+        EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
+        EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
+
+        ArrayList<Object> attributes =new ArrayList<>(EntityAttributes.escaperoom.getAttributes());
+
+
+        escapeRoomImp.add(escapeRoomTEST1, "escaperoom", attributes);
+        escapeRoomImp.add(escapeRoomTEST2, "escaperoom", attributes);
+
+        EscapeRoomTEST escapeRoomTEST1Updated = escapeRoomImp.getById(1);
+        escapeRoomTEST1Updated.setPrice(200.0);
+        escapeRoomTEST1Updated.setUpdated_at(new Timestamp(System.currentTimeMillis()));
+        escapeRoomImp.update(escapeRoomTEST1Updated);
+
+        System.out.println("EscapeRoom id[1]: " + escapeRoomImp.getById(1));
+
+        ArrayList<EscapeRoomTEST> escapeRoomTESTS = escapeRoomImp.getAll();
         escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
     }
     public static EscapeRoomTEST createEscapeRoomTEST1() {

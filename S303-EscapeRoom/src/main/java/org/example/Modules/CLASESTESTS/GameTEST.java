@@ -4,12 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.Certificate;
 import org.example.Modules.Communicates.CommunicateType;
+import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static org.example.Main.MainSQLTest.mainFactoryCommunicate;
-import static org.example.Repository.SqlEscapeRoomRepository.getEscapeRoomById;
 
 public class GameTEST {
 
@@ -32,7 +31,6 @@ public class GameTEST {
 
     public GameTEST (Timestamp date, int escapeRoomId, int finished, int deleted) {
         this.gameDate = date;
-        this.escapeRoom = getEscapeRoomById(escapeRoomId);
         this.finish = checkStatus(finished);
         this.deleted = deleted;
 

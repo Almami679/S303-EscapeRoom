@@ -1,11 +1,14 @@
-package org.example.Modules.EscapeRoomBuilder;
+package org.example.Modules.CLASESTESTS;
 
+import org.example.Modules.EscapeRoomBuilder.ObjectDeco;
+import org.example.Modules.EscapeRoomBuilder.Room;
+import org.example.Modules.EscapeRoomBuilder.Tips;
 import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class EscapeRoomBuilder {
+public class EscapeRoomBuilderTEST {
     private String name;
     private ArrayList<ObjectDeco> decorations;
     private ArrayList<Tips> tips;

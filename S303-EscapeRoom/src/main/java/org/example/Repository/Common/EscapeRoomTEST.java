@@ -1,11 +1,13 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Repository.Common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class EscapeRoomTEST {
+public class EscapeRoomTEST <T>{
     private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;
@@ -14,6 +16,7 @@ public class EscapeRoomTEST {
     private int deleted;
     private Timestamp created_at;
     private Timestamp updated_at;
+
 
     public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
         //this.id = getLatestIdFromDB();
@@ -50,7 +53,7 @@ public class EscapeRoomTEST {
         return theme;
     }
 
-    public int isDeleted() {
+    public int getDeleted() {
         return deleted;
     }
 
@@ -66,8 +69,18 @@ public class EscapeRoomTEST {
         return updated_at;
     }
 
-    public void setUpdated_at() {
-        this.updated_at = (new Timestamp(System.currentTimeMillis()));
+    public ArrayList<String> getValues() {
+        ArrayList<String> values = new ArrayList(Arrays.asList
+                (name, price.toString(), theme, deleted, created_at.toString(), updated_at.toString()));
+        return values;
+    }
+
+    public void setUpdated_at(Timestamp escapeRoomUpdatedAt) {
+        this.updated_at = escapeRoomUpdatedAt;
+    }
+
+    public void setCreated_at(Timestamp escapeRoomCreatedAt) {
+        this.created_at = escapeRoomCreatedAt;
     }
 
     @Override
@@ -82,4 +95,5 @@ public class EscapeRoomTEST {
                 ", updated_at=" + updated_at +
                 '}';
     }
+
 }
