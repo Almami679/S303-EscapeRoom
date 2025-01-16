@@ -46,7 +46,7 @@ public class MainSQLTest {
         EscapeRoomTEST escapeRoomTEST1 = createEscapeRoomTEST1();
         EscapeRoomTEST escapeRoomTEST2 = createEscapeRoomTEST2();
 
-        ArrayList<Object> attributes =new ArrayList<>(EntityAttributes.ESCAPEROOM.getAttributes());
+        ArrayList<Object> attributes =new ArrayList<>(EntityAttributes.escaperoom.getAttributes());
 
 
         escapeRoomImp.add(escapeRoomTEST1, "escaperoom", attributes);
