@@ -3,8 +3,6 @@ package org.example.Main;
 import org.example.Modules.CLASESTESTS.*;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Repository.Common.DatabaseConnection;
-import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.EscapeRoomImp;
 import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.sql.Timestamp;
@@ -39,7 +37,7 @@ public class MainSQLTest {
         db.escapeRoomUpdate(escapeRoomTEST1Updated);
         System.out.println("EscapeRoom id[1]: " + db.getEscapeRoomById(1));
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = db.getAllEscapeRooms();
-        escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));*/
+        escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
         DatabaseConnection dbConnection = new DatabaseConnection();
         EscapeRoomImp escapeRoomImp = new EscapeRoomImp(dbConnection);
 
@@ -61,6 +59,7 @@ public class MainSQLTest {
 
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = escapeRoomImp.getAll();
         escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
+         */
     }
     public static EscapeRoomTEST createEscapeRoomTEST1() {
         return new EscapeRoomTEST(

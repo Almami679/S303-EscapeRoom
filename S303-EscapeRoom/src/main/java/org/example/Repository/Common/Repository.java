@@ -1,12 +1,15 @@
 package org.example.Repository.Common;
 
+import org.example.Modules.Entity;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface Repository<T> {
+public interface Repository {
 
-    void add(T entity, EntityAttributes enumAttributes);
-    T getById(int id);
-    void delete(int id);
-    void update(T entity);
-    ArrayList<T> getAll();
+    void add(Entity entity, EntityAttributes enumAttributes) throws SQLException;
+    Entity getById(int id, EntityAttributes enumAttributes);
+    void delete(int id, EntityAttributes enumAttributes);
+    void update(Entity entity, EntityAttributes enumAttributes);
+    ArrayList<Entity> getAll(EntityAttributes enumAttributes);
 }
