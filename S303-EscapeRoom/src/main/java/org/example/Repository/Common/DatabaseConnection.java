@@ -3,9 +3,9 @@ package org.example.Repository.Common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
-import org.example.Modules.CLASESTESTS.*;
-import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Entities.CLASESTESTS.*;
+import org.example.Modules.Entities.Communicates.Gift;
+import org.example.Modules.Entities.Communicates.Ticket;
 import org.example.Repository.CommunicatesRepository.*;
 import org.example.Repository.Old.*;
 

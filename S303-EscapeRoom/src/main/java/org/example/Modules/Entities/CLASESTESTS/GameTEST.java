@@ -1,16 +1,14 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.Communicates.Certificate;
-import org.example.Modules.Communicates.CommunicateType;
-import org.example.Repository.Common.EscapeRoomTEST;
+import org.example.Modules.Entities.Communicates.Certificate;
+import org.example.Modules.Entities.Communicates.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
-public class GameTEST {
+public class GameTEST extends Entity {
 
     private int id;
     private EscapeRoomTEST escapeRoom;

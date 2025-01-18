@@ -40,6 +40,7 @@ public enum EntityAttributes {
             "gift_text",
             "gift_key",
             "player_player_id"
+            //Falta el created_at
     ),
     notification(
             "notification_id",

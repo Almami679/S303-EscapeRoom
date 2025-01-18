@@ -1,6 +1,6 @@
 package org.example.Main;
 
-import org.example.Modules.CLASESTESTS.*;
+import org.example.Modules.Entities.CLASESTESTS.*;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.Timestamp;

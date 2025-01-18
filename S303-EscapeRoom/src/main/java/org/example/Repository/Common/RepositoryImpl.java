@@ -2,15 +2,15 @@ package org.example.Repository.Common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entity;
-import org.example.Repository.Serializer;
+import org.example.Modules.Entities.Communicates.Entity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static org.example.Repository.Serializer.deserialize;
 import static org.example.Repository.Serializer.serialize;
 
-public class RepositoryImpl <T> implements Repository{
+public class RepositoryImpl implements Repository{
 
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
     private static DatabaseConnection dbConnection;
@@ -36,15 +36,16 @@ public class RepositoryImpl <T> implements Repository{
             }
         });
         String queryString = query.toString();
+        logger.info("Query created, and casted to String.\n[" + queryString + "]");
         serialize(queryString, enumAttributes, dbConnection);
     }
 
     @Override
-    public Entity getById(int id, EntityAttributes enumAttributes) {
+    public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
         String attribute = enumAttributes.getAttributes().getFirst();
         String query = "SELECT * FROM " + tableName + " WHERE " + attribute + " = " + id;
-        return null;
+        return deserialize(query, enumAttributes, dbConnection);
     }
 
     @Override

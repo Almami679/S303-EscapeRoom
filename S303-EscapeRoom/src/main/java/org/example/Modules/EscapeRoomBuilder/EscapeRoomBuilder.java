@@ -1,6 +1,6 @@
 package org.example.Modules.EscapeRoomBuilder;
 
-import org.example.Repository.Common.EscapeRoomTEST;
+import org.example.Modules.Entities.CLASESTESTS.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

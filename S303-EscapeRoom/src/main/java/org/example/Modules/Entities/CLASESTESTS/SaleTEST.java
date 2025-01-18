@@ -1,10 +1,12 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Modules.Entities.CLASESTESTS;
+
+import org.example.Modules.Entities.Communicates.Entity;
 
 import java.sql.Timestamp;
 
-import static org.example.Repository.SqlGameRepository.getGameById;
+import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
-public class SaleTEST {
+public class SaleTEST extends Entity {
 
     private int id;
     private Timestamp date;
@@ -21,6 +23,7 @@ public class SaleTEST {
 
     public SaleTEST(int id, Timestamp date, double price, int gameId, int deleted) {
         this.id = id;
+        this.date = date;
         this.price = price;
         this.game = getGameById(gameId);
         this.deleted = deleted;
@@ -51,11 +54,11 @@ public class SaleTEST {
     }
 
     public int getGameId() {
-        return gameId;
+        return game.getId();
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+    public void setGame(int gameId) {
+        this.game = getGameById(gameId);
     }
 
     public int getDeleted() {
@@ -72,7 +75,7 @@ public class SaleTEST {
                 "id=" + id +
                 ", date=" + date +
                 ", price=" + price +
-                ", gameId=" + gameId +
+                ", gameId=" + game.getId() +
                 ", deleted=" + deleted +
                 '}';
     }
