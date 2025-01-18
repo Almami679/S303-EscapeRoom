@@ -1,6 +1,6 @@
 package org.example.Repository.Common;
 
-import org.example.Modules.Entity;
+import org.example.Modules.Entities.Entity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

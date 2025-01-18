@@ -1,8 +1,10 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.example.Modules.Entities.Entity;
+
 import java.sql.Timestamp;
 
-public class ObjectDecoTEST {
+public class ObjectDecoTEST extends Entity {
     private int id;
     private String name;
     private String material;

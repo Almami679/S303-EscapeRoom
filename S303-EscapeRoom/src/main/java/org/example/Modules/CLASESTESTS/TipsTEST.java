@@ -1,6 +1,8 @@
 package org.example.Modules.CLASESTESTS;
 
-public class TipsTEST {
+import org.example.Modules.Entities.Entity;
+
+public class TipsTEST extends Entity {
     private int id;
     private String text;
     private int roomId;

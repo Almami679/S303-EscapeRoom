@@ -1,8 +1,10 @@
-package org.example.Modules.Communicates;
+package org.example.Modules.Entities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Communicates.Communicate;
+import org.example.Modules.Communicates.CommunicationInterface;
 
 
 public class Notification extends Communicate implements CommunicationInterface {

@@ -2,7 +2,7 @@ package org.example.Modules.Communicates.CommFactory;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
 import org.example.Modules.CLASESTESTS.SaleTEST;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Entities.Ticket;
 
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 

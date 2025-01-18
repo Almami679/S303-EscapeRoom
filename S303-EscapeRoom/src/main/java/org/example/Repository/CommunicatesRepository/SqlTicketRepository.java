@@ -2,7 +2,7 @@ package org.example.Repository.CommunicatesRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Entities.Ticket;
 import org.example.Repository.Common.DatabaseConnection;
 import java.sql.*;
 
