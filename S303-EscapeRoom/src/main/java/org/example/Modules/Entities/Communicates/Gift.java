@@ -77,4 +77,18 @@ public class Gift extends Communicate implements CommunicationInterface {
         logger.info("sending Gift to " + super.getPlayer().getEmail() +
                 " with GiftKey[id:" + super.getId() + " || Key: " + this.discountKey + "]");
     }
+
+    @Override
+    public ArrayList<String> getValues() {
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = this.game.getId() + "";
+        values.add(value);
+        values.add(this.text);
+        values.add(this.discountKey);
+        value = super.getPlayer().getId() + "";
+        values.add(value);
+        return values;
+    }
 }

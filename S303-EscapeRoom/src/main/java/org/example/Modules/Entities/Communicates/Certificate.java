@@ -2,11 +2,13 @@ package org.example.Modules.Entities.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.assertj.core.util.Arrays;
 import org.example.Modules.Entities.CLASESTESTS.GameTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
@@ -49,4 +51,17 @@ public class Certificate extends Communicate implements CommunicationInterface {
                 this.getGameDate() + "]");
 
     }
+    @Override
+     public ArrayList<String> getValues() {
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = this.game.getId() + "";
+        values.add(value);
+        values.add(this.text);
+        values.add(super.getCreated_at().toString());
+        value = super.getPlayer().getId() + "";
+        values.add(value);
+        return values;
+     }
 }
