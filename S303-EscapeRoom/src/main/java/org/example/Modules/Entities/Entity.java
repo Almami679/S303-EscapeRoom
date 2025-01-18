@@ -1,4 +1,4 @@
-package org.example.Modules;
+package org.example.Modules.Entities;
 
 import java.util.ArrayList;
 

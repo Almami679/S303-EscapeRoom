@@ -1,8 +1,10 @@
 package org.example.Modules.CLASESTESTS;
 
+import org.example.Modules.Entities.Entity;
+
 import java.sql.Timestamp;
 
-public class RoomTEST {
+public class RoomTEST extends Entity {
     private int id;
     private String name;
     private String difficulty;

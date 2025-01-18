@@ -1,13 +1,16 @@
-package org.example.Modules.Communicates;
+package org.example.Modules.Entities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.CLASESTESTS.GameTEST;
 import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Communicates.Communicate;
+import org.example.Modules.Communicates.CommunicationInterface;
+
 import java.util.ArrayList;
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
-public class Gift extends Communicate implements CommunicationInterface{
+public class Gift extends Communicate implements CommunicationInterface {
 
     Logger logger = LogManager.getLogger(Gift.class);
     private String text;

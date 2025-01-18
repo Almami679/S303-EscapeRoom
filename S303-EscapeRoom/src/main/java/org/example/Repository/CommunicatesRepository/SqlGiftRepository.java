@@ -2,7 +2,7 @@ package org.example.Repository.CommunicatesRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Communicates.Gift;
+import org.example.Modules.Entities.Gift;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Old.SqlPlayerRepository;
 

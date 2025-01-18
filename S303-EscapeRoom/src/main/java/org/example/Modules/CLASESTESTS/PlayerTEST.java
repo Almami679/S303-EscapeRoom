@@ -2,11 +2,12 @@ package org.example.Modules.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Modules.Entities.Entity;
 import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.util.ArrayList;
 
-public class PlayerTEST {
+public class PlayerTEST extends Entity {
     private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;

@@ -1,10 +1,11 @@
 package org.example.Modules.Communicates;
 
 import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.Entity;
 
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
-public class Communicate {
+public class Communicate extends Entity {
 
     private int id;
     private PlayerTEST player;
