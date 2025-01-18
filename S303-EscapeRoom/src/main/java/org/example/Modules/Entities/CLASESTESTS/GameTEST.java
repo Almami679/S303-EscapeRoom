@@ -1,9 +1,8 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.Entities.Certificate;
+import org.example.Modules.Entities.Communicates.Certificate;
 import org.example.Modules.Entities.Entity;
-import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

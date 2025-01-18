@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.RoomTEST;
+import org.example.Modules.Entities.CLASESTESTS.RoomTEST;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;

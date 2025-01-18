@@ -1,10 +1,12 @@
-package org.example.Modules.Entities;
+package org.example.Modules.Entities.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.Communicates.Communicate;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 
 public class Notification extends Communicate implements CommunicationInterface {
@@ -17,8 +19,8 @@ public class Notification extends Communicate implements CommunicationInterface 
         this.text = text;
     }
 
-    public Notification(int id, int playerId, String text) {
-        super(id, playerId);
+    public Notification(int id, int playerId, String text, Timestamp created_at) {
+        super(id, playerId, created_at);
         this.text = text;
     }
 
@@ -42,4 +44,17 @@ public class Notification extends Communicate implements CommunicationInterface 
         }
 
     }
+
+    @Override
+    public ArrayList<String> getValues() {
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = super.getPlayer().getId() + "";
+        values.add(value);
+        values.add(this.text);
+        values.add(super.getCreated_at().toString());
+        return values;
+    }
+
 }

@@ -1,4 +1,4 @@
-package org.example.Repository.Common;
+package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
