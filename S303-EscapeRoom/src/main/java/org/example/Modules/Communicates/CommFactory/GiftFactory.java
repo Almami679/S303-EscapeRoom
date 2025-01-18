@@ -1,7 +1,7 @@
 package org.example.Modules.Communicates.CommFactory;
 
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.Entities.Gift;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.Communicates.Gift;
 
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 

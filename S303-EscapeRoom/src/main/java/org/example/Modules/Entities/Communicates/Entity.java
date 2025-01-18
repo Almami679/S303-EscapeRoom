@@ -1,4 +1,4 @@
-package org.example.Modules.Entities;
+package org.example.Modules.Entities.Communicates;
 
 import java.util.ArrayList;
 

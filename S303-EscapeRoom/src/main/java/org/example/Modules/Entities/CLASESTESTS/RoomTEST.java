@@ -1,6 +1,6 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Modules.Entities.CLASESTESTS;
 
-import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.Communicates.Entity;
 
 import java.sql.Timestamp;
 

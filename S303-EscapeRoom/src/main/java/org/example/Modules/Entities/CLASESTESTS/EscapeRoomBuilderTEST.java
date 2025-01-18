@@ -1,10 +1,9 @@
-package org.example.Modules.CLASESTESTS;
+package org.example.Modules.Entities.CLASESTESTS;
 
-import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.Communicates.Entity;
 import org.example.Modules.EscapeRoomBuilder.ObjectDeco;
 import org.example.Modules.EscapeRoomBuilder.Room;
 import org.example.Modules.EscapeRoomBuilder.Tips;
-import org.example.Repository.Common.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
