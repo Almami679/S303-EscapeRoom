@@ -2,7 +2,7 @@ package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.example.Modules.Entities.Communicates.Certificate;
-import org.example.Modules.Entities.Communicates.Entity;
+import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

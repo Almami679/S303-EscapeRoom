@@ -3,6 +3,7 @@ package org.example.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Communicates.*;
+import org.example.Modules.Entities.Entity;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
@@ -31,14 +32,22 @@ public class Serializer <T>{
 
     public static void serialize(String query,
                                  EntityAttributes entity,
-                                 DatabaseConnection dbConnection) {
+                                 DatabaseConnection dbConnection,
+                                 String action) {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query)){
-            statement.executeUpdate();
-            logger.info(entity.name() + " created.");
+            if(action.equals("add")) {
+                statement.executeUpdate();
+                logger.info(entity.name() + " created.");
+
+            } else if(action.equals("delete")) {
+                statement.executeUpdate();
+                logger.info(entity.name() + " deleted.");
+
+            }
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
-            logger.error("Failed to create " + entity.name() +": ", e);
+            logger.error("Failed to serialice " + entity.name() +": ", e);
         }
     }
 
