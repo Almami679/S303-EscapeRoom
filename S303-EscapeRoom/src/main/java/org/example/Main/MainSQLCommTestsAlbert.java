@@ -5,11 +5,10 @@ import org.example.Modules.Entities.CLASESTESTS.GameTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Entities.Communicates.Gift;
-import org.example.Modules.Entities.Communicates.Notification;
-import org.example.Modules.Entities.Communicates.Ticket;
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import org.example.Modules.Entities.CommunicatesEntities.Gift;
+import org.example.Modules.Entities.CommunicatesEntities.Notification;
+import org.example.Modules.Entities.CommunicatesEntities.Ticket;
+
 import static org.example.Main.MainSQLTest.*;
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;

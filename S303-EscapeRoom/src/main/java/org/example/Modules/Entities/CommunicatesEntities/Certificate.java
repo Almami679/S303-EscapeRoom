@@ -1,19 +1,22 @@
-package org.example.Modules.Entities.Communicates;
+package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.assertj.core.util.Arrays;
 import org.example.Modules.Entities.CLASESTESTS.GameTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
 public class Certificate extends Communicate implements CommunicationInterface {
+
+    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
 
     Logger logger = LogManager.getLogger(Certificate.class);
     private String text;
@@ -25,9 +28,13 @@ public class Certificate extends Communicate implements CommunicationInterface {
         this.game = game;
         this.text = text;
     }
-    public Certificate(int id, int gameId, int playerId, String text, Timestamp created_at) {
+    public Certificate(int id,
+                       int gameId,
+                       int playerId,
+                       String text,
+                       Timestamp created_at) throws SQLException {
         super(id, playerId, created_at);
-        this.game = getGameById(gameId);
+        this.game = (GameTEST) repositoryImpl.getById(gameId, EntityAttributes.game);
         this.text = text;
     }
 
