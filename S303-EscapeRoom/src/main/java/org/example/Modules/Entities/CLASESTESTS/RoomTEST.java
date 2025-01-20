@@ -5,33 +5,22 @@ import org.example.Modules.Entities.Entity;
 import java.sql.Timestamp;
 
 public class RoomTEST extends Entity {
-    private int id;
+
     private String name;
     private String difficulty;
     private Double price;
     private int escapeRoomId;
-    private int deleted;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public RoomTEST(String name, String difficulty, Double price, int escapeRoomId, int deleted, Timestamp created_at, Timestamp updated_at) {
-        //this.id = getLatestIdFromDB();
+        super(deleted);
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
         this.escapeRoomId = escapeRoomId;
-        this.deleted = deleted;
         this.created_at = created_at;
         this.updated_at = updated_at;
-    }
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -66,14 +55,6 @@ public class RoomTEST extends Entity {
         this.escapeRoomId = escapeRoomId;
     }
 
-    public int isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(int deleted) {
-        this.deleted = deleted;
-    }
-
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -93,12 +74,12 @@ public class RoomTEST extends Entity {
     @Override
     public String toString() {
         return "RoomTEST{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", difficulty='" + difficulty + '\'' +
                 ", price=" + price +
                 ", escapeRoomId=" + escapeRoomId +
-                ", deleted=" + deleted +
+                ", deleted=" + super.getDeleted() +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
