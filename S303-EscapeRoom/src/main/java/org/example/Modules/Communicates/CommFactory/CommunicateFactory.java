@@ -1,11 +1,12 @@
 package org.example.Modules.Communicates.CommFactory;
 
 import org.example.Modules.Communicates.*;
+import java.sql.SQLException;
 
 
 public class CommunicateFactory {
 
-    public Object createCommunicate(CommunicateType communicate, int idPlayer) {
+    public Object createCommunicate(CommunicateType communicate, int idPlayer) throws SQLException {
 
         return switch (communicate) {
             case TICKET -> new TicketFactory().createCommunicate(idPlayer);
