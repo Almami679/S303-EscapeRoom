@@ -17,12 +17,12 @@ VALUES
 ('Galactic Puzzle', 'Expert', 80.00, 4, 0, NOW());
 
 INSERT INTO tips
-(`tips_text`) 
+(`tips_text`,`tips_deleted`) 
 VALUES 
-('Look under the rug for hidden clues.'),
-('The clock hands might be a code.'),
-('Check the bookshelf for a hidden key.'),
-('Use the blacklight to reveal hidden messages.');
+('Look under the rug for hidden clues.',0),
+('The clock hands might be a code.',0),
+('Check the bookshelf for a hidden key.',0),
+('Use the blacklight to reveal hidden messages.',0);
 
 INSERT INTO objectdeco
 (`objectdeco_name`, `objectdeco_material`, `objectdeco_price`, `objectdeco_deleted`, `objectdeco_createdAt`) 

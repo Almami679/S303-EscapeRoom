@@ -57,6 +57,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`tips` (
   `tips_id` INT NOT NULL AUTO_INCREMENT,
   `tips_text` VARCHAR(100) NULL,
+  `tips_deleted` TINYINT NOT NULL,
   PRIMARY KEY (`tips_id`))
 ENGINE = InnoDB;
 
