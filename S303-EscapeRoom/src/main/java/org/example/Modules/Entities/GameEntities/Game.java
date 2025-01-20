@@ -49,12 +49,16 @@ public class Game extends Entity {
         ///Añadir lista de jugadores cuando tengamos el SQL de gameHasPLayers
     }
 
-    public EscapeRoomTEST getEscapeRoom() {
+    public EscapeRoom getEscapeRoom() {
         return escapeRoom;
     }
 
     public Timestamp getGameDate() {
         return this.gameDate;
+    }
+
+    public Timestamp getFinishedAt() {
+        return this.finishedAt;
     }
 
     public void setGameCertificate(Certificate gameCertificate) {
@@ -65,7 +69,7 @@ public class Game extends Entity {
         return gameCertificate;
     }
 
-    public void setEscapeRoom(EscapeRoomTEST escapeRoom) {
+    public void setEscapeRoom(EscapeRoom escapeRoom) {
         this.escapeRoom = escapeRoom;
     }
 
