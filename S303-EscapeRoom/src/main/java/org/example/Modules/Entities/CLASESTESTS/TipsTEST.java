@@ -48,5 +48,5 @@ public class TipsTEST extends Entity {
         values.add(value);
         return values;
     }
-    }
+
 }
