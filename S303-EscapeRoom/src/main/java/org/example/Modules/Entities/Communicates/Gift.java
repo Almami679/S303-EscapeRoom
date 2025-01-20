@@ -1,13 +1,16 @@
-package org.example.Modules.Communicates;
+package org.example.Modules.Entities.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.GameTEST;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.CLASESTESTS.GameTEST;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Communicates.CommunicationInterface;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
-public class Gift extends Communicate implements CommunicationInterface{
+public class Gift extends Communicate implements CommunicationInterface {
 
     Logger logger = LogManager.getLogger(Gift.class);
     private String text;
@@ -22,8 +25,8 @@ public class Gift extends Communicate implements CommunicationInterface{
         this.game = player.getGame();
     }
 
-    public Gift(int id, int gameId, String text, int playerId, String giftKey) {
-        super(id, playerId);
+    public Gift(int id, int gameId, String text, int playerId, String giftKey/*, Timestamp created_at*/) {
+        super(id, playerId, new Timestamp(System.currentTimeMillis()));
         this.game = getGameById(gameId);
         this.text = text;
         this.discountKey = giftKey;
@@ -73,5 +76,19 @@ public class Gift extends Communicate implements CommunicationInterface{
     public void send() {
         logger.info("sending Gift to " + super.getPlayer().getEmail() +
                 " with GiftKey[id:" + super.getId() + " || Key: " + this.discountKey + "]");
+    }
+
+    @Override
+    public ArrayList<String> getValues() {
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = this.game.getId() + "";
+        values.add(value);
+        values.add(this.text);
+        values.add(this.discountKey);
+        value = super.getPlayer().getId() + "";
+        values.add(value);
+        return values;
     }
 }

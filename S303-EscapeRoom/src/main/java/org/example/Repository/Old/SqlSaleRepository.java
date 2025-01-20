@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.CLASESTESTS.SaleTEST;
+import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -65,13 +65,13 @@ public class SqlSaleRepository {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                int id = resultSet.getInt("Sale_id");
+                int saleId = resultSet.getInt("Sale_id");
                 Timestamp date = resultSet.getTimestamp("Sale_date");
                 double price = resultSet.getDouble("Sale_price");
                 int gameId = resultSet.getInt("Sale_gameId");
                 int deleted = resultSet.getInt("Sale_deleted");
-                SaleTEST sale = new SaleTEST(date, price, gameId, deleted);
-                sale.setId(id);
+                SaleTEST sale = new SaleTEST(saleId, date, price, gameId, deleted);
+                sale.setId(saleId);
                 saleList.add(sale);
             }
             dbConnection.closeConnection(connection);

@@ -1,13 +1,13 @@
 package org.example.Main;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.CLASESTESTS.GameTEST;
-import org.example.Modules.CLASESTESTS.PlayerTEST;
-import org.example.Modules.CLASESTESTS.SaleTEST;
+import org.example.Modules.Entities.CLASESTESTS.GameTEST;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Communicates.Gift;
-import org.example.Modules.Communicates.Notification;
-import org.example.Modules.Communicates.Ticket;
+import org.example.Modules.Entities.Communicates.Gift;
+import org.example.Modules.Entities.Communicates.Notification;
+import org.example.Modules.Entities.Communicates.Ticket;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import static org.example.Main.MainSQLTest.*;

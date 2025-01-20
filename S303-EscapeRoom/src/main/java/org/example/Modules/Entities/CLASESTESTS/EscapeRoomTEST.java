@@ -1,13 +1,14 @@
-package org.example.Repository.Common;
+package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EscapeRoomTEST <T>{
+public class EscapeRoomTEST extends Entity {
     private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
     private int id;
     private String name;
@@ -69,6 +70,7 @@ public class EscapeRoomTEST <T>{
         return updated_at;
     }
 
+    @Override
     public ArrayList<String> getValues() {
         ArrayList<String> values = new ArrayList(Arrays.asList
                 (name, price.toString(), theme, deleted, created_at.toString(), updated_at.toString()));
