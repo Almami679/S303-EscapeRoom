@@ -61,7 +61,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
         ArrayList<String> values =  new ArrayList<>();
         String value = super.getId() + "";
         values.add(value);
-        value = this.game.getId() + "";
+        value = super.getId() + "";
         values.add(value);
         values.add(this.text);
         values.add(super.getCreated_at().toString());
