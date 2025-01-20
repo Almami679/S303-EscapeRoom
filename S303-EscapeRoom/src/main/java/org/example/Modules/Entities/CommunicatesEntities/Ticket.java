@@ -2,9 +2,9 @@ package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
@@ -23,7 +23,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
     private SaleTEST sale;
 
 
-    public Ticket(PlayerTEST player, String text, SaleTEST sale) {
+    public Ticket(Player player, String text, SaleTEST sale) {
         super(player);
         this.text = text;
         this.sale = sale;

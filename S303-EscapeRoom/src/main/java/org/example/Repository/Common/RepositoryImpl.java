@@ -100,6 +100,10 @@ public class RepositoryImpl implements Repository{
 
     @Override
     public ArrayList<Entity> getAll(EntityAttributes enumAttributes) {
+        ArrayList<Entity> entities = new ArrayList<>();
+        String tableName = enumAttributes.name();
+        String query = "SELECT * FROM escaperomdb." + tableName;
+
 
         return null;
     }
