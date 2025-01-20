@@ -1,4 +1,4 @@
-package org.example.Modules.Entities.CLASESTESTS;
+package org.example.Modules.Entities.EscapeRoomEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,7 +6,6 @@ import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class EscapeRoom extends Entity {
     private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
@@ -19,8 +18,19 @@ public class EscapeRoom extends Entity {
     private Timestamp updated_at;
 
 
-    public EscapeRoom(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
-        //this.id = getLatestIdFromDB();
+    public EscapeRoom(String name, Double price, String theme, Timestamp created_at, Timestamp updated_at) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.theme = theme;
+        this.deleted = 0;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
+        super(id,deleted);
+        this.id = id;
         this.name = name;
         this.price = price;
         this.theme = theme;
@@ -78,6 +88,8 @@ public class EscapeRoom extends Entity {
         value = this.name+ "";
         values.add(value);
         values.add(String.valueOf(this.price));
+        value = this.theme + "";
+        values.add(value);
         values.add(this.deleted + "");
         value = this.created_at + "";
         values.add(value);

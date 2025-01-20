@@ -1,9 +1,6 @@
-package org.example.Modules.Entities.CLASESTESTS;
-
-import org.example.Modules.Entities.Entity;
+package org.example.Modules.Entities.EscapeRoomEntities;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 public class EscapeRoomBuilder {
     private String name;
@@ -13,9 +10,9 @@ public class EscapeRoomBuilder {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public EscapeRoom build() {
+    /*public EscapeRoom build() { //arreglar builder
         return new EscapeRoom(name, price, theme, deleted, created_at, updated_at);
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;
