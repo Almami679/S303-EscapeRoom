@@ -2,7 +2,6 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.RoomTEST;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -33,7 +32,7 @@ public class SqlRoomRepository {
     }
 
 
-    public void addRoom(RoomTEST roomTEST) {
+    /*public void addRoom(RoomTEST roomTEST) {
         if (!isDuplicateRoom(roomTEST.getName())) {
             String sql = "INSERT INTO room (Room_id, Room_name, Room_difficulty, Room_price, Room_escapeRoomid, Room_deleted, Room_createdAt, Room_updatedAt)" +
                     " VALUES (?, ?, ?, ?, ?, 0, ?, ?)";
@@ -127,5 +126,5 @@ public class SqlRoomRepository {
         } catch (SQLException e) {
             logger.error("Failed to update Room: ", e);
         }
-    }
+    }*/
 }

@@ -2,7 +2,6 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.RoomEntities.TipsTEST;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -33,7 +32,7 @@ public class SqlTipsRepository {
         return false;
     }
 
-    public void addTips(TipsTEST tipsTEST) {
+    /*public void addTips(TipsTEST tipsTEST) {
         String sql = "INSERT INTO tips (Tips_id, Tips_text, Tips_Room_id) VALUES (?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -104,5 +103,5 @@ public class SqlTipsRepository {
         } catch (SQLException e) {
             logger.error("Failed to update Tip: ", e);
         }
-    }
+    }*/
 }

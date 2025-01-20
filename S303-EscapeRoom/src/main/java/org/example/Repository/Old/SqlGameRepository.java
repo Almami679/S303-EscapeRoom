@@ -16,7 +16,7 @@ public class SqlGameRepository {
         this.dbConnection = dbConnection;
     }
 
-    public void addGame(GameTEST game) {
+    /*public void addGame(GameTEST game) {
         String sql = "INSERT INTO game (Game_id, Game_date, Game_escapeRoomId, Game_deleted)" +
                 " VALUES (?, ?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
@@ -54,5 +54,5 @@ public class SqlGameRepository {
             logger.error("Failed to fetch Player by ID: ", e);
         }
         return gameTEST;
-    }
+    }*/
 }
