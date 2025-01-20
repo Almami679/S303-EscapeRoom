@@ -1,15 +1,19 @@
 package org.example.Modules.Communicates.CommFactory;
 
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
+import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
-import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
+import java.sql.SQLException;
+
 
 public class TicketFactory implements CommFactoryInterface{
+    private RepositoryImpl repositoryImpl = new RepositoryImpl();
     @Override
-    public Ticket createCommunicate(int idPlayer) {
-        PlayerTEST player = getPlayerById(idPlayer);
+    public Ticket createCommunicate(int idPlayer) throws SQLException {
+        Player player = (Player) repositoryImpl.getById(idPlayer, EntityAttributes.player);
         SaleTEST sale = player.getSale();
         String text = "Last sale for " + sale.getPrice() + "€\n" +
                 "Payment success by " +player.getName() + "!";

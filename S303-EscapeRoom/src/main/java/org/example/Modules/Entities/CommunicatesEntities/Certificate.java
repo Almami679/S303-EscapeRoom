@@ -2,9 +2,9 @@ package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.GameTEST;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
@@ -12,18 +12,16 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static org.example.Repository.Old.SqlGameRepository.getGameById;
-
 public class Certificate extends Communicate implements CommunicationInterface {
 
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();
 
     Logger logger = LogManager.getLogger(Certificate.class);
     private String text;
-    private GameTEST game;
+    private Game game;
 
 
-    public Certificate(PlayerTEST player, String text, GameTEST game) {
+    public Certificate(Player player, String text, Game game) {
         super(player);
         this.game = game;
         this.text = text;
@@ -34,7 +32,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
                        String text,
                        Timestamp created_at) throws SQLException {
         super(id, playerId, created_at);
-        this.game = (GameTEST) repositoryImpl.getById(gameId, EntityAttributes.game);
+        this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
         this.text = text;
     }
 
@@ -43,7 +41,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
         return this.text;
     }
 
-    public GameTEST getGame() {
+    public Game getGame() {
         return game;
     }
 

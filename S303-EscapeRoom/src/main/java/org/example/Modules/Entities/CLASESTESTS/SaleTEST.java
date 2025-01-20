@@ -4,8 +4,6 @@ import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
 
-import static org.example.Repository.Old.SqlGameRepository.getGameById;
-
 public class SaleTEST extends Entity {
 
     private int id;

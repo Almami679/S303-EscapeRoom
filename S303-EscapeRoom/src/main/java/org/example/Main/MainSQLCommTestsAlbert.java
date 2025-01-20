@@ -1,6 +1,6 @@
 package org.example.Main;
 
-import org.apache.logging.log4j.LogManager;
+/*import org.apache.logging.log4j.LogManager;
 import org.example.Modules.Entities.CLASESTESTS.GameTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
@@ -72,7 +72,7 @@ public class MainSQLCommTestsAlbert {
                 0);
     }
 
-     */
+
 
 
     //////////// Prueba notification + Logger /////////
@@ -84,5 +84,5 @@ public class MainSQLCommTestsAlbert {
     }
 
 
-}
+}*/
 

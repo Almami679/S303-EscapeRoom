@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -16,7 +16,7 @@ public class SqlPlayerRepository {
         this.dbConnection = dbConnection;
     }
 
-    public boolean isDuplicatePlayer(String playerName) {
+  /*  public boolean isDuplicatePlayer(String playerName) {
         String sql = "SELECT COUNT(*) FROM player WHERE Player_name = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -33,13 +33,13 @@ public class SqlPlayerRepository {
         return false;
     }
 
-    public void createPlayer(PlayerTEST playerTEST) {
+    public void createPlayer(Player playerTEST) {
         if (!isDuplicatePlayer(playerTEST.getName())) {
             String sql = "INSERT INTO player (Player_id, Player_name, Player_email, Player_consentNotif, Player_deleted)" +
                     " VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = dbConnection.dbConnect();
                  PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, playerTEST.getId());
+                statement.setInt(1, Player.getId());
                 statement.setString(2, playerTEST.getName());
                 statement.setString(3, playerTEST.getEmail());
                 statement.setInt(4, playerTEST.getConsentNotif());
@@ -51,12 +51,12 @@ public class SqlPlayerRepository {
                 logger.error("Failed to create Player: ", e);
             }
         } else {
-            logger.warn("Duplicate Player entry detected: " + playerTEST.getName());
+            logger.warn("Duplicate Player entry detected: " + Player.getName());
         }
     }
 
-    public static PlayerTEST getPlayerById(int id) {
-        PlayerTEST playerTEST = null;
+    public static Player getPlayerById(int id) {
+        Player playerTEST = null;
         String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -120,5 +120,5 @@ public class SqlPlayerRepository {
         }
     }
 
-    /// -> AÑADIR CONEXIONES DE DB PARA COMPLETEDGAMES Y PLAYERSALES;
+    /// -> AÑADIR CONEXIONES DE DB PARA COMPLETEDGAMES Y PLAYERSALES;*/
 }
