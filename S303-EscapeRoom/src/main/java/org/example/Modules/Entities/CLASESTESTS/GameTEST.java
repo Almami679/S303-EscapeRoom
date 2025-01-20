@@ -1,7 +1,7 @@
 package org.example.Modules.Entities.CLASESTESTS;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.Entities.Communicates.Certificate;
+import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class GameTEST extends Entity {
 
-    private int id;
     private EscapeRoomTEST escapeRoom;
     private Timestamp gameDate;
     private ArrayList<PlayerTEST> players;
