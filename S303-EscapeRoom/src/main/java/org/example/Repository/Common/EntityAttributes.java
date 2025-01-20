@@ -99,7 +99,8 @@ public enum EntityAttributes {
     ),
     tips(
             "tips_id",
-            "tips_text"
+            "tips_text",
+            "tips_deleted"
     );
 
     private final ArrayList<String> attributes;
