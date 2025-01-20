@@ -7,7 +7,7 @@ import org.example.Modules.Entities.Entity;
 import java.util.ArrayList;
 
 public class PlayerTEST extends Entity {
-    private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
+    private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
     private int id;
     private String name;
     private String email;

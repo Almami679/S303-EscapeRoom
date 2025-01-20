@@ -15,7 +15,7 @@ public class Communicate extends Entity {
     private Timestamp created_at;
 
     public Communicate(PlayerTEST player) {
-        super(0,0);
+        super(0);
         this.player = player;
         this.created_at = new Timestamp(System.currentTimeMillis());
     }

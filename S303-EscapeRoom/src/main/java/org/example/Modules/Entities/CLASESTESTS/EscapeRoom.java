@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EscapeRoomTEST extends Entity {
-    private static final Logger logger = LogManager.getLogger(EscapeRoomTEST.class);
+public class EscapeRoom extends Entity {
+    private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
     private int id;
     private String name;
     private Double price;
@@ -19,7 +19,7 @@ public class EscapeRoomTEST extends Entity {
     private Timestamp updated_at;
 
 
-    public EscapeRoomTEST(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
+    public EscapeRoom(String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
         //this.id = getLatestIdFromDB();
         this.name = name;
         this.price = price;
@@ -72,8 +72,17 @@ public class EscapeRoomTEST extends Entity {
 
     @Override
     public ArrayList<String> getValues() {
-        ArrayList<String> values = new ArrayList(Arrays.asList
-                (name, price.toString(), theme, deleted, created_at.toString(), updated_at.toString()));
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = this.name+ "";
+        values.add(value);
+        values.add(String.valueOf(this.price));
+        values.add(this.deleted + "");
+        value = this.created_at + "";
+        values.add(value);
+        value = this.updated_at + "";
+        values.add(value);
         return values;
     }
 

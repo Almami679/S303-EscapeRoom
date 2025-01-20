@@ -22,6 +22,10 @@ public enum EntityAttributes {
             "escaperoom_createdAt",
             "escaperoom_updatedAt"
     ),
+    escaperoom_has_room(
+            "escaperoom_escaperoom_id",
+            "room_room_id"
+    ),
     game(
             "game_id",
             "game_escapeRoomId",
@@ -39,8 +43,8 @@ public enum EntityAttributes {
             "gift_gameId",
             "gift_text",
             "gift_key",
+            "gift_createdAt",
             "player_player_id"
-            //Falta el created_at
     ),
     notification(
             "notification_id",
@@ -71,7 +75,6 @@ public enum EntityAttributes {
             "room_name",
             "room_difficulty",
             "room_price",
-            "room_escapeRoomId",
             "room_deleted",
             "room_createdAt",
             "room_updatedAt"

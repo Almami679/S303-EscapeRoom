@@ -11,14 +11,14 @@ import java.util.ArrayList;
 public class GameTEST extends Entity {
 
     private int id;
-    private EscapeRoomTEST escapeRoom;
+    private EscapeRoom escapeRoom;
     private Timestamp gameDate;
     private ArrayList<PlayerTEST> players;
     private int deleted;
     private boolean finish;
     private Certificate gameCertificate;
 
-    public GameTEST(EscapeRoomTEST escapeRoom, Timestamp date, ArrayList<PlayerTEST> players, int deleted) {
+    public GameTEST(EscapeRoom escapeRoom, Timestamp date, ArrayList<PlayerTEST> players, int deleted) {
         this.escapeRoom = escapeRoom;
         this.gameDate = date;
         this.players = players;
@@ -44,7 +44,7 @@ public class GameTEST extends Entity {
         return output;
     }
 
-    public EscapeRoomTEST getEscapeRoom() {
+    public EscapeRoom getEscapeRoom() {
         return escapeRoom;
     }
 
@@ -68,7 +68,7 @@ public class GameTEST extends Entity {
         return gameCertificate;
     }
 
-    public void setEscapeRoom(EscapeRoomTEST escapeRoom) {
+    public void setEscapeRoom(EscapeRoom escapeRoom) {
         this.escapeRoom = escapeRoom;
     }
 
