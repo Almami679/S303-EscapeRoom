@@ -1,10 +1,10 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.Entities.CLASESTESTS.EscapeRoomTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
@@ -17,7 +17,7 @@ public class Game extends Entity {
 
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();
 
-    private EscapeRoomTEST escapeRoom;
+    private EscapeRoom escapeRoom;
     private Timestamp gameDate;
     private ArrayList<PlayerTEST> players;
     private int finish;
@@ -26,7 +26,7 @@ public class Game extends Entity {
     private Timestamp updateAt;
     private Timestamp finishedAt;
 
-    public Game(EscapeRoomTEST escapeRoom,
+    public Game(EscapeRoom escapeRoom,
                     Timestamp date,
                     ArrayList<PlayerTEST> players) {
         this.escapeRoom = escapeRoom;
@@ -41,7 +41,7 @@ public class Game extends Entity {
 
     public Game (int id, int escapeRoomId, int finished, int deleted, Timestamp createdAt, Timestamp updateAt) throws SQLException {
         super(id, deleted);
-        this.escapeRoom = (EscapeRoomTEST) repositoryImpl.getById(escapeRoomId, EntityAttributes.escaperoom);
+        this.escapeRoom = (EscapeRoom) repositoryImpl.getById(escapeRoomId, EntityAttributes.escaperoom);
         this.finish = finished;
         this.createdAt = createdAt;
         this.updateAt = updateAt;
