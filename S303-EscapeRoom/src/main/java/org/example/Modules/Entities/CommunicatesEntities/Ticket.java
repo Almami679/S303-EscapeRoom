@@ -2,7 +2,6 @@ package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
 import org.example.Modules.Entities.GameEntities.Player;
