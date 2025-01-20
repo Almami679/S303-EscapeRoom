@@ -1,9 +1,9 @@
 package org.example.Modules.Entities.RoomEntities;
 
-import org.example.Modules.Entities.CLASESTESTS.ObjectDecoTEST;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class Room extends Entity {
@@ -11,21 +11,20 @@ public class Room extends Entity {
     private String name;
     private String difficulty;
     private Double price;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     private ArrayList<ObjectDeco> ObjectsInRoom;
 
     public Room(String name,
                 String difficulty,
-                Double price,
-                Timestamp created_at,
-                Timestamp updated_at) {
+                Double price
+    ) {
         super();
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = Timestamp.from(Instant.now());
+        this.updatedAt = Timestamp.from(Instant.now());
         this.ObjectsInRoom = new ArrayList<>();
     }
 
@@ -34,14 +33,15 @@ public class Room extends Entity {
                 String difficulty,
                 Double price,
                 int deleted,
-                Timestamp created_at,
-                Timestamp updated_at ) {
+                Timestamp createdAt,
+                Timestamp updatedAt
+    ) {
         super(id, deleted);
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.ObjectsInRoom = new ArrayList<>();
     }
 
@@ -77,20 +77,20 @@ public class Room extends Entity {
         this.price = price;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at() {
-        this.updated_at = (new Timestamp(System.currentTimeMillis()));
+    public void setUpdatedAt() {
+        this.updatedAt = (new Timestamp(System.currentTimeMillis()));
     }
 
     @Override
@@ -101,8 +101,8 @@ public class Room extends Entity {
                 ", difficulty='" + difficulty + '\'' +
                 ", price=" + price +
                 ", deleted=" + super.getDeleted() +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", created_at=" + createdAt +
+                ", updated_at=" + updatedAt +
                 '}';
     }
 
@@ -116,8 +116,8 @@ public class Room extends Entity {
         values.add(value);
         value = super.getDeleted()+"";
         values.add(value);
-        values.add(this.created_at.toString());
-        values.add(this.updated_at.toString());
+        values.add(this.createdAt.toString());
+        values.add(this.updatedAt.toString());
         return values;
     }
 }

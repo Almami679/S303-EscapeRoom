@@ -5,38 +5,51 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class EscapeRoom extends Entity {
-    private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
+    // quitado el logger, los loggers no deben ir en las clases modelos
     private int id;
     private String name;
     private Double price;
     private String theme;
     private int deleted;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
 
-    public EscapeRoom(String name, Double price, String theme, Timestamp created_at, Timestamp updated_at) {
+    public EscapeRoom(
+            String name,
+            Double price,
+            String theme
+    ) {
         super();
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = 0;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = Timestamp.from(Instant.now());
+        this.updatedAt = Timestamp.from(Instant.now());
     }
 
-    public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
+    public EscapeRoom(
+            int id,
+            String name,
+            Double price,
+            String theme,
+            int deleted,
+            Timestamp createdAt,
+            Timestamp updatedAt
+    ) {
         super(id,deleted);
         this.id = id;
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = deleted;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 
@@ -72,12 +85,12 @@ public class EscapeRoom extends Entity {
         this.deleted = deleted;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override
@@ -91,9 +104,9 @@ public class EscapeRoom extends Entity {
         value = this.theme + "";
         values.add(value);
         values.add(this.deleted + "");
-        value = this.created_at + "";
+        value = this.createdAt + "";
         values.add(value);
-        value = this.updated_at + "";
+        value = this.updatedAt + "";
         values.add(value);
         return values;
     }

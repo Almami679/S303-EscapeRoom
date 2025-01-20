@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -33,17 +33,17 @@ public class SqlPlayerRepository {
         return false;
     }
 
-    public void createPlayer(PlayerTEST playerTEST) {
-        if (!isDuplicatePlayer(playerTEST.getName())) {
+    public void createPlayer(Player player) {
+        if (!isDuplicatePlayer(player.getName())) {
             String sql = "INSERT INTO player (Player_id, Player_name, Player_email, Player_consentNotif, Player_deleted)" +
                     " VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = dbConnection.dbConnect();
                  PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, playerTEST.getId());
-                statement.setString(2, playerTEST.getName());
-                statement.setString(3, playerTEST.getEmail());
-                statement.setInt(4, playerTEST.getConsentNotif());
-                statement.setInt(5, playerTEST.isDeleted());
+                statement.setInt(1, player.getId());
+                statement.setString(2, player.getName());
+                statement.setString(3, player.getEmail());
+                statement.setInt(4, player.getConsentNotif());
+                statement.setInt(5, player.getDeleted());
                 statement.executeUpdate();
                 logger.info("Player created.");
                 dbConnection.closeConnection(connection);
@@ -51,12 +51,12 @@ public class SqlPlayerRepository {
                 logger.error("Failed to create Player: ", e);
             }
         } else {
-            logger.warn("Duplicate Player entry detected: " + playerTEST.getName());
+            logger.warn("Duplicate Player entry detected: " + player.getName());
         }
     }
 
-    public static PlayerTEST getPlayerById(int id) {
-        PlayerTEST playerTEST = null;
+    public static Player getPlayerById(int id) {
+        Player player = null;
         String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -67,19 +67,19 @@ public class SqlPlayerRepository {
                     String email = resultSet.getString("Player_email");
                     int consentNotif = resultSet.getInt("Player_consentNotif");
                     int deleted = resultSet.getInt("Player_deleted");
-                    playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
-                    playerTEST.setId(id);
+                    player = new Player(name, email, consentNotif);
+                    player.setId(id);
                 }
             }
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Player by ID: ", e);
         }
-        return playerTEST;
+        return player;
     }
 
-    public ArrayList<PlayerTEST> getAllPlayers() {
-        ArrayList<PlayerTEST> playerTESTList = new ArrayList<>();
+    public ArrayList<Player> getAllPlayers() {
+        ArrayList<Player> playerList = new ArrayList<>();
         String sql = "SELECT * FROM player WHERE Player_deleted = 0 ORDER BY Player_id DESC";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -91,27 +91,27 @@ public class SqlPlayerRepository {
                 String email = resultSet.getString("Player_email");
                 int consentNotif = resultSet.getInt("Player_consentNotif");
                 int deleted = resultSet.getInt("Player_deleted");
-                PlayerTEST playerTEST = new PlayerTEST(name, email, consentNotif, deleted);
-                playerTEST.setId(id);
-                playerTESTList.add(playerTEST);
+                Player player = new Player(name, email, consentNotif);
+                player.setId(id);
+                playerList.add(player);
             }
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Players: ", e);
         }
-        return playerTESTList;
+        return playerList;
     }
 
 
-    public void updatePlayer(PlayerTEST playerTEST) {
+    public void updatePlayer(Player player) {
         String sql = "UPDATE player SET Player_name = ?, Player_email = ?, Player_consentNotif = ?, Player_deleted = ? WHERE Player_id = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, playerTEST.getName());
-            statement.setString(2, playerTEST.getEmail());
-            statement.setInt(3, playerTEST.getConsentNotif());
-            statement.setInt(4, playerTEST.isDeleted());
-            statement.setInt(5, playerTEST.getId());
+            statement.setString(1, player.getName());
+            statement.setString(2, player.getEmail());
+            statement.setInt(3, player.getConsentNotif());
+            statement.setInt(4, player.getDeleted());
+            statement.setInt(5, player.getId());
             statement.executeUpdate();
             logger.info("Player updated.");
             dbConnection.closeConnection(connection);

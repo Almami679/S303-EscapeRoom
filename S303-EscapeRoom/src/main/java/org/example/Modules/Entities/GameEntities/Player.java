@@ -1,9 +1,9 @@
 package org.example.Modules.Entities.GameEntities;
 
-import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class Player extends Entity {
@@ -12,37 +12,39 @@ public class Player extends Entity {
     private String email;
     private int consentNotif;
     private Timestamp createdAt;
-    private Timestamp updateAt;
+    private Timestamp updatedAt;
     private ArrayList<Game> completedGames;
-    private ArrayList<SaleTEST> playerSales;
+    private ArrayList<Sale> playerSales;
 
 
-    public Player(String name,
-                      String email,
-                      int consentNotif) {
+    public Player(
+            String name,
+            String email,
+            int consentNotif
+    ) {
         super();
         this.name = name;
         this.email = email;
-        this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updateAt = null;
+        this.createdAt = Timestamp.from(Instant.now());
+        this.updatedAt = Timestamp.from(Instant.now());
         this.consentNotif = consentNotif;
         this.completedGames = new ArrayList<>();
         this.playerSales = new ArrayList<>();
     }
 
     public Player(int id,
-                      String name,
-                      String email,
-                      int consentNotif,
-                      int deleted,
-                      Timestamp createdAt,
-                      Timestamp updateAt) {
+                  String name,
+                  String email,
+                  int consentNotif,
+                  int deleted,
+                  Timestamp createdAt,
+                  Timestamp updatedAt) {
         super(id, deleted);
         this.consentNotif = consentNotif;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
-        this.updateAt = updateAt;
+        this.updatedAt = updatedAt;
 
     }
 
@@ -70,19 +72,19 @@ public class Player extends Entity {
         this.consentNotif = consentNotif;
     }
 
-    public void addSale(SaleTEST sale){
+    public void addSale(Sale sale) {
         this.playerSales.add(sale);
     }
 
-    public Game getGame(){
+    public Game getGame() {
         return this.completedGames.getLast();
     }
 
-    public SaleTEST getSale(){
+    public Sale getSale() {
         return this.playerSales.getLast();
     }
 
-    public void addGame(Game game){
+    public void addGame(Game game) {
         this.completedGames.add(game);
     }
 
@@ -99,17 +101,17 @@ public class Player extends Entity {
 
     @Override
     public ArrayList<String> getValues() {
-        ArrayList<String> values =  new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>();
         String value = super.getId() + "";
         values.add(value);
         values.add(name);
         values.add(email);
-        value = this.consentNotif+"";
+        value = this.consentNotif + "";
         values.add(value);
-        value = super.getDeleted()+"";
+        value = super.getDeleted() + "";
         values.add(value);
         values.add(createdAt.toString());
-        values.add(updateAt.toString());
+        values.add(updatedAt.toString());
         return values;
     }
 }

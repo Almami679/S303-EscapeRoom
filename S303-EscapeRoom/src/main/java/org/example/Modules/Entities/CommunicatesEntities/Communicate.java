@@ -9,33 +9,31 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
-
 public class Communicate extends Entity {
 
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();
     private Player player;
     private CommunicateType type;
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     public Communicate(Player player) {
         super();
         this.player = player;
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    public Communicate(int id, int playerId, Timestamp created_at) throws SQLException {
+    public Communicate(int id, int playerId, Timestamp createdAt) throws SQLException {
         super(id, 0);
         this.player = (Player) repositoryImpl.getById(playerId, EntityAttributes.player);
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public Communicate setPlayer(Player player) {
