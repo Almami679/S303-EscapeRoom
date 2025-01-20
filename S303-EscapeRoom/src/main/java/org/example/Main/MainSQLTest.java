@@ -59,7 +59,7 @@ public class MainSQLTest {
 
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = escapeRoomImp.getAll();
         escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
-         */
+
     }
     public static EscapeRoomTEST createEscapeRoomTEST1() {
         return new EscapeRoomTEST(
@@ -220,5 +220,7 @@ public class MainSQLTest {
                 "Use the key to open the door",
                 1
         );
+
+         */
     }
 }

@@ -32,7 +32,7 @@ public class MainSQLCommTestsAlbert {
         LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() +
                 "] assigned to PlayerId: " + player.getId());
         Ticket ticket1 = createTicket(player.getId());
-        db.addTicket(ticket1);
+        //db.addTicket(ticket1);
         LogManager.getLogger(Ticket.class).info(ticket1.getText());
         ticket1.send();
     }
@@ -54,13 +54,14 @@ public class MainSQLCommTestsAlbert {
     public static void logicGiftTest(int idPlayer) {
         GameTEST game1 = logicGame();
         Gift gift1 = createGift(idPlayer);
-        db.addGift(gift1);
+        //db.addGift(gift1);
         LogManager.getLogger(Gift.class).info("GiftId:" + gift1.getId() +
                 " created with text:\n" + gift1.getText());
         gift1.send();
 
     }
 
+    /*
     private static GameTEST createGame(){
         ArrayList<PlayerTEST> playersInGame = new ArrayList<>();
         playersInGame.add(createPlayerTEST1());
@@ -71,6 +72,8 @@ public class MainSQLCommTestsAlbert {
                 playersInGame,
                 0);
     }
+
+     */
 
 
     //////////// Prueba notification + Logger /////////

@@ -6,7 +6,6 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import org.example.Modules.Entities.CLASESTESTS.*;
 import org.example.Modules.Entities.Communicates.Gift;
 import org.example.Modules.Entities.Communicates.Ticket;
-import org.example.Repository.CommunicatesRepository.*;
 import org.example.Repository.Old.*;
 
 import java.sql.*;
@@ -19,7 +18,7 @@ public class DatabaseConnection {
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    //private SqlEscapeRoomRepository escapeRoomRepository;
+    /*private SqlEscapeRoomRepository escapeRoomRepository;
     private SqlRoomRepository roomRepository;
     private SqlPlayerRepository playerRepository;
     private SqlObjectDecoRepository objectDecoRepository;
@@ -83,7 +82,7 @@ public class DatabaseConnection {
 
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
-    }*/
+    }
 
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
@@ -202,3 +201,5 @@ public class DatabaseConnection {
         gameRepository.addGame(game);
     }
 }
+
+     */

@@ -2,23 +2,16 @@ package org.example.Modules.Entities.CLASESTESTS;
 
 import org.example.Modules.Entities.Entity;
 
+import java.util.ArrayList;
+
 public class TipsTEST extends Entity {
-    private int id;
     private String text;
-    private int roomId;
+    private RoomTEST room;
 
-    public TipsTEST(String text, int roomId) {
+    public TipsTEST(String text, RoomTEST room, int deleted) {
+        super(deleted);
         this.text = text;
-        this.roomId = roomId;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.room = room;
     }
 
     public String getText() {
@@ -30,19 +23,30 @@ public class TipsTEST extends Entity {
     }
 
     public int getRoomId() {
-        return roomId;
+        return room.getId();
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setRoom(RoomTEST room) {
+        this.room = room;
     }
 
     @Override
     public String toString() {
         return "TipsTEST{" +
-                "id=" + id +
+                "id=" + super.getId() +
                 ", text='" + text + '\'' +
-                ", roomId=" + roomId +
+                ", roomId=" + room.getId() +
                 '}';
+    }
+
+    public ArrayList<String> getValues(){
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        values.add(this.text);
+        value = super.getDeleted() + "";
+        values.add(value);
+        return values;
+    }
     }
 }
