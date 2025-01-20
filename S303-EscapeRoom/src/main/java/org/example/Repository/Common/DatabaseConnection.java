@@ -3,13 +3,8 @@ package org.example.Repository.Common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
-import org.example.Modules.Entities.CLASESTESTS.*;
-import org.example.Modules.Entities.Communicates.Gift;
-import org.example.Modules.Entities.Communicates.Ticket;
-import org.example.Repository.Old.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";

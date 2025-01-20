@@ -1,10 +1,12 @@
-package org.example.Modules.Entities.Communicates;
+package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class Notification extends Communicate implements CommunicationInterface 
         this.text = text;
     }
 
-    public Notification(int id, int playerId, String text, Timestamp created_at) {
+    public Notification(int id, int playerId, String text, Timestamp created_at) throws SQLException {
         super(id, playerId, created_at);
         this.text = text;
     }
