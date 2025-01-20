@@ -3,6 +3,7 @@ package org.example.Modules.Entities.CLASESTESTS;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Game;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class PlayerTEST extends Entity {
     private String email;
     private int consentNotif;
     private int deleted;
-    private ArrayList<GameTEST> completedGames;
+    private ArrayList<Game> completedGames;
     private ArrayList<SaleTEST> playerSales;
 
 
@@ -72,7 +73,7 @@ public class PlayerTEST extends Entity {
         this.playerSales.add(sale);
     }
 
-    public GameTEST getGame(){
+    public Game getGame(){
         return this.completedGames.getLast();
     }
 
@@ -80,7 +81,7 @@ public class PlayerTEST extends Entity {
         return this.playerSales.getLast();
     }
 
-    public void addGame(GameTEST game){
+    public void addGame(Game game){
         this.completedGames.add(game);
     }
 
