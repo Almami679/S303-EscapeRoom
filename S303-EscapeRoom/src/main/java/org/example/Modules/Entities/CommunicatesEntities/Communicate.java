@@ -1,32 +1,36 @@
-package org.example.Modules.Entities.Communicates;
+package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.example.Modules.Communicates.CommunicateType;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
 
 public class Communicate extends Entity {
 
-    private PlayerTEST player;
+    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private Player player;
     private CommunicateType type;
     private Timestamp created_at;
 
-    public Communicate(PlayerTEST player) {
-        super(0);
+    public Communicate(Player player) {
+        super();
         this.player = player;
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
 
-    public Communicate(int id, int playerId, Timestamp created_at) {
+    public Communicate(int id, int playerId, Timestamp created_at) throws SQLException {
         super(id, 0);
-        this.player = getPlayerById(playerId);
+        this.player = (Player) repositoryImpl.getById(playerId, EntityAttributes.player);
         this.created_at = created_at;
     }
 
-    public PlayerTEST getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -34,7 +38,7 @@ public class Communicate extends Entity {
         return created_at;
     }
 
-    public Communicate setPlayer(PlayerTEST player) {
+    public Communicate setPlayer(Player player) {
         this.player = player;
         return this;
     }
