@@ -1,16 +1,20 @@
 package org.example.Modules.Communicates.CommFactory;
 
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CommunicatesEntities.Gift;
+import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
-import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
+import java.sql.SQLException;
+
 
 
 public class GiftFactory implements CommFactoryInterface{
+    RepositoryImpl repository = new RepositoryImpl();
 
     @Override
-    public Gift createCommunicate(int idPlayer) {
-        PlayerTEST player = getPlayerById(idPlayer);
+    public Gift createCommunicate(int idPlayer) throws SQLException {
+        Player player = (Player) repository.getById(idPlayer, EntityAttributes.player);
         String text = "New Reward!\n" +
                 player.getName() +" You have finished our horror " +
                 "escape room without using clues\n "+
