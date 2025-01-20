@@ -29,6 +29,8 @@ public class DatabaseConnection {
     private SqlGameRepository gameRepository;
     private SqlCertificateRepository certificateRepository;
 
+
+
     public DatabaseConnection() {
         //this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
         this.roomRepository = new SqlRoomRepository(this);
@@ -41,6 +43,8 @@ public class DatabaseConnection {
         this.gameRepository = new SqlGameRepository(this);
         this.certificateRepository = new SqlCertificateRepository(this);
     }
+
+     */
 
     public Connection dbConnect() {
         Connection connection;
@@ -200,6 +204,8 @@ public class DatabaseConnection {
     public void addGame(GameTEST game) {
         gameRepository.addGame(game);
     }
-}
 
      */
+}
+
+
