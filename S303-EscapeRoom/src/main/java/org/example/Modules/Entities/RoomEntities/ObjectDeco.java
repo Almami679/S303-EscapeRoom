@@ -9,7 +9,6 @@ public class ObjectDeco extends Entity {
     private String name;
     private String material;
     private double price;
-    private int deleted;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
@@ -18,7 +17,6 @@ public class ObjectDeco extends Entity {
         this.name = name;
         this.material = material;
         this.price = price;
-        this.deleted = deleted;
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.updatedAt = null;
     }

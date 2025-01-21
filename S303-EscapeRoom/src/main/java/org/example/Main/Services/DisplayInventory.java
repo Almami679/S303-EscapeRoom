@@ -4,12 +4,13 @@ import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.DatabaseConnection;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
 public class DisplayInventory implements ServiceProcessor{
     @Override
-    public void process(Scanner read) {
+    public void process(Scanner read, RepositoryImpl repository) {
         String name, difficulty;
         double price;
         int id;

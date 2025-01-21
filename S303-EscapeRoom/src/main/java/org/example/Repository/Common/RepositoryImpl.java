@@ -108,7 +108,7 @@ public class RepositoryImpl implements Repository{
         String query = "SELECT * FROM escaperomdb." + tableName;
 
 
-        return null;
+        return entities;
     }
 
 }

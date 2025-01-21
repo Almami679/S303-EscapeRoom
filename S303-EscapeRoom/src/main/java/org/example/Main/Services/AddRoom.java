@@ -14,7 +14,7 @@ public class AddRoom implements ServiceProcessor{
 
     private static final Logger LOGGER = Logger.getLogger(CreateEscapeRoom.class.getName());
     @Override
-    public void process(Scanner read) {
+    public void process(Scanner read, RepositoryImpl repository) {
         String name, difficulty;
         double price;
         int id;
@@ -25,7 +25,7 @@ public class AddRoom implements ServiceProcessor{
         System.out.println("What is the Room's difficulty?");
         difficulty = read.next();
         RepositoryImpl rep = new RepositoryImpl();
-        Room room = new Room(name,difficulty,price,new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()));
+        Room room = new Room(name,difficulty,price);
         try {
             rep.add(room, EntityAttributes.room);
         } catch (SQLException e) {

@@ -20,7 +20,7 @@ public class CreateEscapeRoom implements ServiceProcessor {
     public double price;
 
     @Override
-    public void process(Scanner read) {
+    public void process(Scanner read, RepositoryImpl repository) {
         EscapeRoomBuilder builder = new EscapeRoomBuilder();
         System.out.println("What is the Escape Room's name?");
         name = read.next();

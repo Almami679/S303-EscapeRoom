@@ -1,13 +1,18 @@
 package org.example.Main;
 
 import org.example.Main.Services.*;
-import org.example.Repository.Common.DatabaseConnection;
+import org.example.Repository.Common.RepositoryImpl;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class MenuController {
     private static final Map<Integer, ServiceProcessor> actions = new HashMap<>();
+    private static RepositoryImpl repository = new RepositoryImpl();
+
 
     static {
         actions.put(1, new CreateEscapeRoom());
@@ -27,7 +32,7 @@ public class MenuController {
     public static void handleUserInput(int userInput, Scanner read) {
         ServiceProcessor action = actions.get(userInput);
         if (action != null) {
-            action.process(read);
+            action.process(read, repository);
         } else if (userInput == 0) {
             System.out.println("Exiting... Goodbye!");
         } else {
