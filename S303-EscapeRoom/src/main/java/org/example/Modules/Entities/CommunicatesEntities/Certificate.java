@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Certificate extends Communicate implements CommunicationInterface {
 
-    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private static final RepositoryImpl repositoryImpl = new RepositoryImpl();
 
     Logger logger = LogManager.getLogger(Certificate.class);
     private String text;
@@ -47,6 +47,14 @@ public class Certificate extends Communicate implements CommunicationInterface {
 
     public Timestamp getGameDate() {
         return this.game.getGameDate();
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     @Override

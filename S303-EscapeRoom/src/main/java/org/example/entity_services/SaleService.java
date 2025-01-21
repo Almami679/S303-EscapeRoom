@@ -1,4 +1,4 @@
-package org.example.Main.Services;
+package org.example.entity_services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,12 +9,11 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
-import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 
 public class SaleService {
-    private static Logger logger = LogManager.getLogger(SaleService.class);
+    private static final Logger logger = LogManager.getLogger(SaleService.class);
 
     private final Repository repository;
     private final Entity entity = new Entity();

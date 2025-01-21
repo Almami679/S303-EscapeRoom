@@ -1,4 +1,4 @@
-package org.example.Main.Services;
+package org.example.entity_services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,12 +7,10 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
-import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 
 public class PlayerService {
-    //probando commit
     private static Logger logger = LogManager.getLogger(PlayerService.class);
 
     private final Repository repository;
