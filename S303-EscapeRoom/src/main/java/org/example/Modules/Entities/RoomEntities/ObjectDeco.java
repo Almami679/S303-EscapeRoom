@@ -23,6 +23,21 @@ public class ObjectDeco extends Entity {
         this.updatedAt = updatedAt;
     }
 
+    public ObjectDeco(int id,
+                      String name,
+                      String material,
+                      double price,
+                      int deleted,
+                      Timestamp createdAt,
+                      Timestamp updatedAt) {
+        super(id,deleted);
+        this.name = name;
+        this.material = material;
+        this.price = price;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     public String getName() {
         return name;
     }
