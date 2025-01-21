@@ -2,11 +2,13 @@ package org.example.Main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Main.Services.PlayerService;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.Serializers.Serializer;
 
@@ -24,6 +26,10 @@ public class MainSQLTest {
 
 
     public static void main(String[] args) {
+        Repository repository = new RepositoryImpl();
+        PlayerService playerService = new PlayerService(repository);
+        playerService.createPlayer("inga", "example@email.com", 0);
+
         EscapeRoomTesting();
         /*RoomTesting();
         PlayerTesting();
@@ -49,6 +55,7 @@ public class MainSQLTest {
         RepositoryImpl repository = new RepositoryImpl();
         try {
             repository.add(escapeRoom1, EntityAttributes.escaperoom);
+            System.out.println("Error al crear");
             logger.info("Escape room added successfully.");
         } catch (SQLException e) {
             logger.error("Failed to add escape room: ", e);

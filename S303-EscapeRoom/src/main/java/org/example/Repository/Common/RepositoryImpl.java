@@ -48,8 +48,8 @@ public class RepositoryImpl implements Repository{
     @Override
     public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
-        String attribute = enumAttributes.getAttributes().getFirst();
-        String query = "SELECT * FROM escaperomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
+        String attribute = enumAttributes.getAttributes().get(0);
+        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
         return deserialize(query, enumAttributes);
     }
 
@@ -86,9 +86,9 @@ public class RepositoryImpl implements Repository{
         AtomicInteger pos = new AtomicInteger();
         StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
         attributes.forEach(attribute -> {
-            if(attribute.equals(attributes.getLast())) {
-                query.append(attribute + " = " + values.getLast() +
-                        " WHERE " + enumAttributes.getAttributes().getFirst() +
+            if(attribute.equals(attributes.get(attributes.size() -1))) {
+                query.append(attribute + " = " + values.get(attributes.size() -1) +
+                        " WHERE " + enumAttributes.getAttributes().get(0) +
                         " = " + entity.getId() + ";");
             } else {
                 query.append(attribute + " = " + values.get(pos.get()) + ", ");
