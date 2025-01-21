@@ -1,6 +1,5 @@
 package org.example.Modules.Entities.RoomEntities;
 
-import org.example.Modules.Entities.CLASESTESTS.ObjectDecoTEST;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;

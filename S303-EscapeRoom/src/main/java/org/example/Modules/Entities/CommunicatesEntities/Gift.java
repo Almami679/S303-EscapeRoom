@@ -11,7 +11,6 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
 public class Gift extends Communicate implements CommunicationInterface {
 

@@ -1,16 +1,28 @@
 package org.example.Main;
 
-import org.example.Modules.Entities.CLASESTESTS.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.DatabaseConnection;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.Old.SqlPlayerRepository;
+import org.example.Repository.Serializers.Serializer;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class MainSQLTest {
+    static Logger logger = LogManager.getLogger(MainSQLTest.class);
     public static final DatabaseConnection db = new DatabaseConnection();
     public static CommunicateFactory mainFactoryCommunicate = new CommunicateFactory();
+
+
 
     public static void main(String[] args) {
         EscapeRoomTesting();
@@ -27,32 +39,24 @@ public class MainSQLTest {
     }
 
     private static void EscapeRoomTesting() {
-
-
-    }
-    /*private static RoomTEST createRoomTEST1() {
-        return new RoomTEST(
-                "Maze",
-                "Medium",
-                200.0,
-                1,
-                0,
-                new Timestamp(System.currentTimeMillis()),
-                new Timestamp(System.currentTimeMillis())
-        );
-    }
-    private static RoomTEST createRoomTEST2() {
-        return new RoomTEST(
-                "Hotel",
-                "Hard",
-                350.0,
-                2,
-                0,
-                new Timestamp(System.currentTimeMillis()),
-                new Timestamp(System.currentTimeMillis())
-        );
+        EscapeRoom escapeRoom1 = new EscapeRoomBuilder()
+                .setName("Pedos House")
+                .setPrice(50.0)
+                .setTheme("Smelly")
+                .setDeleted(0)
+                .setCreatedAt(new Timestamp(System.currentTimeMillis()))
+                .setUpdatedAt(new Timestamp(System.currentTimeMillis()))
+                .build();
+        RepositoryImpl repository = new RepositoryImpl();
+        try {
+            repository.add(escapeRoom1, EntityAttributes.escaperoom);
+            logger.info("Escape room added successfully.");
+        } catch (SQLException e) {
+            logger.error("Failed to add escape room: ", e);
+        }
     }
 
+   /*
     private static void PlayerTesting() {
         PlayerTEST playerTEST1 = createPlayerTEST1();
         PlayerTEST playerTEST2 = createPlayerTEST2();

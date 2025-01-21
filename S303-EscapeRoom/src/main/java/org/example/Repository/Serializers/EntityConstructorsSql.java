@@ -5,6 +5,8 @@ import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -62,6 +64,19 @@ public class EntityConstructorsSql {
     }
 
 
-
+    public static Entity escapeRoomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+        Entity entity = null;
+        if (resultSet.next()) {
+            int id = resultSet.getInt(attributes.get(0));
+            String name = resultSet.getString(attributes.get(1));
+            Double price = resultSet.getDouble(attributes.get(2));
+            String theme = resultSet.getString(attributes.get(3));
+            int deleted = resultSet.getInt(attributes.get(4));
+            Timestamp createdAt = resultSet.getTimestamp(attributes.get(5));
+            Timestamp updatedAt = resultSet.getTimestamp(attributes.get(6));
+            entity = new EscapeRoom(id, name, price, theme, deleted, createdAt, updatedAt);
+        }
+        return entity;
+    }
 
 }

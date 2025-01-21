@@ -12,7 +12,7 @@ public class SqlSaleRepository {
     static Logger logger = LogManager.getLogger(SqlPlayerRepository.class);
     private static DatabaseConnection dbConnection;
 
-    public SqlSaleRepository(DatabaseConnection dbConnection) {
+   /* public SqlSaleRepository(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
@@ -79,5 +79,5 @@ public class SqlSaleRepository {
             logger.error("Failed to fetch Tickets: ", e);
         }
         return saleList;
-    }
+    }*/
 }

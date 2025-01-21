@@ -9,10 +9,7 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
-
 public class Communicate extends Entity {
-
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();
     private Player player;
     private CommunicateType type;
