@@ -1,6 +1,5 @@
 package org.example.Modules.Entities.GameEntities;
 
-import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
@@ -14,7 +13,7 @@ public class Player extends Entity {
     private Timestamp createdAt;
     private Timestamp updateAt;
     private ArrayList<Game> completedGames;
-    private ArrayList<SaleTEST> playerSales;
+    private ArrayList<Sale> playerSales;
 
 
     public Player(String name,
@@ -70,7 +69,7 @@ public class Player extends Entity {
         this.consentNotif = consentNotif;
     }
 
-    public void addSale(SaleTEST sale){
+    public void addSale(Sale sale){
         this.playerSales.add(sale);
     }
 
@@ -78,7 +77,7 @@ public class Player extends Entity {
         return this.completedGames.getLast();
     }
 
-    public SaleTEST getSale(){
+    public Sale getSale(){
         return this.playerSales.getLast();
     }
 
