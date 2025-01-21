@@ -13,14 +13,14 @@ public class ObjectDeco extends Entity {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public ObjectDeco(String name, String material, double price, Timestamp createdAt, Timestamp updatedAt) {
+    public ObjectDeco(String name, String material, double price) {
         super();
         this.name = name;
         this.material = material;
         this.price = price;
         this.deleted = deleted;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = null;
     }
 
     public ObjectDeco(int id,
