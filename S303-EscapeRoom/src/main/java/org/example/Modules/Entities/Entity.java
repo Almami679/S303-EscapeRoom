@@ -6,11 +6,7 @@ public class Entity {
     private int deleted;
     private int id;
 
-    public Entity () {
-        this.deleted = 0;
-    }
-    public Entity(int id, int deleted) {
-        this.id = id;
+    public Entity (int deleted) {
         this.deleted = deleted;
     }
     public ArrayList<String> getValues(){

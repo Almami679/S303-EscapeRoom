@@ -1,5 +1,6 @@
 package org.example.Main;
 
+import org.example.Modules.Entities.CLASESTESTS.*;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.Timestamp;
@@ -8,7 +9,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Controller {
-/*
+
     public int menu(){
         /*Afegir una nova sala amb el seu respectiu nivell de dificultat.
         Incorporar pistes temàtiques per enriquir l'experiència de joc.
@@ -19,7 +20,7 @@ public class Controller {
         Generar tiquets de venda per als diferents jugadors/es.
         Calcular i mostrar el total d'ingressos generats per vendes de tiquets de l'Escape Room virtual.
         Notificar als usuaris sobre esdeveniments importants a l'Escape Room, com l'addició de noves pistes, la finalització d'una sala, etc.
-        Els usuaris interessats en aquests esdeveniments podran sol·licitar registrar-se per poder rebre notificacions quan es produeixin esdeveniments rellevants
+        Els usuaris interessats en aquests esdeveniments podran sol·licitar registrar-se per poder rebre notificacions quan es produeixin esdeveniments rellevants*/
 
         Scanner sc = new Scanner(System.in);
         System.out.println("\n\nChoose one of the following options: ");
@@ -60,10 +61,10 @@ public class Controller {
                     theme = read.next();
                     builder.setTheme(theme);
                     builder.setDeleted(0);
-                    //builder.setCreated_at(new Timestamp(new Date().getTime()));
-                    //builder.setUpdated_at(new Timestamp(new Date().getTime()));
+                    builder.setCreated_at(new Timestamp(new Date().getTime()));
+                    builder.setUpdated_at(new Timestamp(new Date().getTime()));
                     EscapeRoomTEST eroom = builder.build();
-                    //dbc.addEscapeRoom(eroom);
+                    dbc.addEscapeRoom(eroom);
                     break;
                 case 2:
                     System.out.println("What is the Room's name?");
@@ -74,14 +75,14 @@ public class Controller {
                     difficulty = read.next();
                     System.out.println("What is the Escape Room's id?");
                     id = Integer.parseInt(read.next());
-                    //dbc.addRoom(new RoomTEST(name,difficulty,price,id, 0,new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime())));
+                    dbc.addRoom(new RoomTEST(name,difficulty,price,id, 0,new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime())));
                     break;
                 case 3:
                     System.out.println("What is the tip's text?");
                     name = read.next();
                     System.out.println("To which room does this tip belong?");
                     id = Integer.parseInt(read.next());
-                    //dbc.addTips(new TipsTEST(name,id));
+                    dbc.addTips(new TipsTEST(name,id));
                     break;
                 case 4:
                     System.out.println("What is the decoration object's name?");
@@ -94,9 +95,9 @@ public class Controller {
                     id = Integer.parseInt(read.next());
                     System.out.println("What is the Room's difficulty?");
                     difficulty = read.next();
-                    //dbc.addObjectDeco(new ObjectDecoTEST(name, material, id, price, 0, new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime())));
+                    dbc.addObjectDeco(new ObjectDecoTEST(name, material, id, price, 0, new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime())));
                     break;
-                /*case 5:
+                case 5:
                     System.out.println("These are the rooms in the Escape Room's inventory:");
                     for(RoomTEST r:dbc.getAllRooms()){
                         System.out.println(r.getName());
@@ -130,16 +131,6 @@ public class Controller {
                     }
                     break;
             }
-
-
         }while(option!=0);
-
-
     }
-
-
-
- */
 }
-
-

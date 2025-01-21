@@ -2,10 +2,7 @@ package org.example.Repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CommunicatesEntities.Certificate;
-import org.example.Modules.Entities.CommunicatesEntities.Gift;
-import org.example.Modules.Entities.CommunicatesEntities.Notification;
-import org.example.Modules.Entities.CommunicatesEntities.Ticket;
+import org.example.Modules.Entities.Communicates.*;
 import org.example.Modules.Entities.Entity;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;

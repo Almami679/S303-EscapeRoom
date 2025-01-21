@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.CLASESTESTS.RoomTEST;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -33,18 +33,19 @@ public class SqlRoomRepository {
     }
 
 
-    public void addRoom(Room room) {
-        if (!isDuplicateRoom(room.getName())) {
+    public void addRoom(RoomTEST roomTEST) {
+        if (!isDuplicateRoom(roomTEST.getName())) {
             String sql = "INSERT INTO room (Room_id, Room_name, Room_difficulty, Room_price, Room_escapeRoomid, Room_deleted, Room_createdAt, Room_updatedAt)" +
                     " VALUES (?, ?, ?, ?, ?, 0, ?, ?)";
             try (Connection connection = dbConnection.dbConnect();
                  PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, room.getId());
-                statement.setString(2, room.getName());
-                statement.setString(3, room.getDifficulty());
-                statement.setDouble(4, room.getPrice());
-                statement.setTimestamp(5, room.getCreatedAt());
-                statement.setTimestamp(6, room.getUpdatedAt());
+                statement.setInt(1, roomTEST.getId());
+                statement.setString(2, roomTEST.getName());
+                statement.setString(3, roomTEST.getDifficulty());
+                statement.setDouble(4, roomTEST.getPrice());
+                statement.setInt(5, roomTEST.getEscapeRoomId());
+                statement.setTimestamp(6, roomTEST.getCreated_at());
+                statement.setTimestamp(7, roomTEST.getUpdated_at());
                 statement.executeUpdate();
                 logger.info("Room added.");
                 dbConnection.closeConnection(connection);
@@ -52,12 +53,12 @@ public class SqlRoomRepository {
                 logger.error("Failed to add Room: ", e);
             }
         } else {
-            logger.warn("Duplicate Room entry detected: " + room.getName());
+            logger.warn("Duplicate Room entry detected: " + roomTEST.getName());
         }
     }
 
-    public Room getRoomById(int id) {
-        Room room = null;
+    public RoomTEST getRoomById(int id) {
+        RoomTEST roomTEST = null;
         String sql = "SELECT * FROM room WHERE Room_id = ? AND Room_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -71,19 +72,19 @@ public class SqlRoomRepository {
                     int deleted = resultSet.getInt("Room_deleted");
                     Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                     Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-                    room = new Room(name, difficulty, price);
-                    room.setId(id);
+                    roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
+                    roomTEST.setId(id);
                 }
                 dbConnection.closeConnection(connection);
             }
         } catch (SQLException e) {
             logger.error("Failed to fetch Room by ID: ", e);
         }
-        return room;
+        return roomTEST;
     }
 
-    public ArrayList<Room> getAllRooms() {
-        ArrayList<Room> roomList = new ArrayList<>();
+    public ArrayList<RoomTEST> getAllRooms() {
+        ArrayList<RoomTEST> roomTESTList = new ArrayList<>();
         String sql = "SELECT * FROM room WHERE Room_deleted = 0 ORDER BY Room_id DESC";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -98,26 +99,28 @@ public class SqlRoomRepository {
                 int deleted = resultSet.getInt("Room_deleted");
                 Timestamp createdAt = resultSet.getTimestamp("Room_createdAt");
                 Timestamp updatedAt = resultSet.getTimestamp("Room_updatedAt");
-                Room room = new Room(name, difficulty, price);
-                room.setId(id);
-                roomList.add(room);
+                RoomTEST roomTEST = new RoomTEST(name, difficulty, price, escapeRoomId, deleted, createdAt, updatedAt);
+                roomTEST.setId(id);
+                roomTESTList.add(roomTEST);
             }
             dbConnection.closeConnection(connection);
         } catch (SQLException e) {
             logger.error("Failed to fetch Room: ", e);
         }
-        return roomList;
+        return roomTESTList;
     }
 
-    public void roomUpdate(Room room) {
+    public void roomUpdate(RoomTEST roomTEST) {
         String sql = "UPDATE room SET Room_name = ?, Room_difficulty = ?, Room_price = ?, Room_escapeRoomid = ?, Room_deleted = ?, Room_updatedAt = ? WHERE Room_id = ?";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, room.getName());
-            statement.setString(2, room.getDifficulty());
-            statement.setDouble(3, room.getPrice());
-            statement.setTimestamp(4, room.getUpdatedAt());
-            statement.setInt(5, room.getId());
+            statement.setString(1, roomTEST.getName());
+            statement.setString(2, roomTEST.getDifficulty());
+            statement.setDouble(3, roomTEST.getPrice());
+            statement.setInt(4, roomTEST.getEscapeRoomId());
+            statement.setInt(5, roomTEST.isDeleted());
+            statement.setTimestamp(6, roomTEST.getUpdated_at());
+            statement.setInt(7, roomTEST.getId());
             statement.executeUpdate();
             logger.info("Room updated.");
             dbConnection.closeConnection(connection);
