@@ -12,6 +12,7 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.sql.SQLException;
 
 public class PlayerService {
+    //probando commit
     private static Logger logger = LogManager.getLogger(PlayerService.class);
 
     private final Repository repository;
