@@ -3,14 +3,8 @@ package org.example.Repository.Common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.DatabaseConnectionFailed;
-import org.example.Modules.Entities.CLASESTESTS.*;
-import org.example.Modules.Entities.Communicates.Gift;
-import org.example.Modules.Entities.Communicates.Ticket;
-import org.example.Repository.CommunicatesRepository.*;
-import org.example.Repository.Old.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class DatabaseConnection {
     private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
@@ -19,7 +13,7 @@ public class DatabaseConnection {
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    //private SqlEscapeRoomRepository escapeRoomRepository;
+    /*private SqlEscapeRoomRepository escapeRoomRepository;
     private SqlRoomRepository roomRepository;
     private SqlPlayerRepository playerRepository;
     private SqlObjectDecoRepository objectDecoRepository;
@@ -29,6 +23,8 @@ public class DatabaseConnection {
     private SqlGiftRepository giftRepository;
     private SqlGameRepository gameRepository;
     private SqlCertificateRepository certificateRepository;
+
+
 
     public DatabaseConnection() {
         //this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
@@ -42,6 +38,8 @@ public class DatabaseConnection {
         this.gameRepository = new SqlGameRepository(this);
         this.certificateRepository = new SqlCertificateRepository(this);
     }
+
+     */
 
     public Connection dbConnect() {
         Connection connection;
@@ -83,7 +81,7 @@ public class DatabaseConnection {
 
     public void escapeRoomUpdate(EscapeRoomTEST escapeRoomTEST) {
         escapeRoomRepository.escapeRoomUpdate(escapeRoomTEST);
-    }*/
+    }
 
     // RoomTEST
     public void addRoom(RoomTEST roomTEST) {
@@ -201,4 +199,8 @@ public class DatabaseConnection {
     public void addGame(GameTEST game) {
         gameRepository.addGame(game);
     }
+
+     */
 }
+
+

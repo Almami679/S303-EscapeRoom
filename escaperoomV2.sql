@@ -37,17 +37,10 @@ CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`room` (
   `room_name` VARCHAR(45) NULL,
   `room_difficulty` VARCHAR(45) NULL,
   `room_price` DOUBLE NULL,
-  `room_escapeRoomId` INT NOT NULL,
   `room_deleted` TINYINT NOT NULL,
   `room_createdAt` TIMESTAMP NOT NULL,
   `room_updatedAt` TIMESTAMP NULL,
-  PRIMARY KEY (`room_id`),
-  INDEX `fk_room_escaperoom_idx` (`room_escapeRoomId` ASC) VISIBLE,
-  CONSTRAINT `fk_room_escaperoom`
-    FOREIGN KEY (`room_escapeRoomId`)
-    REFERENCES `EscapeRoomDB`.`escaperoom` (`escaperoom_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  PRIMARY KEY (`room_id`))
 ENGINE = InnoDB;
 
 
@@ -57,6 +50,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`tips` (
   `tips_id` INT NOT NULL AUTO_INCREMENT,
   `tips_text` VARCHAR(100) NULL,
+  `tips_deleted` TINYINT NOT NULL,
   PRIMARY KEY (`tips_id`))
 ENGINE = InnoDB;
 
@@ -203,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`gift` (
   `gift_gameId` INT NOT NULL,
   `gift_text` TEXT NULL,
   `gift_key` VARCHAR(45) NULL,
+  `gift_createdAt` TIMESTAMP NOT NULL,
   `player_player_id` INT NOT NULL,
   PRIMARY KEY (`gift_id`),
   INDEX `fk_game_gift_idx` (`gift_gameId` ASC) VISIBLE,
@@ -275,6 +270,27 @@ CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`room_has_objectdeco` (
   CONSTRAINT `fk_room_has_objectdeco_ObjectDeco1`
     FOREIGN KEY (`objectdeco_objectdeco_id`)
     REFERENCES `EscapeRoomDB`.`objectdeco` (`objectdeco_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `EscapeRoomDB`.`escaperoom_has_room`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`escaperoom_has_room` (
+  `escaperoom_escaperoom_id` INT NOT NULL,
+  `room_room_id` INT NOT NULL,
+  PRIMARY KEY (`escaperoom_escaperoom_id`, `room_room_id`),
+  INDEX `fk_escaperoom_has_room_room1_idx` (`room_room_id` ASC) VISIBLE,
+  CONSTRAINT `fk_escaperoom_has_room_escaperoom1`
+    FOREIGN KEY (`escaperoom_escaperoom_id`)
+    REFERENCES `EscapeRoomDB`.`escaperoom` (`escaperoom_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_escaperoom_has_room_room1`
+    FOREIGN KEY (`room_room_id`)
+    REFERENCES `EscapeRoomDB`.`room` (`room_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

@@ -18,6 +18,7 @@ public class RepositoryImpl implements Repository{
 
     @Override
     public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
+
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();

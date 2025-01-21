@@ -1,4 +1,4 @@
-package org.example.Modules.Entities.CLASESTESTS;
+package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
 
@@ -6,22 +6,22 @@ import java.sql.Timestamp;
 
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
-public class SaleTEST extends Entity {
+public class Sale extends Entity {
 
     private int id;
     private Timestamp date;
     private double price;
-    private GameTEST game;
+    private Game game;
     private int deleted;
 
-    public SaleTEST(Timestamp date, double price, GameTEST game, int deleted) {
+    public Sale(Timestamp date, double price, Game game, int deleted) {
         this.date = date;
         this.price = price;
         this.game = game;
         this.deleted = deleted;
     }
 
-    public SaleTEST(int id, Timestamp date, double price, int gameId, int deleted) {
+    public Sale(int id, Timestamp date, double price, int gameId, int deleted) {
         this.id = id;
         this.date = date;
         this.price = price;

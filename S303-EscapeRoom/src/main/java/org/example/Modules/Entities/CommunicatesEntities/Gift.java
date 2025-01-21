@@ -1,11 +1,14 @@
-package org.example.Modules.Entities.Communicates;
+package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.GameTEST;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
+import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import static org.example.Repository.Old.SqlGameRepository.getGameById;
@@ -13,21 +16,23 @@ import static org.example.Repository.Old.SqlGameRepository.getGameById;
 public class Gift extends Communicate implements CommunicationInterface {
 
     Logger logger = LogManager.getLogger(Gift.class);
+    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+
     private String text;
     private String discountKey;
     private static ArrayList<String> KeysInUse = new ArrayList<>();
-    private GameTEST game;
+    private Game game;
 
-    public Gift(PlayerTEST player, String text) {
+    public Gift(Player player, String text) {
         super(player);
         this.text = text;
         this.discountKey = generateKey();
         this.game = player.getGame();
     }
 
-    public Gift(int id, int gameId, String text, int playerId, String giftKey/*, Timestamp created_at*/) {
+    public Gift(int id, int gameId, String text, int playerId, String giftKey/*, Timestamp created_at*/) throws SQLException {
         super(id, playerId, new Timestamp(System.currentTimeMillis()));
-        this.game = getGameById(gameId);
+        this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
         this.text = text;
         this.discountKey = giftKey;
         KeysInUse.add(giftKey);
@@ -43,7 +48,7 @@ public class Gift extends Communicate implements CommunicationInterface {
         return this;
     }
 
-    public GameTEST getGame(){
+    public Game getGame(){
         return this.game;
     }
 
