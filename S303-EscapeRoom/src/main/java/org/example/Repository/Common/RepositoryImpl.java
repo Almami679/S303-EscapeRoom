@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.example.Repository.Serializer.deserialize;
-import static org.example.Repository.Serializer.serialize;
+import static org.example.Repository.Serializers.Serializer.deserialize;
+import static org.example.Repository.Serializers.Serializer.serialize;
 
 public class RepositoryImpl implements Repository{
 
@@ -100,6 +100,10 @@ public class RepositoryImpl implements Repository{
 
     @Override
     public ArrayList<Entity> getAll(EntityAttributes enumAttributes) {
+        ArrayList<Entity> entities = new ArrayList<>();
+        String tableName = enumAttributes.name();
+        String query = "SELECT * FROM escaperomdb." + tableName;
+
 
         return null;
     }

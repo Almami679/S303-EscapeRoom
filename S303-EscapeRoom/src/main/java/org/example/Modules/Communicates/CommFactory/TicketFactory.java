@@ -1,6 +1,6 @@
 package org.example.Modules.Communicates.CommFactory;
 
-import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
@@ -14,7 +14,7 @@ public class TicketFactory implements CommFactoryInterface{
     @Override
     public Ticket createCommunicate(int idPlayer) throws SQLException {
         Player player = (Player) repositoryImpl.getById(idPlayer, EntityAttributes.player);
-        SaleTEST sale = player.getSale();
+        Sale sale = player.getSale();
         String text = "Last sale for " + sale.getPrice() + "€\n" +
                 "Payment success by " +player.getName() + "!";
 

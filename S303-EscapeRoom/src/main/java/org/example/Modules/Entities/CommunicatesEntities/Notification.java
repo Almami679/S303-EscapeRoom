@@ -2,9 +2,8 @@ package org.example.Modules.Entities.CommunicatesEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
-import org.example.Repository.Common.RepositoryImpl;
+import org.example.Modules.Entities.GameEntities.Player;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -16,7 +15,7 @@ public class Notification extends Communicate implements CommunicationInterface 
     Logger logger = LogManager.getLogger(Notification.class);
     private String text;
 
-    public Notification(PlayerTEST player, String text) {
+    public Notification(Player player, String text) {
         super(player);
         this.text = text;
     }

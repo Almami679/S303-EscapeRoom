@@ -1,7 +1,6 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.apache.logging.log4j.LogManager;
-import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
@@ -19,7 +18,7 @@ public class Game extends Entity {
 
     private EscapeRoom escapeRoom;
     private Timestamp gameDate;
-    private ArrayList<PlayerTEST> players;
+    private ArrayList<Player> players;
     private int finish;
     private Certificate gameCertificate;
     private Timestamp createdAt;
@@ -28,7 +27,7 @@ public class Game extends Entity {
 
     public Game(EscapeRoom escapeRoom,
                     Timestamp date,
-                    ArrayList<PlayerTEST> players) {
+                    ArrayList<Player> players) {
         this.escapeRoom = escapeRoom;
         this.gameDate = date;
         this.players = players;
@@ -73,7 +72,7 @@ public class Game extends Entity {
         this.escapeRoom = escapeRoom;
     }
 
-    public ArrayList<PlayerTEST> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
