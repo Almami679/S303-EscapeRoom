@@ -8,5 +8,6 @@ public class SubscribeNotifications implements ServiceProcessor{
     @Override
     public void process(Scanner read) {
 
+
     }
 }
