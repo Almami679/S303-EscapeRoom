@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class DisplayValueInventory implements ServiceProcessor{
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         double sum = 0;
         /*for(ObjectDeco o:dbc.getAllObjectDecos()){
             sum += o.getPrice();

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AddTip implements ServiceProcessor{
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         String name;
         int id;
         System.out.println("What is the tip's text?");

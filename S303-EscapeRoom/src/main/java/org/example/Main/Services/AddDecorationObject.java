@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AddDecorationObject implements ServiceProcessor{
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         String name, material, difficulty;
         double price;
         int id;

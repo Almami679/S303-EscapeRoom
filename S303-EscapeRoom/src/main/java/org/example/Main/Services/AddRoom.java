@@ -1,12 +1,20 @@
 package org.example.Main.Services;
 
-import org.example.Repository.Common.DatabaseConnection;
+import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddRoom implements ServiceProcessor{
+
+    private static final Logger LOGGER = Logger.getLogger(CreateEscapeRoom.class.getName());
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         String name, difficulty;
         double price;
         int id;
@@ -16,8 +24,12 @@ public class AddRoom implements ServiceProcessor{
         price = Double.parseDouble(read.next());
         System.out.println("What is the Room's difficulty?");
         difficulty = read.next();
-        System.out.println("What is the Escape Room's id?");
-        id = Integer.parseInt(read.next());
-        //dbc.addRoom(new RoomTEST(name,difficulty,price,id, 0,new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime())));
+        RepositoryImpl rep = new RepositoryImpl();
+        Room room = new Room(name,difficulty,price,new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()));
+        try {
+            rep.add(room, EntityAttributes.room);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL exception occurred while adding room", e);
+        }
     }
 }

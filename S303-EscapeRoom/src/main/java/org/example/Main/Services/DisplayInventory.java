@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class DisplayInventory implements ServiceProcessor{
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         String name, difficulty;
         double price;
         int id;
