@@ -14,7 +14,7 @@ public class DisplayInventory implements ServiceProcessor{
         double price;
         int id;
         System.out.println("These are the rooms in the Escape Room's inventory:");
-        for(Room r:dbc.getAllRooms()){
+        /*for(Room r:dbc.getAllRooms()){
             System.out.println(r.getName());
         }
         System.out.println("These are the decoration objects in the Escape Room's inventory:");
@@ -24,6 +24,6 @@ public class DisplayInventory implements ServiceProcessor{
         System.out.println("These are the tips in the Escape Room's inventory:");
         for(Tips t:dbc.getAllTips()){
             System.out.println(t.getText());
-        }
+        }*/
     }
 }

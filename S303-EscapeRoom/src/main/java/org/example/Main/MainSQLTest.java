@@ -8,7 +8,6 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
-import org.example.Repository.Old.SqlPlayerRepository;
 import org.example.Repository.Serializers.Serializer;
 
 import java.sql.Connection;

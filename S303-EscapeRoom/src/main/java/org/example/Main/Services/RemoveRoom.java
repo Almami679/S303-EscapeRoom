@@ -13,10 +13,10 @@ public class RemoveRoom implements ServiceProcessor{
         String name;
         System.out.println("What room do you want to delete?");
         name = read.next();
-        for(Room r:dbc.getAllRooms()){
+        /*for(Room r:dbc.getAllRooms()){
             if(Objects.equals(name, r.getName())){
 
             }
-        }
+        }*/
     }
 }
