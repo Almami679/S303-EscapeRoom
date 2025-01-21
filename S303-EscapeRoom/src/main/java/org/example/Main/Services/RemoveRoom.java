@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class RemoveRoom implements ServiceProcessor{
     @Override
-    public void process(DatabaseConnection dbc, Scanner read) {
+    public void process(Scanner read) {
         String name;
         System.out.println("What room do you want to delete?");
         name = read.next();

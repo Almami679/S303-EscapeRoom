@@ -24,10 +24,10 @@ public class MenuController {
         actions.put(12, new SubscribeNotifications());
     }
 
-    public static void handleUserInput(int userInput, DatabaseConnection dbc, Scanner read) {
+    public static void handleUserInput(int userInput, Scanner read) {
         ServiceProcessor action = actions.get(userInput);
         if (action != null) {
-            action.process(dbc, read);
+            action.process(read);
         } else if (userInput == 0) {
             System.out.println("Exiting... Goodbye!");
         } else {
