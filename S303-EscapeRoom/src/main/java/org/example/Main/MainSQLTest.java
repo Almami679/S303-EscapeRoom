@@ -1,7 +1,9 @@
 package org.example.Main;
 
+import org.example.Modules.Entities.CLASESTESTS.*;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Repository.Common.DatabaseConnection;
+import org.example.Modules.Entities.CLASESTESTS.EscapeRoomTEST;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -57,10 +59,10 @@ public class MainSQLTest {
 
         ArrayList<EscapeRoomTEST> escapeRoomTESTS = escapeRoomImp.getAll();
         escapeRoomTESTS.forEach(escapeRoomTEST -> System.out.println(escapeRoomTEST));
-
+         */
     }
-    public static EscapeRoom createEscapeRoomTEST1() {
-        return new EscapeRoom(
+    public static EscapeRoomTEST createEscapeRoomTEST1() {
+        return new EscapeRoomTEST(
                 "Mystery",
                 150.0,
                 "Mystery",
@@ -69,8 +71,8 @@ public class MainSQLTest {
                 new Timestamp(System.currentTimeMillis())
         );
     }
-    public static EscapeRoom createEscapeRoomTEST2() {
-        return new EscapeRoom(
+    public static EscapeRoomTEST createEscapeRoomTEST2() {
+        return new EscapeRoomTEST(
                 "Terror",
                 250.0,
                 "Terror",
@@ -218,7 +220,5 @@ public class MainSQLTest {
                 "Use the key to open the door",
                 1
         );
-
-         */
     }
 }

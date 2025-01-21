@@ -1,29 +1,37 @@
-package org.example.Modules.Entities.RoomEntities;
+package org.example.Modules.Entities.CLASESTESTS;
 
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
 
-public class ObjectDeco extends Entity {
+public class ObjectDecoTEST extends Entity {
+    private int id;
     private String name;
     private String material;
+    private int roomId;
     private double price;
+    private int deleted;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public ObjectDeco(
-            String name,
-            String material,
-            double price
-    ) {
-        super();
+    public ObjectDecoTEST(String name, String material, int roomId, double price, int deleted, Timestamp createdAt, Timestamp updatedAt) {
+        //this.id = getLatestIdFromDB();
         this.name = name;
         this.material = material;
+        this.roomId = roomId;
         this.price = price;
-        this.createdAt = Timestamp.from(Instant.now());
-        this.updatedAt = Timestamp.from(Instant.now());
+        this.deleted = deleted;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,12 +50,28 @@ public class ObjectDeco extends Entity {
         this.material = material;
     }
 
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getCreatedAt() {
@@ -69,28 +93,14 @@ public class ObjectDeco extends Entity {
     @Override
     public String toString() {
         return "ObjectDecoTEST{" +
-                "id=" + super.getId() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", material='" + material + '\'' +
+                ", roomId=" + roomId +
                 ", price=" + price +
-                ", deleted=" + super.getDeleted() +
+                ", deleted=" + deleted +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
-    }
-
-    public ArrayList<String> getValues(){
-        ArrayList<String> values =  new ArrayList<>();
-        String value = super.getId() + "";
-        values.add(value);
-        values.add(this.name);
-        values.add(this.material);
-        value = this.price +"";
-        values.add(value);
-        value = super.getDeleted()+"";
-        values.add(value);
-        values.add(this.createdAt.toString());
-        values.add(this.updatedAt.toString());
-        return values;
     }
 }

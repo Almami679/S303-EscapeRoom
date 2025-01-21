@@ -1,11 +1,10 @@
-package org.example.Modules.Entities.CommunicatesEntities;
+package org.example.Modules.Entities.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
-import org.example.Modules.Entities.GameEntities.Player;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -15,12 +14,12 @@ public class Notification extends Communicate implements CommunicationInterface 
     Logger logger = LogManager.getLogger(Notification.class);
     private String text;
 
-    public Notification(Player player, String text) {
+    public Notification(PlayerTEST player, String text) {
         super(player);
         this.text = text;
     }
 
-    public Notification(int id, int playerId, String text, Timestamp created_at) throws SQLException {
+    public Notification(int id, int playerId, String text, Timestamp created_at) {
         super(id, playerId, created_at);
         this.text = text;
     }
@@ -54,7 +53,7 @@ public class Notification extends Communicate implements CommunicationInterface 
         value = super.getPlayer().getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreatedAt().toString());
+        values.add(super.getCreated_at().toString());
         return values;
     }
 

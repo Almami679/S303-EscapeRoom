@@ -9,28 +9,20 @@ VALUES
 ('Space Odyssey', 180.00, 'Sci-Fi', 0, NOW());
 
 INSERT INTO room
-(`room_name`, `room_difficulty`, `room_price`, `room_deleted`, `room_createdAt`) 
+(`room_name`, `room_difficulty`, `room_price`, `room_escapeRoomId`, `room_deleted`, `room_createdAt`) 
 VALUES 
-('Library of Secrets', 'Intermediate', 60.00, 0, NOW()),
-('Treasure Hunt', 'Easy', 50.00, 0, NOW()),
-('Survivor\'s Shelter', 'Hard', 70.00, 0, NOW()),
-('Galactic Puzzle', 'Expert', 80.00, 0, NOW());
-
-INSERT INTO escaperoom_has_room
-(`escaperoom_escaperoom_id`, `room_room_id`)
-VALUES
-(1,1),
-(2,2),
-(3,3),
-(4,4);
+('Library of Secrets', 'Intermediate', 60.00, 1, 0, NOW()),
+('Treasure Hunt', 'Easy', 50.00, 2, 0, NOW()),
+('Survivor\'s Shelter', 'Hard', 70.00, 3, 0, NOW()),
+('Galactic Puzzle', 'Expert', 80.00, 4, 0, NOW());
 
 INSERT INTO tips
-(`tips_text`,`tips_deleted`) 
+(`tips_text`) 
 VALUES 
-('Look under the rug for hidden clues.',0),
-('The clock hands might be a code.',0),
-('Check the bookshelf for a hidden key.',0),
-('Use the blacklight to reveal hidden messages.',0);
+('Look under the rug for hidden clues.'),
+('The clock hands might be a code.'),
+('Check the bookshelf for a hidden key.'),
+('Use the blacklight to reveal hidden messages.');
 
 INSERT INTO objectdeco
 (`objectdeco_name`, `objectdeco_material`, `objectdeco_price`, `objectdeco_deleted`, `objectdeco_createdAt`) 
@@ -89,12 +81,12 @@ VALUES
 (4, 'Completed Space Odyssey Escape Room!', NOW(), 2);
 
 INSERT INTO gift 
-(`gift_gameId`, `gift_text`, `gift_key`, `gift_createdAt`,`player_player_id`) 
+(`gift_gameId`, `gift_text`, `gift_key`, `player_player_id`) 
 VALUES 
-(1, 'Free Entry Coupon', 'FREE2023', NOW(),1),
-(2, 'Discount Voucher', 'DISC15', NOW(), 3),
-(3, 'Gift Box', 'GIFTBOX', NOW(), 4),
-(4, 'Special Keychain', 'KEY2023', NOW(), 2);
+(1, 'Free Entry Coupon', 'FREE2023', 1),
+(2, 'Discount Voucher', 'DISC15', 3),
+(3, 'Gift Box', 'GIFTBOX', 4),
+(4, 'Special Keychain', 'KEY2023', 2);
 
 INSERT INTO notification
 (`notification_playerId`, `notification_text`, `notification_createdAt`) 

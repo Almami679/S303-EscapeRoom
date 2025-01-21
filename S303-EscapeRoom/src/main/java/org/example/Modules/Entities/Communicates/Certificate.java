@@ -1,38 +1,33 @@
-package org.example.Modules.Entities.CommunicatesEntities;
+package org.example.Modules.Entities.Communicates;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.assertj.core.util.Arrays;
+import org.example.Modules.Entities.CLASESTESTS.GameTEST;
+import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
 import org.example.Modules.Communicates.CommunicationInterface;
-import org.example.Modules.Entities.GameEntities.Game;
-import org.example.Modules.Entities.GameEntities.Player;
-import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static org.example.Repository.Old.SqlGameRepository.getGameById;
 
 public class Certificate extends Communicate implements CommunicationInterface {
 
-    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
-
     Logger logger = LogManager.getLogger(Certificate.class);
     private String text;
-    private Game game;
+    private GameTEST game;
 
 
-    public Certificate(Player player, String text, Game game) {
+    public Certificate(PlayerTEST player, String text, GameTEST game) {
         super(player);
         this.game = game;
         this.text = text;
     }
-    public Certificate(int id,
-                       int gameId,
-                       int playerId,
-                       String text,
-                       Timestamp created_at) throws SQLException {
+    public Certificate(int id, int gameId, int playerId, String text, Timestamp created_at) {
         super(id, playerId, created_at);
-        this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
+        this.game = getGameById(gameId);
         this.text = text;
     }
 
@@ -41,19 +36,19 @@ public class Certificate extends Communicate implements CommunicationInterface {
         return this.text;
     }
 
-    public Game getGame() {
+    public GameTEST getGame() {
         return game;
     }
 
-    public Timestamp getGameFinishedAt() {
-        return this.game.getFinishedAt();
+    public Timestamp getGameDate() {
+        return this.game.getGameDate();
     }
 
     @Override
     public void send() {
         logger.info("sending Certificate to " + super.getPlayer().getEmail() + "\n" +
                 "Game[" + this.game + "]\nFinished at[" +
-                this.getGameFinishedAt() + "]");
+                this.getGameDate() + "]");
 
     }
     @Override
@@ -64,7 +59,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
         value = this.game.getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreatedAt().toString());
+        values.add(super.getCreated_at().toString());
         value = super.getPlayer().getId() + "";
         values.add(value);
         return values;
