@@ -13,34 +13,6 @@ public class DatabaseConnection {
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    /*private SqlEscapeRoomRepository escapeRoomRepository;
-    private SqlRoomRepository roomRepository;
-    private SqlPlayerRepository playerRepository;
-    private SqlObjectDecoRepository objectDecoRepository;
-    private SqlTipsRepository tipsRepository;
-    private SqlTicketRepository ticketRepository;
-    private SqlSaleRepository saleRepository;
-    private SqlGiftRepository giftRepository;
-    private SqlGameRepository gameRepository;
-    private SqlCertificateRepository certificateRepository;
-
-
-
-    public DatabaseConnection() {
-        //this.escapeRoomRepository = new SqlEscapeRoomRepository(this);
-        this.roomRepository = new SqlRoomRepository(this);
-        this.playerRepository = new SqlPlayerRepository(this);
-        this.objectDecoRepository = new SqlObjectDecoRepository(this);
-        this.tipsRepository = new SqlTipsRepository(this);
-        this.ticketRepository = new SqlTicketRepository(this);
-        this.saleRepository = new SqlSaleRepository(this);
-        this.giftRepository = new SqlGiftRepository(this);
-        this.gameRepository = new SqlGameRepository(this);
-        this.certificateRepository = new SqlCertificateRepository(this);
-    }
-
-     */
-
     public Connection dbConnect() {
         Connection connection;
         try {
