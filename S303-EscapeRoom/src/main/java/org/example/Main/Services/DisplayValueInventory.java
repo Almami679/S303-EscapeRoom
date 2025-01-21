@@ -11,12 +11,12 @@ public class DisplayValueInventory implements ServiceProcessor{
     @Override
     public void process(DatabaseConnection dbc, Scanner read) {
         double sum = 0;
-        for(ObjectDeco o:dbc.getAllObjectDecos()){
+        /*for(ObjectDeco o:dbc.getAllObjectDecos()){
             sum += o.getPrice();
         }
         for(Room r:dbc.getAllRooms()){
             sum += r.getPrice();
-        }
+        }*/
         System.out.println("The inventory's value is: " + sum);
     }
 }

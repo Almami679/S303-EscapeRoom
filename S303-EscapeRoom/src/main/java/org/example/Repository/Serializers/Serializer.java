@@ -87,7 +87,6 @@ public class Serializer {
             case objectdeco -> {
                 entity = objectDecoConstructor(resultSet, attributes);
             }
-
             case escaperoom -> {
                 entity = escapeRoomConstructor(resultSet, attributes);
             }

@@ -13,10 +13,10 @@ public class RemoveDecorationObject implements ServiceProcessor{
         String name;
         System.out.println("What room do you want to delete?");
         name = read.next();
-        for(ObjectDeco o:dbc.getAllRooms()){
+        /*for(ObjectDeco o:dbc.getAllRooms()){
             if(Objects.equals(name, o.getName())){
 
             }
-        }
+        }*/
     }
 }
