@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static org.example.Repository.Old.SqlGameRepository.getGameById;
-
 public class Certificate extends Communicate implements CommunicationInterface {
 
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();

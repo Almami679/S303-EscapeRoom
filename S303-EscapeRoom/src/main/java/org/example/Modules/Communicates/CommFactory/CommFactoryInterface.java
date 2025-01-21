@@ -1,8 +1,6 @@
 package org.example.Modules.Communicates.CommFactory;
 
 
-import org.example.Repository.Common.EntityAttributes;
-
 import java.sql.SQLException;
 
 public interface CommFactoryInterface {

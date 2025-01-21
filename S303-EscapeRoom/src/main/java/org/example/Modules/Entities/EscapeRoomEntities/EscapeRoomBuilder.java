@@ -3,39 +3,50 @@ package org.example.Modules.Entities.EscapeRoomEntities;
 import java.sql.Timestamp;
 
 public class EscapeRoomBuilder {
+    private int id;
     private String name;
+    private double price;
     private String theme;
-    private Double price;
     private int deleted;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    /*public EscapeRoom build() { //arreglar builder
-        return new EscapeRoom(name, price, theme, deleted, created_at, updated_at);
-    }*/
+    public EscapeRoomBuilder setId(int id) {
+        this.id = id;
+        return this;
+    }
 
-    public void setName(String name) {
+    public EscapeRoomBuilder setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public void setPrice(Double price) {
+    public EscapeRoomBuilder setPrice(double price) {
         this.price = price;
+        return this;
     }
 
-    public void setDeleted(int deleted) {
+    public EscapeRoomBuilder setTheme(String theme) {
+        this.theme = theme;
+        return this;
+    }
+
+    public EscapeRoomBuilder setDeleted(int deleted) {
         this.deleted = deleted;
+        return this;
     }
 
-    public void setCreatedAt(Timestamp created_at) {
-        this.created_at = created_at;
+    public EscapeRoomBuilder setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+        return this;
     }
 
-    public void setUpdatedAt(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public EscapeRoomBuilder setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
     }
 
+    public EscapeRoom build() {
+        return new EscapeRoom(id, name, price, theme, deleted, createdAt, updatedAt);
+    }
 }

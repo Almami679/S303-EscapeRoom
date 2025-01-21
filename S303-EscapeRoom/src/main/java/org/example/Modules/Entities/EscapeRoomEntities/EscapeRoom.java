@@ -14,29 +14,29 @@ public class EscapeRoom extends Entity {
     private Double price;
     private String theme;
     private int deleted;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
 
-    public EscapeRoom(String name, Double price, String theme, Timestamp created_at, Timestamp updated_at) {
+    public EscapeRoom(String name, Double price, String theme, Timestamp createdAt, Timestamp updatedAt) {
         super();
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = 0;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp created_at, Timestamp updated_at) {
+    public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp createdAt, Timestamp updatedAt) {
         super(id,deleted);
         this.id = id;
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = deleted;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 
@@ -72,38 +72,33 @@ public class EscapeRoom extends Entity {
         this.deleted = deleted;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override
     public ArrayList<String> getValues() {
-        ArrayList<String> values =  new ArrayList<>();
-        String value = super.getId() + "";
-        values.add(value);
-        value = this.name+ "";
-        values.add(value);
+        ArrayList<String> values = new ArrayList<>();
+        values.add(String.valueOf(this.getId()));
+        values.add(this.name);
         values.add(String.valueOf(this.price));
-        value = this.theme + "";
-        values.add(value);
-        values.add(this.deleted + "");
-        value = this.created_at + "";
-        values.add(value);
-        value = this.updated_at + "";
-        values.add(value);
+        values.add(this.theme);
+        values.add(String.valueOf(this.getDeleted()));
+        values.add(String.valueOf(this.createdAt));
+        values.add(String.valueOf(this.updatedAt));
         return values;
     }
 
-    public void setUpdated_at(Timestamp escapeRoomUpdatedAt) {
-        this.updated_at = escapeRoomUpdatedAt;
+    public void setUpdatedAt(Timestamp escapeRoomUpdatedAt) {
+        this.updatedAt = escapeRoomUpdatedAt;
     }
 
-    public void setCreated_at(Timestamp escapeRoomCreatedAt) {
-        this.created_at = escapeRoomCreatedAt;
+    public void setCreatedAt(Timestamp escapeRoomCreatedAt) {
+        this.createdAt = escapeRoomCreatedAt;
     }
 
     @Override
@@ -114,9 +109,8 @@ public class EscapeRoom extends Entity {
                 ", price=" + price +
                 ", theme='" + theme + '\'' +
                 ", deleted=" + deleted +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", created_at=" + createdAt +
+                ", updated_at=" + updatedAt +
                 '}';
     }
-
 }

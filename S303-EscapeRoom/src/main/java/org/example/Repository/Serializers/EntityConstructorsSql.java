@@ -4,6 +4,7 @@ import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
+import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -164,6 +165,5 @@ public class EntityConstructorsSql {
         }
         return entity;
     }
-
 
 }

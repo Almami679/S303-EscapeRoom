@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 
 public class TicketFactory implements CommFactoryInterface{
-    RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private RepositoryImpl repositoryImpl = new RepositoryImpl();
     @Override
     public Ticket createCommunicate(int idPlayer) throws SQLException {
         Player player = (Player) repositoryImpl.getById(idPlayer, EntityAttributes.player);
