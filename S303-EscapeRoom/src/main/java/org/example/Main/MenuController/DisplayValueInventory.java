@@ -1,14 +1,11 @@
-package org.example.Main.Services;
+package org.example.Main.MenuController;
 
-import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Modules.Entities.RoomEntities.Room;
-import org.example.Modules.Entities.RoomEntities.Tips;
-import org.example.Repository.Common.DatabaseConnection;
+
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
-public class DisplayValueInventory implements ServiceProcessor{
+public class DisplayValueInventory implements ServiceProcessor {
     @Override
     public void process(Scanner read, RepositoryImpl repository) {
         double sum = 0;

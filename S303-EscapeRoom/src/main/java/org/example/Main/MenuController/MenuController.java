@@ -1,13 +1,10 @@
-package org.example.Main;
+package org.example.Main.MenuController;
 
-import org.example.Main.Services.*;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class MenuController {
     private static final Map<Integer, ServiceProcessor> actions = new HashMap<>();

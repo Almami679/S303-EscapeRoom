@@ -1,16 +1,15 @@
-package org.example.Main.Services;
+package org.example.Main.MenuController;
+
 
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-public class AddDecorationObject implements ServiceProcessor{
+public class AddDecorationObject implements ServiceProcessor {
     private static final Logger LOGGER = Logger.getLogger(ObjectDeco.class.getName());
     @Override
     public void process(Scanner read, RepositoryImpl repository) {

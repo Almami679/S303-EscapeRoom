@@ -16,8 +16,7 @@ public class Room extends Entity {
 
     public Room(String name,
                 String difficulty,
-                Double price,
-                Timestamp updated_at) {
+                Double price) {
         super();
         this.name = name;
         this.difficulty = difficulty;
