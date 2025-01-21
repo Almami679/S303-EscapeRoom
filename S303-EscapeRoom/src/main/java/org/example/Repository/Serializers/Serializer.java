@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static org.example.Repository.Serializers.EntityConstructorsSql.*;
 
 
-public class Serializer <T>{
+public class Serializer {
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
 
     public static Entity deserialize(
@@ -71,6 +71,28 @@ public class Serializer <T>{
             case notification -> {
                 entity = notificationConstructor(resultSet, attributes);
             }
+            case game ->  {
+                entity = gameConstructor(resultSet, attributes);
+            }
+            case room ->  {
+                entity = roomConstructor(resultSet, attributes);
+            }
+            case sale ->  {
+                entity = saleConstructor(resultSet, attributes);
+            }
+            case tips ->  {
+                entity = tipsConstructor(resultSet, attributes);
+            }
+            case player -> {
+                entity = playerConstructor(resultSet, attributes);
+            }
+            case escaperoom -> {
+                entity = escapeRoomConstructor(resultSet, attributes);
+            }
+            case objectdeco -> {
+                entity = objectDecoConstructor(resultSet, attributes);
+            }
+
             /// Seguir haciendo los casos de las entities con las clases definitivas y sus respectivos
             /// constructores
 
