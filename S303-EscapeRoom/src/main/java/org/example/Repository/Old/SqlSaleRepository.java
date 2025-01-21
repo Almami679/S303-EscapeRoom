@@ -2,7 +2,7 @@ package org.example.Repository.Old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Repository.Common.DatabaseConnection;
 
 import java.sql.*;
@@ -16,7 +16,7 @@ public class SqlSaleRepository {
         this.dbConnection = dbConnection;
     }
 
-    public void createSale(SaleTEST sale) {
+    public void createSale(Sale sale) {
         String sql = "INSERT INTO sale (Sale_id, Sale_date, Sale_price, Sale_gameId, Sale_deleted)" +
                 " VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = dbConnection.dbConnect();
@@ -34,8 +34,8 @@ public class SqlSaleRepository {
         }
     }
 
-    public static SaleTEST getSaleById(int id) {
-        SaleTEST saleTEST = null;
+    public static Sale getSaleById(int id) {
+        Sale saleTEST = null;
         String sql = "SELECT * FROM player WHERE Player_id = ? AND Player_deleted = 0";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -47,7 +47,7 @@ public class SqlSaleRepository {
                     double price = resultSet.getInt("Sale_price");
                     int gameId = resultSet.getInt("Sale_gameId");
                     int deleted = resultSet.getInt("Sale_deleted");
-                    saleTEST = new SaleTEST(saleId, date, price, gameId, deleted);
+                    saleTEST = new Sale(saleId, date, price, gameId, deleted);
                     saleTEST.setId(id);
                 }
             }
@@ -58,8 +58,8 @@ public class SqlSaleRepository {
         return saleTEST;
     }
 
-    public ArrayList<SaleTEST> getAllSales() {// Cambiar nombre cuando Sale esté implementado
-        ArrayList<SaleTEST> saleList = new ArrayList<>();
+    public ArrayList<Sale> getAllSales() {// Cambiar nombre cuando Sale esté implementado
+        ArrayList<Sale> saleList = new ArrayList<>();
         String sql = "SELECT * FROM sale";
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(sql);
@@ -70,7 +70,7 @@ public class SqlSaleRepository {
                 double price = resultSet.getDouble("Sale_price");
                 int gameId = resultSet.getInt("Sale_gameId");
                 int deleted = resultSet.getInt("Sale_deleted");
-                SaleTEST sale = new SaleTEST(saleId, date, price, gameId, deleted);
+                Sale sale = new Sale(saleId, date, price, gameId, deleted);
                 sale.setId(saleId);
                 saleList.add(sale);
             }

@@ -3,7 +3,7 @@ package org.example.Main;
 import org.apache.logging.log4j.LogManager;
 import org.example.Modules.Entities.CLASESTESTS.GameTEST;
 import org.example.Modules.Entities.CLASESTESTS.PlayerTEST;
-import org.example.Modules.Entities.CLASESTESTS.SaleTEST;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
@@ -24,11 +24,11 @@ public class MainSQLCommTestsAlbert {
                 idPlayer);
     }
     public static void logicTicketTest(int idPlayer) {
-        SaleTEST sale1 = getSaleById(1);
+        Sale sale1 = getSaleById(1);
         PlayerTEST player = getPlayerById(1);
-        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() + "] created.");
+        LogManager.getLogger(Sale.class).info("Sale [id:" + sale1.getId() + "] created.");
         player.addSale(sale1);
-        LogManager.getLogger(SaleTEST.class).info("Sale [id:" + sale1.getId() +
+        LogManager.getLogger(Sale.class).info("Sale [id:" + sale1.getId() +
                 "] assigned to PlayerId: " + player.getId());
         Ticket ticket1 = createTicket(player.getId());
         //db.addTicket(ticket1);
