@@ -25,9 +25,8 @@ public class Sale extends Entity {
         this.deleted = deleted;
     }
 
-    public Sale(int id, Timestamp date, double price, int gameId, int deleted) throws SQLException {
+    public Sale(int id, double price, int gameId, int deleted) throws SQLException {
         this.id = id;
-        this.createdAt = date;
         this.price = price;
         this.game = (Game) repository.getById(gameId, EntityAttributes.game);
         this.deleted = deleted;
