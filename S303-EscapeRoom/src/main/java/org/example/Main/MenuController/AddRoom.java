@@ -1,20 +1,20 @@
-package org.example.Main.Services;
+package org.example.Main.MenuController;
+
 
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddRoom implements ServiceProcessor{
+public class AddRoom implements ServiceProcessor {
 
     private static final Logger LOGGER = Logger.getLogger(CreateEscapeRoom.class.getName());
     @Override
-    public void process(Scanner read) {
+    public void process(Scanner read, RepositoryImpl repository) {
         String name, difficulty;
         double price;
         int id;

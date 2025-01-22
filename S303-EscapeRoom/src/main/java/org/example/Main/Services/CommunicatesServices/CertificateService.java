@@ -1,4 +1,4 @@
-package org.example.entity_services;
+package org.example.Main.Services.CommunicatesServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,6 @@ import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 
 public class CertificateService {

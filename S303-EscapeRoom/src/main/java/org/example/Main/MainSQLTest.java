@@ -2,7 +2,7 @@ package org.example.Main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.entity_services.PlayerService;
+import org.example.Main.Services.GameServices.PlayerService;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
@@ -12,7 +12,6 @@ import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class MainSQLTest {
     static Logger logger = LogManager.getLogger(MainSQLTest.class);
@@ -44,9 +43,6 @@ public class MainSQLTest {
                 .setName("Pedos House")
                 .setPrice(50.0)
                 .setTheme("Smelly")
-                .setDeleted(0)
-                .setCreatedAt(new Timestamp(System.currentTimeMillis()))
-                .setUpdatedAt(new Timestamp(System.currentTimeMillis()))
                 .build();
         RepositoryImpl repository = new RepositoryImpl();
         try {
