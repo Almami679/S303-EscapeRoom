@@ -16,15 +16,15 @@ public class Room extends Entity {
 
     public Room(String name,
                 String difficulty,
-                Double price,
-                Timestamp created_at,
-                Timestamp updated_at) {
+                Double price
+
+    ) {
         super();
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.updated_at = new Timestamp(System.currentTimeMillis());
         this.ObjectsInRoom = new ArrayList<>();
     }
 
@@ -34,7 +34,8 @@ public class Room extends Entity {
                 Double price,
                 int deleted,
                 Timestamp created_at,
-                Timestamp updated_at ) {
+                Timestamp updated_at
+    ) {
         super(id, deleted);
         this.name = name;
         this.difficulty = difficulty;

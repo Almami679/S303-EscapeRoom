@@ -11,6 +11,8 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class CertificateService {
@@ -102,9 +104,12 @@ public class CertificateService {
     }
 
     //Todo verificar estos metodos
-    public void getAllCertificate(){
+    public ArrayList<Certificate> getAllCertificate(){
+        ArrayList<Certificate> certificateArrayList = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.certificate);
+                .getAll(EntityAttributes.certificate)
+               .forEach(certificate -> certificateArrayList.add((Certificate) certificate));
+        return certificateArrayList;
     }
 
 }

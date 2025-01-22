@@ -9,18 +9,16 @@ public class ObjectDeco extends Entity {
     private String name;
     private String material;
     private double price;
-    private int deleted;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public ObjectDeco(String name, String material, double price, Timestamp createdAt, Timestamp updatedAt) {
+    public ObjectDeco(String name, String material, double price) {
         super();
         this.name = name;
         this.material = material;
         this.price = price;
-        this.deleted = deleted;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
     public ObjectDeco(int id,
@@ -85,7 +83,7 @@ public class ObjectDeco extends Entity {
                 ", name='" + name + '\'' +
                 ", material='" + material + '\'' +
                 ", price=" + price +
-                ", deleted=" + deleted +
+                ", deleted=" + super.getDeleted() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
