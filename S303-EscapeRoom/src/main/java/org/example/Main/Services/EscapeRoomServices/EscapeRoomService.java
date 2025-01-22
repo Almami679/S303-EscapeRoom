@@ -2,6 +2,7 @@ package org.example.Main.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Exceptions.EscapeRoomNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;

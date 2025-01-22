@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -105,5 +106,18 @@ public class RoomService {
     public void getAllRoom(){
         this.repository
                 .getAll(EntityAttributes.room);
+    }
+
+    public void addObjectDecoToRoom(
+            ObjectDeco objectdeco,
+            int idRoom)
+            throws SQLException {
+            this.assertIfRoomIdNotFound(idRoom);
+
+            Room room = this.castToRoom(entity);
+            room.addObjectInRoom(objectdeco);
+
+            this.repository.add(room, EntityAttributes.room_has_objectdeco);
+
     }
 }
