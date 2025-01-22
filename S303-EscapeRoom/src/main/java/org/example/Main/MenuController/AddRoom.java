@@ -1,6 +1,7 @@
 package org.example.Main.MenuController;
 
 
+import org.example.Main.Services.EscapeRoomServices.RoomService;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
@@ -24,12 +25,7 @@ public class AddRoom implements ServiceProcessor {
         price = Double.parseDouble(read.next());
         System.out.println("What is the Room's difficulty?");
         difficulty = read.next();
-        RepositoryImpl rep = new RepositoryImpl();
-        Room room = new Room(name,difficulty,price);
-        try {
-            rep.add(room, EntityAttributes.room);
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL exception occurred while adding room", e);
-        }
+        RoomService rs = new RoomService(repository);
+        rs.createRoom(name,price,difficulty);
     }
 }

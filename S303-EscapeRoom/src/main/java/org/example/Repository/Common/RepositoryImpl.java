@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.example.Repository.Serializers.Serializer.deserialize;
-import static org.example.Repository.Serializers.Serializer.serialize;
 
 public class RepositoryImpl implements Repository{
 
@@ -21,7 +20,7 @@ public class RepositoryImpl implements Repository{
         this.dbConnection = dbConnection;
     }*/
     @Override
-    public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
+    public void insert(Entity entity, EntityAttributes enumAttributes) throws SQLException {
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
@@ -46,26 +45,31 @@ public class RepositoryImpl implements Repository{
     }
 
     @Override
+    public ArrayList<Entity> getAll(EntityAttributes enumAttributes) throws SQLException {
+        String tableName = enumAttributes.name();
+        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + tableName + "_deleted = 0;";
+        return Serializer.deserializeGetAll(query, enumAttributes);
+    }
+
+    @Override
     public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
         String attribute = enumAttributes.getAttributes().getFirst();
-        String query = "SELECT * FROM escaperomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
+        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
         return deserialize(query, enumAttributes);
     }
 
     @Override
     public void delete(int id, EntityAttributes enumAttributes) {
-       /* String tableName = enumAttributes.name();
-        String attribute = tableName + "_deleted";
-        String query = "UPDATE escaperomdb." + tableName +
-                " SET " + attribute + " = 1 " +
-                "WHERE " + enumAttributes.getAttributes().getFirst() + " = " + id + ";";
-        serialize(query, enumAttributes, "delete");
-
-        ///Donde cambiamos el estado de deleted en la clase local?
-        ///aqui, o antes de entrar en este metodo cuando aun tenemos el objeto en si
-        ///i no solo el Id.
-        */
+        String tableName = enumAttributes.name();
+        String deletedAttribute = tableName + "_deleted";
+        String idAttribute = enumAttributes.getAttributes().get(0);
+        String query = "UPDATE escaperoomdb." + tableName +
+                " SET " + deletedAttribute + " = 1 " +
+                "WHERE " + idAttribute + " = ?";
+        ArrayList<String> values = new ArrayList<>();
+        values.add(String.valueOf(id));
+        Serializer.serialize(query, enumAttributes, "delete", values);
     }
 
     @Override
@@ -98,17 +102,6 @@ public class RepositoryImpl implements Repository{
         String queryString = query.toString();
         logger.info("Query created, and casted to String.\n[" + queryString + "]");
         //serialize(queryString, enumAttributes, "set");
-    }
-
-
-    @Override
-    public ArrayList<Entity> getAll(EntityAttributes enumAttributes) {
-        ArrayList<Entity> entities = new ArrayList<>();
-        String tableName = enumAttributes.name();
-        String query = "SELECT * FROM escaperomdb." + tableName;
-
-
-        return entities;
     }
 
 }
