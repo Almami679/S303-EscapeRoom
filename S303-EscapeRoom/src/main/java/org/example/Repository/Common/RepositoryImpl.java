@@ -20,7 +20,7 @@ public class RepositoryImpl implements Repository{
         this.dbConnection = dbConnection;
     }*/
     @Override
-    public void insert(Entity entity, EntityAttributes enumAttributes) throws SQLException {
+    public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
