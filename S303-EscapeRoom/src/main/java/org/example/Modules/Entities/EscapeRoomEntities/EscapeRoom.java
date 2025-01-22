@@ -48,6 +48,16 @@ public class EscapeRoom extends Entity {
         this.id = id;
     }
 
+    public EscapeRoom setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public EscapeRoom setTheme(String theme) {
+        this.theme = theme;
+        return this;
+    }
+
     public String getName() {
         return name;
     }

@@ -98,7 +98,7 @@ public class RoomService {
         room.setDifficulty(dificutly);
 
         this.repository
-                .update(room, EntityAttributes.sale);
+                .update(room, EntityAttributes.room);
     }
 
     //Todo verificar estos metodos
