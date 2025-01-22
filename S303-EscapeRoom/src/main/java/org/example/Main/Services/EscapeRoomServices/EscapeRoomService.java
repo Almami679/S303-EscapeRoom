@@ -40,15 +40,19 @@ public class EscapeRoomService {
 
 
     private void assertIfEscapeRoomIdNotFound(int id) {
-        this.repository
-                .getAll(EntityAttributes.escaperoom)
-                .stream()
-                .map(this::castToEscapeRoom)
-                .forEach(escaperoom -> {
-                    if (escaperoom.getId() != id) {
-                        throw new EscapeRoomNotFoundException();
-                    }
-                });
+        try {
+            this.repository
+                    .getAll(EntityAttributes.escaperoom)
+                    .stream()
+                    .map(this::castToEscapeRoom)
+                    .forEach(escaperoom -> {
+                        if (escaperoom.getId() != id) {
+                            throw new EscapeRoomNotFoundException();
+                        }
+                    });
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     public void createEscapeRoom(
@@ -111,10 +115,16 @@ public class EscapeRoomService {
     }
 
     //Todo verificar estos metodos
-    public ArrayList<EscapeRoom> getAllEscapeRooms(){
+    public ArrayList<EscapeRoom> getAllEscapeRooms() {
         ArrayList<EscapeRoom> outputList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
-        return outputList;
+        try {
+            this.repository
+                    .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
+            return outputList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
+
 }
