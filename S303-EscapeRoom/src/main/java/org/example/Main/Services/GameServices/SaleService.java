@@ -1,4 +1,4 @@
-package org.example.Main.Services;
+package org.example.Main.Services.GameServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +9,6 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
-import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 

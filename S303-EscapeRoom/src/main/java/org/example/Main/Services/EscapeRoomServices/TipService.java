@@ -1,9 +1,8 @@
-package org.example.Main.Services;
+package org.example.Main.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
-import org.example.Exceptions.RoomNotFoundException;
 import org.example.Exceptions.TipNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.RoomEntities.Room;

@@ -1,6 +1,8 @@
 package org.example.Modules.Communicates.CommFactory;
 
 import org.example.Modules.Communicates.*;
+import org.example.Modules.Entities.Entity;
+
 import java.sql.SQLException;
 
 import java.sql.SQLException;
@@ -8,7 +10,7 @@ import java.sql.SQLException;
 
 public class CommunicateFactory {
 
-    public Object createCommunicate(CommunicateType communicate, int idPlayer) throws SQLException {
+    public Entity createCommunicate(CommunicateType communicate, int idPlayer) throws SQLException {
 
         return switch (communicate) {
             case TICKET -> new TicketFactory().createCommunicate(idPlayer);

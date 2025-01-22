@@ -1,4 +1,4 @@
-package org.example.Main.Services;
+package org.example.Main.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,7 +6,6 @@ import org.example.Exceptions.ObjectDecoNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
