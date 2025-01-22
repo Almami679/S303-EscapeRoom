@@ -113,7 +113,7 @@ public class EscapeRoom extends Entity {
 
     @Override
     public String toString() {
-        return "EscapeRoomTEST{" +
+        return "EscapeRoom{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
