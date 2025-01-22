@@ -1,8 +1,8 @@
-package org.example.Main.Services;
+package org.example.Main.MenuController;
+
 
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
-import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
@@ -20,7 +20,7 @@ public class CreateEscapeRoom implements ServiceProcessor {
     public double price;
 
     @Override
-    public void process(Scanner read) {
+    public void process(Scanner read, RepositoryImpl repository) {
         EscapeRoomBuilder builder = new EscapeRoomBuilder();
         System.out.println("What is the Escape Room's name?");
         name = read.next();

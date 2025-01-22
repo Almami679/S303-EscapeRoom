@@ -1,10 +1,6 @@
 package org.example.Main;
-import org.example.Main.Services.CreateEscapeRoom;
-import org.example.Repository.Common.DatabaseConnection;
+import org.example.Main.MenuController.MenuController;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Menu {
