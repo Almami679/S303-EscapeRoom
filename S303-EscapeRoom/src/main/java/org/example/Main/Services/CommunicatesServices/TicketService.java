@@ -40,15 +40,20 @@ public class TicketService {
 
 
     private void assertIfTicketIdNotFound(int id) {
-        this.repository
-                .getAll(EntityAttributes.objectdeco)
-                .stream()
-                .map(this::castToTicket)
-                .forEach(ticket -> {
-                    if (ticket.getId() != id) {
-                        throw new TicketNotFoundException();
-                    }
-                });
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.objectdeco)
+                    .stream()
+                    .map(this::castToTicket)
+                    .forEach(ticket -> {
+                        if (ticket.getId() != id) {
+                            throw new TicketNotFoundException();
+                        }
+                    });
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     public void createTicket(
@@ -107,10 +112,15 @@ public class TicketService {
     }
 
     //Todo verificar estos metodos
-    public ArrayList<Ticket> getAllTicket(){
+    public ArrayList<Ticket> getAllTicket() {
         ArrayList<Ticket> outputList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.ticket).forEach(entity -> outputList.add((Ticket) entity));
-        return outputList;
+        try {
+            this.repository
+                    .getAll(EntityAttributes.ticket).forEach(entity -> outputList.add((Ticket) entity));
+            return outputList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

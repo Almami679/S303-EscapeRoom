@@ -35,15 +35,19 @@ public class TipService {
 
 
     private void assertIfTipIdNotFound(int id) {
-        this.repository
-                .getAll(EntityAttributes.tips)
-                .stream()
-                .map(this::castToTip)
-                .forEach(tip -> {
-                    if (tip.getId() != id) {
-                        throw new TipNotFoundException();
-                    }
-                });
+        try {
+            this.repository
+                    .getAll(EntityAttributes.tips)
+                    .stream()
+                    .map(this::castToTip)
+                    .forEach(tip -> {
+                        if (tip.getId() != id) {
+                            throw new TipNotFoundException();
+                        }
+                    });
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     public void createTip(

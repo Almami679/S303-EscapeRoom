@@ -5,11 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.ObjectDecoNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ObjectDecoService {
     private static Logger logger = LogManager.getLogger(RoomService.class);
@@ -33,15 +35,19 @@ public class ObjectDecoService {
 
 
     private void assertIfObjectDecoIdNotFound(int id) {
-        this.repository
-                .getAll(EntityAttributes.objectdeco)
-                .stream()
-                .map(this::castToDecoObject)
-                .forEach(object -> {
-                    if (object.getId() != id) {
-                        throw new ObjectDecoNotFoundException();
-                    }
-                });
+        try {
+            this.repository
+                    .getAll(EntityAttributes.objectdeco)
+                    .stream()
+                    .map(this::castToDecoObject)
+                    .forEach(object -> {
+                        if (object.getId() != id) {
+                            throw new ObjectDecoNotFoundException();
+                        }
+                    });
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     public void createObjectDeco(
@@ -102,8 +108,15 @@ public class ObjectDecoService {
     }
 
     //Todo verificar estos metodos
-    public void getAllObjectDeco(){
-        this.repository
-                .getAll(EntityAttributes.objectdeco);
+    public ArrayList<ObjectDeco> getAllObjectDeco() {
+        ArrayList<ObjectDeco> outputList = new ArrayList<>();
+        try {
+            this.repository
+                    .getAll(EntityAttributes.objectdeco).forEach(entity -> outputList.add((ObjectDeco) entity));
+            return outputList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

@@ -83,7 +83,7 @@ public class ObjectDeco extends Entity {
                 ", name='" + name + '\'' +
                 ", material='" + material + '\'' +
                 ", price=" + price +
-                ", deleted=" + deleted +
+                ", deleted=" + super.getDeleted() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
