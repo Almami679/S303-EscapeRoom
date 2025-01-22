@@ -33,8 +33,7 @@ public class SaleService {
     }
 
 
-
-    private void assertIfSaleIdNotFound(int id) {
+    private void assertIfSaleIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.sale)
                 .stream()
@@ -73,12 +72,12 @@ public class SaleService {
 
     public void deleteSale(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfSaleIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.sale);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -99,11 +98,17 @@ public class SaleService {
                 .update(sale, EntityAttributes.sale);
     }
 
-    public ArrayList<Sale> getAllSale(){
+    public ArrayList<Sale> getAllSale() {
         ArrayList<Sale> saleArrayList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.sale)
-                .forEach(sale -> saleArrayList.add((Sale) sale));
-        return saleArrayList;
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.sale)
+                    .forEach(sale -> saleArrayList.add((Sale) sale));
+            return saleArrayList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

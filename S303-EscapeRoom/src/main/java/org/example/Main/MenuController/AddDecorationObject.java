@@ -1,6 +1,7 @@
 package org.example.Main.MenuController;
 
 
+import org.example.Main.Services.EscapeRoomServices.ObjectDecoService;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
@@ -22,11 +23,7 @@ public class AddDecorationObject implements ServiceProcessor {
         material = read.next();
         System.out.println("What is the object's price?");
         price = Double.parseDouble(read.next());
-        objectDeco = new ObjectDeco(name, material,price);
-        try {
-            repository.add(objectDeco, EntityAttributes.objectdeco);
-        } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
-        }
+        ObjectDecoService ods= new ObjectDecoService(repository);
+        ods.createObjectDeco(name,material,price);
     }
 }

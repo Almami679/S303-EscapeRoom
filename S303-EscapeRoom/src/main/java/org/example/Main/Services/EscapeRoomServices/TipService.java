@@ -11,6 +11,7 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TipService {
 
@@ -34,7 +35,7 @@ public class TipService {
 
 
 
-    private void assertIfTipIdNotFound(int id) {
+    private void assertIfTipIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.tips)
                 .stream()
@@ -77,7 +78,7 @@ public class TipService {
             this.assertIfTipIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.tips);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -86,8 +87,13 @@ public class TipService {
     public void updateTip(
             int id,
             String text
-    ) throws SQLException {
+    )  {
+        try {
+            
         this.assertIfTipIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         Tips tip = this.castToTip(entity);
         tip.setText(text);
@@ -96,9 +102,17 @@ public class TipService {
                 .update(tip, EntityAttributes.tips);
     }
 
-    //Todo verificar estos metodos
-    public void getAllTips(){
+    public ArrayList<Tips> getAllTips(){
+        ArrayList<Tips> tipsArrayList = new ArrayList<>();
+        try{
+
         this.repository
-                .getAll(EntityAttributes.tips);
+                .getAll(EntityAttributes.tips)
+                .forEach(tips -> tipsArrayList.add((Tips) tips));
+        return tipsArrayList;
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

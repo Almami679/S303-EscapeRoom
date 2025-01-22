@@ -37,7 +37,7 @@ public class GiftService {
 
 
 
-    private void assertIfGiftIdNotFound(int id) {
+    private void assertIfGiftIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.gift)
                 .stream()
@@ -82,7 +82,7 @@ public class GiftService {
             this.assertIfGiftIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.gift);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -92,8 +92,13 @@ public class GiftService {
             int id,
             Player player,
             String text
-    ) throws SQLException {
+    )  {
+        try {
+
         this.assertIfGiftIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         Gift gift = this.castToGift(entity);
         gift.setPlayer(player);
@@ -106,9 +111,15 @@ public class GiftService {
     //Todo verificar estos metodos
     public ArrayList<Gift> getAllGift(){
         ArrayList<Gift> giftArrayList = new ArrayList<>();
+        try{
+
         this.repository
                 .getAll(EntityAttributes.gift)
                 .forEach(gift -> giftArrayList.add((Gift) gift));
         return giftArrayList;
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

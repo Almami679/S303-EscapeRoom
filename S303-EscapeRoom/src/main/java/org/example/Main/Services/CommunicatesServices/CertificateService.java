@@ -36,7 +36,7 @@ public class CertificateService {
         return certificate;
     }
 
-    private void assertIfCertificateIdNotFound(int id) {
+    private void assertIfCertificateIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.certificate)
                 .stream()
@@ -76,12 +76,12 @@ public class CertificateService {
 
     public void deleteCertificate(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfCertificateIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.certificate);
-        }catch (CertificateNotFoundException e){
+        } catch (CertificateNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -92,8 +92,12 @@ public class CertificateService {
             Player player,
             String text,
             Game game
-    ){
-        this.assertIfCertificateIdNotFound(id);
+    ) {
+        try {
+            this.assertIfCertificateIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Certificate certificate = this.castToCertificate(entity);
         certificate.setPlayer(player);
@@ -104,12 +108,18 @@ public class CertificateService {
                 .update(certificate, EntityAttributes.certificate);
     }
 
-    public ArrayList<Certificate> getAllCertificate(){
+    public ArrayList<Certificate> getAllCertificate() {
         ArrayList<Certificate> certificateArrayList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.certificate)
-               .forEach(certificate -> certificateArrayList.add((Certificate) certificate));
-        return certificateArrayList;
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.certificate)
+                    .forEach(certificate -> certificateArrayList.add((Certificate) certificate));
+            return certificateArrayList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 
 }

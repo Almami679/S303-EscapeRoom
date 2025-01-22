@@ -1,6 +1,7 @@
 package org.example.Main.MenuController;
 
 
+import org.example.Main.Services.EscapeRoomServices.TipService;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class AddTip implements ServiceProcessor {
         name = read.next();
         System.out.println("To which room does this tip belong?");
         id = Integer.parseInt(read.next());
-        //dbc.addTips(new TipsTEST(name,id));
+        TipService ts = new TipService(repository);
+        ts.createTip(name);
     }
 }
