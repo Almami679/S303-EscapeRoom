@@ -26,7 +26,7 @@ public class AddDecorationObject implements ServiceProcessor {
         try {
             repository.add(objectDeco, EntityAttributes.objectdeco);
         } catch (SQLException e) {
-            LOGGER.info;
+            LOGGER.info(e.getMessage());
         }
     }
 }
