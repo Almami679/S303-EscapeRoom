@@ -5,14 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Entity;
 import org.example.Repository.Serializers.Serializer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.example.Repository.Serializers.Serializer.deserialize;
-import static org.example.Repository.Serializers.Serializer.serialize;
 
 public class RepositoryImpl implements Repository{
 
@@ -51,7 +48,7 @@ public class RepositoryImpl implements Repository{
     public ArrayList<Entity> getAll(EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
         String query = "SELECT * FROM escaperoomdb." + tableName + ";";
-        return Serializer.deserializegetAll(query, enumAttributes);
+        return Serializer.deserializeGetAll(query, enumAttributes);
     }
 
     @Override

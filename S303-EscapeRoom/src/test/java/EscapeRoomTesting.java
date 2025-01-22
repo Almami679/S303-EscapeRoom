@@ -1,5 +1,6 @@
 // EscapeRoomTesting.java
 import org.assertj.core.api.Assertions;
+import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.EntityAttributes;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class EscapeRoomTesting {
 
@@ -23,14 +25,16 @@ public class EscapeRoomTesting {
                 .build();
         RepositoryImpl repository = new RepositoryImpl();
 
-        //Insert
+        // Insert
         try {
             repository.insert(escapeRoom1, EntityAttributes.escaperoom);
         } catch (SQLException e) {
             Assertions.fail("Failed to add escape room", e);
         }
 
-        //GetById
+
+
+        // GetById
         EscapeRoom escapeRoom2 = null;
         try {
             escapeRoom2 = (EscapeRoom) repository.getById(5, EntityAttributes.escaperoom);
@@ -55,5 +59,4 @@ public class EscapeRoomTesting {
         Assertions.assertThat(escapeRoom2).isNotNull();
         Assertions.assertThat(escapeRoom2.getDeleted()).isEqualTo(1);
     }
-
 }

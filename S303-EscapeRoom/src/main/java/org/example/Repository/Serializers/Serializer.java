@@ -2,8 +2,6 @@ package org.example.Repository.Serializers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CommunicatesEntities.Certificate;
-import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
@@ -35,20 +33,17 @@ public class Serializer {
         }
     }
 
-    public static ArrayList<Entity> deserializegetAll(
-            String query,
-            EntityAttributes entityEnum) throws SQLException {
+    public static ArrayList<Entity> deserializeGetAll(String query, EntityAttributes entityEnum) throws SQLException {
         ArrayList<Entity> entities = new ArrayList<>();
         try (Connection connection = dbConnection.dbConnect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    entities.add(createEntityToDeserialize(entityEnum, resultSet));
-                }
-            } catch (SQLException e) {
-                logger.error("Failed to deserialize entities: ", e);
-                throw e;
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                entities.add(createEntityToDeserialize(entityEnum, resultSet));
             }
+        } catch (SQLException e) {
+            logger.error("Failed to deserialize entity: ", e);
+            throw e;
         }
         return entities;
     }
@@ -109,7 +104,6 @@ public class Serializer {
             /// constructores
 
         }
-
         return entity;
     }
 }
