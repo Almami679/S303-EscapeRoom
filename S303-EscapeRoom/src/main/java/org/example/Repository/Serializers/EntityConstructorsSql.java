@@ -144,4 +144,5 @@ public class EntityConstructorsSql {
         entity = new ObjectDeco(id,name,material,price,deleted, createdAt,updateAt);
         return entity;
     }
+
 }

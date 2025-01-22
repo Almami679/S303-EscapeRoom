@@ -1,15 +1,11 @@
 package org.example.Main;
-import org.example.Main.Services.CreateEscapeRoom;
-import org.example.Repository.Common.DatabaseConnection;
+import org.example.Main.MenuController.MenuController;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Menu {
 
-    public void displayMenu(DatabaseConnection dbc, Scanner read) {
+    public void displayMenu(Scanner read) {
         int userInput;
         String text = "---------------------------------------------------------------------------\n" +
                 "------------------------WELCOME TO  THE ESCAPE ROOM------------------------\n" +
@@ -20,7 +16,7 @@ public class Menu {
         do {
             System.out.println(text);
             userInput = read.nextInt();
-            MenuController.handleUserInput(userInput, dbc, read);
+            MenuController.handleUserInput(userInput, read);
         } while (userInput != 0);
         System.out.println("Exiting... Goodbye!");
     }
@@ -29,9 +25,8 @@ public class Menu {
         int option, id;
         String name, theme, material, difficulty;
         double price;
-        DatabaseConnection dbc = new DatabaseConnection();
         Scanner read = new Scanner(System.in);
         read.useDelimiter("\r?\n");
-        displayMenu(dbc,read);
+        displayMenu(read);
     }
 }

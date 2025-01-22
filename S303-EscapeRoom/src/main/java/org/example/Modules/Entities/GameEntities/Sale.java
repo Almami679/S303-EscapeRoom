@@ -18,11 +18,10 @@ public class Sale extends Entity {
     private Game game;
     private int deleted;
 
-    public Sale(Timestamp created_at, double price, Game game, int deleted) {
-        this.createdAt = created_at;
+    public Sale(double price, Game game) {
+        this.createdAt = game.getGameDate();
         this.price = price;
         this.game = game;
-        this.deleted = deleted;
     }
 
     public Sale(int id, double price, int gameId, int deleted) throws SQLException {

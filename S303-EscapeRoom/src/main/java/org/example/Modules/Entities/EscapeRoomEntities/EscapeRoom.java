@@ -18,14 +18,14 @@ public class EscapeRoom extends Entity {
     private Timestamp updatedAt;
 
 
-    public EscapeRoom(String name, Double price, String theme, Timestamp createdAt, Timestamp updatedAt) {
+    public EscapeRoom(String name, Double price, String theme) {
         super();
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = 0;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = null;
     }
 
     public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp createdAt, Timestamp updatedAt) {
@@ -46,6 +46,16 @@ public class EscapeRoom extends Entity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public EscapeRoom setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public EscapeRoom setTheme(String theme) {
+        this.theme = theme;
+        return this;
     }
 
     public String getName() {
