@@ -11,6 +11,7 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SaleService {
     private static final Logger logger = LogManager.getLogger(SaleService.class);
@@ -98,9 +99,11 @@ public class SaleService {
                 .update(sale, EntityAttributes.sale);
     }
 
-    //Todo verificar estos metodos
-    public void getAllSale(){
+    public ArrayList<Sale> getAllSale(){
+        ArrayList<Sale> saleArrayList = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.sale);
+                .getAll(EntityAttributes.sale)
+                .forEach(sale -> saleArrayList.add((Sale) sale));
+        return saleArrayList;
     }
 }

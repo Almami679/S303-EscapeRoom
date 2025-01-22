@@ -3,6 +3,8 @@ package org.example.entity_services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.CertificateNotFoundException;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Game;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class CertificateService {
     private static final Logger logger = LogManager.getLogger(CertificateService.class);
 
+    private final CommunicateFactory mainFactory = new CommunicateFactory();
     private final Repository repository;
     private final Entity entity = new Entity();
 
@@ -46,16 +49,15 @@ public class CertificateService {
                 });
     }
 
+
     public void createCertificate(
-            Player player,
-            String text,
-            Game game
+            int playerId
     ) {
-        // assertIfCertificateAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
         try {
+            Certificate certificate = (Certificate) mainFactory.createCommunicate(CommunicateType.CERTIFICATE, playerId);
             this
                     .repository
-                    .add(new Certificate(player, text, game), EntityAttributes.certificate);
+                    .add(certificate, EntityAttributes.certificate);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -103,7 +105,6 @@ public class CertificateService {
                 .update(certificate, EntityAttributes.certificate);
     }
 
-    //Todo verificar estos metodos
     public ArrayList<Certificate> getAllCertificate(){
         ArrayList<Certificate> certificateArrayList = new ArrayList<>();
         this.repository

@@ -9,6 +9,7 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PlayerService {
     private static Logger logger = LogManager.getLogger(PlayerService.class);
@@ -115,5 +116,13 @@ public class PlayerService {
     public void getAll(){
         this.repository
                 .getAll(EntityAttributes.player);
+    }
+
+    public ArrayList<Player> getAllPlayer(){
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        this.repository
+                .getAll(EntityAttributes.player)
+                .forEach(player -> playerArrayList.add((Player) player));
+        return playerArrayList;
     }
 }

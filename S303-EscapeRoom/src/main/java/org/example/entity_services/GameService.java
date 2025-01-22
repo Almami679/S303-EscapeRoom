@@ -99,10 +99,12 @@ public class GameService {
                 .update(game, EntityAttributes.game);
     }
 
-    //Todo verificar estos metodos
-    public void getAllGame(){
+    public ArrayList<Game> getAllGame(){
+        ArrayList<Game> gameArrayList = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.game);
+                .getAll(EntityAttributes.game)
+                .forEach(game -> gameArrayList.add((Game) game));
+        return gameArrayList;
     }
 
     //TODO verify this method

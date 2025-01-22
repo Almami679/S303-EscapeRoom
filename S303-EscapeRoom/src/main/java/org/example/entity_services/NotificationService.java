@@ -4,6 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.NotificationNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
+import org.example.Modules.Entities.CommunicatesEntities.Notification;
+import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -11,10 +15,11 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NotificationService {
     private static final Logger logger = LogManager.getLogger(NotificationService.class);
-
+    private final CommunicateFactory mainFactory = new CommunicateFactory();
     private final Repository repository;
     private final Entity entity = new Entity();
 
@@ -46,13 +51,13 @@ public class NotificationService {
     }
 
     public void createNotification(
-            Player player,
-            String text
+            int playerId
     ) {
         try {
+            Notification notification = (Notification) mainFactory.createCommunicate(CommunicateType.NOTIFICATION, playerId);
             this
                     .repository
-                    .add(new Notification(player, text), EntityAttributes.notification);
+                    .add(notification, EntityAttributes.notification);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -99,8 +104,11 @@ public class NotificationService {
     }
 
     //Todo verificar estos metodos
-    public void getAllNotification(){
+    public ArrayList<Notification> getAllNotification(){
+        ArrayList<Notification> notifications = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.notification);
+                .getAll(EntityAttributes.notification)
+                .forEach(notification -> notifications.add((Notification) notification));
+        return notifications;
     }
 }

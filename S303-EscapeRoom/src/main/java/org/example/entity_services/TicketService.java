@@ -4,6 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.TicketNotFoundException;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
+import org.example.Modules.Entities.CommunicatesEntities.Ticket;
+import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -12,10 +16,11 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TicketService {
     private static final Logger logger = LogManager.getLogger(TicketService.class);
-
+    private final CommunicateFactory mainFactory = new CommunicateFactory();
     private final Repository repository;
     private final Entity entity = new Entity();
 
@@ -47,14 +52,13 @@ public class TicketService {
     }
 
     public void createTicket(
-            Player player,
-            String text,
-            Sale sale
+            int playerId
     ) {
         try {
+            Ticket ticket = (Ticket) mainFactory.createCommunicate(CommunicateType.TICKET, playerId);
             this
                     .repository
-                    .add(new Ticket(player, text, sale), EntityAttributes.ticket);
+                    .add(ticket, EntityAttributes.ticket);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -100,9 +104,11 @@ public class TicketService {
                 .update(ticket, EntityAttributes.ticket);
     }
 
-    //Todo verificar estos metodos
-    public void getAllTicket(){
+    public ArrayList<Ticket> getAllTicket(){
+        ArrayList<Ticket> ticketArrayList = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.ticket);
+                .getAll(EntityAttributes.ticket)
+                .forEach(ticket -> ticketArrayList.add((Ticket) ticket));
+        return ticketArrayList;
     }
 }

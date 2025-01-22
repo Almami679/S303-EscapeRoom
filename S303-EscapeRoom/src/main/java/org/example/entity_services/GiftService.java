@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.GiftNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
+import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -11,10 +14,12 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GiftService {
     private static final Logger logger = LogManager.getLogger(GiftService.class);
 
+    private final CommunicateFactory mainFactory = new CommunicateFactory();
     private final Repository repository;
     private final Entity entity = new Entity();
 
@@ -46,13 +51,14 @@ public class GiftService {
     }
 
     public void createGift(
-            Player player,
-            String text
+            int playerId
     ) {
         try {
+            Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, playerId);
+
             this
                     .repository
-                    .add(new Gift(player, text), EntityAttributes.gift);
+                    .add(gift, EntityAttributes.gift);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -99,8 +105,11 @@ public class GiftService {
     }
 
     //Todo verificar estos metodos
-    public void getAllGift(){
+    public ArrayList<Gift> getAllGift(){
+        ArrayList<Gift> giftArrayList = new ArrayList<>();
         this.repository
-                .getAll(EntityAttributes.gift);
+                .getAll(EntityAttributes.gift)
+                .forEach(gift -> giftArrayList.add((Gift) gift));
+        return giftArrayList;
     }
 }
