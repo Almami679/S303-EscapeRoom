@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface Repository {
-    void insert(Entity entity, EntityAttributes enumAttributes) throws SQLException;
+    void add(Entity entity, EntityAttributes enumAttributes) throws SQLException;
     Entity getById(int id, EntityAttributes enumAttributes) throws SQLException;
     void delete(int id, EntityAttributes enumAttributes);
     void update(Entity entity, EntityAttributes enumAttributes);
