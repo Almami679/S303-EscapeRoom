@@ -7,20 +7,48 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
-    private final static String USER = "root";
-    private final static String PASSWORD = "Chefwork135731";
+    private String URL;
+    private String USER = "root";
+    private String PASSWORD;
+    private static final int MAX_CONNECTION_OPTIONS = 4;
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
+    void setConnectionOption(int connectionOption) {
+        switch (connectionOption) {
+            case 0://Marc
+                URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
+                PASSWORD = "mbernar910";
+                break;
+            case 1://Albert
+                URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
+                PASSWORD = "Chefwork135731";
+                break;
+            case 2://Inga
+                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
+                PASSWORD = "";
+                break;
+            case 3://Pau
+                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
+                PASSWORD = "";
+                break;
+        }
+    }
+
     public Connection dbConnect() {
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            logger.info("Connection established successfully.");
-        } catch (SQLException e) {
-            logger.error("Connection failed.", e);
-            throw new DatabaseConnectionFailed(e.getMessage());
+        Connection connection = null;
+        for (int i = 0; i < MAX_CONNECTION_OPTIONS; i++) {
+            setConnectionOption(i);
+            try {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                logger.info("Connection established successfully");
+                i=MAX_CONNECTION_OPTIONS;
+            } catch (SQLException e) {
+                logger.error("Connection failed , trying with another connection.", e);
+            }
+        }
+        if (connection == null) {
+            throw new DatabaseConnectionFailed("All connection attempts failed.");
         }
         return connection;
     }
