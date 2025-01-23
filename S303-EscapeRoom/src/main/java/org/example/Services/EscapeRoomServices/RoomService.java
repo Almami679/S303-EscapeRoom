@@ -5,10 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Repository.RepositoryRelations.RepositroyRoomHasObjectDeco;
 
 import java.sql.SQLException;
@@ -62,15 +64,15 @@ public class RoomService {
         }
     }
 
-    public void getRoomById(
+    public Room getRoomById(
             int id
     ) {
         try {
-            this.assertIfRoomIdNotFound(id);
-            this.repository
+            return (Room) this.repository
                     .getById(id, EntityAttributes.room);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
@@ -120,7 +122,21 @@ public class RoomService {
     }
 
     public void addObjectInRoom(int objectId, int roomId) {
-        this.repository = (RepositroyRoomHasObjectDeco) this.repository;
-        repository.addRoomHasObjectDeco(roomId, objectId);
+        RepositroyRoomHasObjectDeco repo = new RepositroyRoomHasObjectDeco();
+        try {
+            repo.addRoomHasObjectDeco(roomId, objectId);
+        } catch (SQLException e) {
+            logger.info("Fail to fetch object in room");
+        }
+    }
+
+    public ArrayList<ObjectDeco> getAllObjectsInRoom(int roomId) {
+        RepositroyRoomHasObjectDeco repoRoomHasObject = new RepositroyRoomHasObjectDeco();
+        try {
+            return repoRoomHasObject.getAllObjectsByRoomId(roomId);
+        } catch (SQLException e) {
+            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+        }
+        return null;
     }
 }

@@ -100,6 +100,8 @@ public class Serializer {
             case escaperoom -> {
                 entity = escapeRoomConstructor(resultSet, attributes);
             }
+            case room_has_objectdeco ->
+                entity = roomHasObjectConstructor(resultSet, attributes);
             /// Seguir haciendo los casos de las entities con las clases definitivas y sus respectivos
             /// constructores
 

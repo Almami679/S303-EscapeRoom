@@ -16,13 +16,13 @@ public class DatabaseConnection {
 
     void setConnectionOption(int connectionOption) {
         switch (connectionOption) {
-            case 0://Marc
+            case 0://Albert
+                URL = "jdbc:mysql://localhost:3306/escaperoomdb";
+                PASSWORD = "Chefwork135731";
+                break;
+            case 1://Marc
                 URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
                 PASSWORD = "mbernar910";
-                break;
-            case 1://Albert
-                URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
-                PASSWORD = "Chefwork135731";
                 break;
             case 2://Inga
                 URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
