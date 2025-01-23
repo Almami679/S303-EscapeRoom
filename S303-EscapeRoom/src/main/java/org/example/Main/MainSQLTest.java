@@ -22,7 +22,7 @@ public class MainSQLTest {
 
     public static void main(String[] args) {
         Repository repository = new RepositoryImpl();
-        PlayerService playerService = new PlayerService(repository);
+        PlayerService playerService = new PlayerService();
         playerService.createPlayer("inga", "example@email.com", 0);
 
         EscapeRoomTesting();

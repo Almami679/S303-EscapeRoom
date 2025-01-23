@@ -1,6 +1,7 @@
 package org.example.Main.MenuController;
 
 
+import org.example.Main.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.EntityAttributes;
@@ -21,23 +22,14 @@ public class CreateEscapeRoom implements ServiceProcessor {
 
     @Override
     public void process(Scanner read, RepositoryImpl repository) {
-        EscapeRoomBuilder builder = new EscapeRoomBuilder();
         System.out.println("What is the Escape Room's name?");
         name = read.next();
-        builder.setName(name);
         System.out.println("What is the Escape Room's price?");
         price = Double.parseDouble(read.next());
-        builder.setPrice(price);
         System.out.println("What is the Escape Room's theme?");
         theme = read.next();
-        builder.setTheme(theme);
-        EscapeRoom eroom = builder.build();
-        RepositoryImpl rep = new RepositoryImpl();
-        try {
-            rep.add(eroom, EntityAttributes.escaperoom);
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL exception occurred while adding escaperoom", e);
-        }
+        EscapeRoomService ers = new EscapeRoomService(repository);
+        ers.createEscapeRoom(name,price,theme);
     }
 }
 
