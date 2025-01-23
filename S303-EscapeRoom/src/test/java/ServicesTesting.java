@@ -1,4 +1,4 @@
-import org.example.Main.Services.GameServices.PlayerService;
+import org.example.Services.GameServices.PlayerService;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;

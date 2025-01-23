@@ -1,21 +1,21 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.TipService;
+import org.example.Services.EscapeRoomServices.TipService;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
+import static org.example.Main.MenuController.UserInputs.askString;
+
 public class AddTip implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
-        String name;
+    public void process(Scanner read) {
+        String text;
         int id;
-        System.out.println("What is the tip's text?");
-        name = read.next();
-        System.out.println("To which room does this tip belong?");
-        id = Integer.parseInt(read.next());
-        TipService ts = new TipService(repository);
-        ts.createTip(name);
+        text = askString("What is the tip's text?",read);
+        id = Integer.parseInt(askString("To which room does this tip belong?",read));
+        TipService ts = new TipService();
+        ts.createTip(text);
     }
 }

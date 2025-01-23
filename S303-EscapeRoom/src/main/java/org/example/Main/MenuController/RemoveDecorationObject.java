@@ -1,19 +1,19 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.ObjectDecoService;
-import org.example.Modules.Entities.RoomEntities.ObjectDeco;
+import org.example.Services.EscapeRoomServices.ObjectDecoService;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
+import static org.example.Main.MenuController.UserInputs.askString;
+
 public class RemoveDecorationObject implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         int id;
-        System.out.println("What is the ID of the object you want to delete?");
-        id = read.nextInt();
-        ObjectDecoService ods = new ObjectDecoService(repository);
+        id = Integer.parseInt(askString("What is the ID of the object you want to delete?",read));
+        ObjectDecoService ods = new ObjectDecoService();
         ods.deleteObjectDeco(id);
     }
 }

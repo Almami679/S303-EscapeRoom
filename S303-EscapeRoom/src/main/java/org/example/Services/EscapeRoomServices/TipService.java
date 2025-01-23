@@ -1,4 +1,4 @@
-package org.example.Main.Services.EscapeRoomServices;
+package org.example.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +9,7 @@ import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class TipService {
     private final Entity entity = new Entity();
 
 
-    public TipService(Repository repository) {
-        this.repository = repository;
+    public TipService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Tips castToTip(Entity entity) {

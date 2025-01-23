@@ -1,6 +1,8 @@
 // RepositoryEscapeHasRoom.java
-package org.example.Repository.Common;
+package org.example.Repository.RepositoryRelations;
 
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.Serializers.Serializer;
 
 import java.sql.SQLException;

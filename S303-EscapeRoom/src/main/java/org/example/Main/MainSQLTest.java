@@ -2,21 +2,13 @@ package org.example.Main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.assertj.core.api.Assertions;
-import org.example.Main.Services.GameServices.PlayerService;
-import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
-import org.example.Repository.Common.DatabaseConnection;
-import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.RepositoryImpl;
-import org.example.Repository.Serializers.Serializer;
+import org.example.Repository.Common.*;
+import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
+import org.example.Services.GameServices.PlayerService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class MainSQLTest {
@@ -24,7 +16,7 @@ public class MainSQLTest {
 
     public static void main(String[] args) {
         PlayerService playerService = new PlayerService();
-        playerService.createPlayer("inga", "example@email.com", 0);
+       // playerService.createPlayer("inga", "example@email.com", 0);
         playerService.getPlayerById(1);
 
         EscapeRoomTesting();

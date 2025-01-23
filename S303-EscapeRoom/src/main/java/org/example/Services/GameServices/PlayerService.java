@@ -1,4 +1,4 @@
-package org.example.Main.Services.GameServices;
+package org.example.Services.GameServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,7 +81,7 @@ public class PlayerService {
             int id
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
+           // this.assertIfPlayerIdNotFound(id);
             this.repository
                     .getById(id, EntityAttributes.player);
         } catch (SQLException e) {

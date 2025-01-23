@@ -1,22 +1,18 @@
-package org.example.Main.Services.EscapeRoomServices;
+package org.example.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.EscapeRoomNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
-import org.example.Exceptions.RoomNotFoundException;
-import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
-import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EscapeRoomService {
     private static Logger logger = LogManager.getLogger(RoomService.class);
@@ -25,8 +21,8 @@ public class EscapeRoomService {
     private final Entity entity = new Entity();
 
 
-    public EscapeRoomService(Repository repository) {
-        this.repository = repository;
+    public EscapeRoomService() {
+        this.repository = new RepositoryImpl();
     }
 
     private EscapeRoom castToEscapeRoom(Entity entity) {
