@@ -1,4 +1,4 @@
-package org.example.Main.Services.EscapeRoomServices;
+package org.example.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +8,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class ObjectDecoService {
     private final Entity entity = new Entity();
 
 
-    public ObjectDecoService(Repository repository) {
-        this.repository = repository;
+    public ObjectDecoService() {
+        this.repository = new RepositoryImpl();
     }
 
     private ObjectDeco castToDecoObject(Entity entity) {

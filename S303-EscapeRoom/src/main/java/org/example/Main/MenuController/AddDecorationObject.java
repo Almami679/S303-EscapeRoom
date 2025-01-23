@@ -1,12 +1,10 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.ObjectDecoService;
+import org.example.Services.EscapeRoomServices.ObjectDecoService;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 

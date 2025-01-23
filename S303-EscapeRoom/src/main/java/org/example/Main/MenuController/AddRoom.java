@@ -1,14 +1,10 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.RoomService;
-import org.example.Modules.Entities.RoomEntities.Room;
-import org.example.Repository.Common.EntityAttributes;
+import org.example.Services.EscapeRoomServices.RoomService;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddRoom implements ServiceProcessor {
