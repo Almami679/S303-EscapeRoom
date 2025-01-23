@@ -25,7 +25,7 @@ public class EscapeRoom extends Entity {
         this.theme = theme;
         this.deleted = 0;
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = null;
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
     public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp createdAt, Timestamp updatedAt) {

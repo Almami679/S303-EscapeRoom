@@ -18,7 +18,6 @@ public class Serializer {
 
     public static DatabaseConnection dbConnection = new DatabaseConnection();
 
-
     public static Entity deserialize(
             String query,
             EntityAttributes entityEnum) throws SQLException {
@@ -47,7 +46,6 @@ public class Serializer {
         }
         return entities;
     }
-
     public static void serialize(String query, EntityAttributes entity, String action, ArrayList<String> values) {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query)) {
