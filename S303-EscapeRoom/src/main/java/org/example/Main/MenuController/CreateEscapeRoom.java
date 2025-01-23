@@ -7,6 +7,8 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import static org.example.Main.MenuController.UserInputs.askString;
+
 public class CreateEscapeRoom implements ServiceProcessor {
     private static final Logger LOGGER = Logger.getLogger(CreateEscapeRoom.class.getName());
 
@@ -14,14 +16,11 @@ public class CreateEscapeRoom implements ServiceProcessor {
     public double price;
 
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
-        System.out.println("What is the Escape Room's name?");
-        name = read.next();
-        System.out.println("What is the Escape Room's price?");
-        price = Double.parseDouble(read.next());
-        System.out.println("What is the Escape Room's theme?");
-        theme = read.next();
-        EscapeRoomService ers = new EscapeRoomService(repository);
+    public void process(Scanner read) {
+        name = askString("What is the Escape Room's name?",read);
+        price = Double.parseDouble(askString("What is the Escape Room's price?",read));
+        theme = askString("What is the Escape Room's theme?",read);
+        EscapeRoomService ers = new EscapeRoomService();
         ers.createEscapeRoom(name,price,theme);
     }
 }

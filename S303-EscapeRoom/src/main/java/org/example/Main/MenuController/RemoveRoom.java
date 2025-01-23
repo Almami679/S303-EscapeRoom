@@ -6,13 +6,14 @@ import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
+import static org.example.Main.MenuController.UserInputs.askString;
+
 public class RemoveRoom implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         int id;
-        System.out.println("What is the ID of the room you want to delete?");
-        id = read.nextInt();
-        RoomService rs = new RoomService(repository);
+        id = Integer.parseInt(askString("What is the ID of the room you want to delete?",read));
+        RoomService rs = new RoomService();
         rs.deleteRoom(id);
     }
 }
