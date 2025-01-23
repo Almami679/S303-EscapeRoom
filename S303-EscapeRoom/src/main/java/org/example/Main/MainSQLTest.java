@@ -3,6 +3,7 @@ package org.example.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.Assertions;
+import org.example.Main.Services.GameServices.PlayerService;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
@@ -22,9 +23,9 @@ public class MainSQLTest {
     static Logger logger = LogManager.getLogger(MainSQLTest.class);
 
     public static void main(String[] args) {
-        Repository repository = new RepositoryImpl();
         PlayerService playerService = new PlayerService();
         playerService.createPlayer("inga", "example@email.com", 0);
+        playerService.getPlayerById(1);
 
         EscapeRoomTesting();
         /*RoomTesting();
@@ -58,12 +59,12 @@ public class MainSQLTest {
         } catch (SQLException e) {
             Assertions.fail("Failed to retrieve escape room", e);
         }
-        System.out.println(escapeRoom2);*/
+        System.out.println(escapeRoom2);
         RepositoryEscapeHasRoom repositoryEscapeHasRoom = new RepositoryEscapeHasRoom();
         try {
             repositoryEscapeHasRoom.addEscapeRoomHasRoom(1, 2);
         } catch (SQLException e) {
             logger.error("Failed to add escape room and room relationship: ", e);
-        }
+        }*/
     }
 }

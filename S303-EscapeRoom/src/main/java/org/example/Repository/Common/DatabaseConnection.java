@@ -7,9 +7,9 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private final static String URL = "jdbc:mysql://127.0.0.2:3306/escaperoomdb";
+    private final static String URL = "jdbc:mysql://localhost:3306/escaperoomdb"; //jdbc:mysql://localhost:3306/
     private final static String USER = "root";
-    private final static String PASSWORD = "Chefwork135731";
+    private final static String PASSWORD = "password";
 
     Logger logger = LogManager.getLogger(DatabaseConnection.class);
 

@@ -2,6 +2,7 @@ package org.example.Main.Services.GameServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Exceptions.PlayerAlreadyExistsException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -32,28 +33,31 @@ public class PlayerService {
     }
 
 
-    private void assertIfPlayerAlreadyExists(String email) throws SQLException {
-        this.repository
+    private boolean assertIfPlayerAlreadyExists(String email) throws SQLException, PlayerAlreadyExistsException {
+        boolean exists = this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
                 .map(this::castToPlayer)
-                .forEach(player -> {
-                    if (player.getEmail().equals(email)) {
-                        System.out.println("player already exists");
-                    }
-                });
+                .anyMatch(player -> player.getEmail().equals(email));
+
+        if (exists) {
+            throw new PlayerAlreadyExistsException();
+        }
+
+        return exists;
     }
 
-    private void assertIfPlayerIdNotFound(int id) throws SQLException {
-        this.repository
+    private boolean assertIfPlayerIdNotFound(int id) throws SQLException {
+        boolean notFound = this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
                 .map(this::castToPlayer)
-                .forEach(player -> {
-                    if (player.getId() != id) {
-                        throw new PlayerNotFound("Player with " + id + " id not found");
-                    }
-                });
+                .anyMatch(player -> player.getId() != id);
+
+        if(notFound){
+            throw new PlayerNotFound("Player with id " + id + " not found");
+        }
+        return notFound;
     }
 
     public void createPlayer(
@@ -61,12 +65,14 @@ public class PlayerService {
             String email,
             int consentNotif
     ) {
-        // assertIfPlayerAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
+
         try {
-            this
-                    .repository
-                    .add(new Player(name, email, consentNotif), EntityAttributes.player);
-        } catch (SQLException e) {
+            if (!assertIfPlayerAlreadyExists(email)) {
+                this
+                        .repository
+                        .add(new Player(name, email, consentNotif), EntityAttributes.player);
+            }
+        } catch (SQLException | PlayerAlreadyExistsException e ) {
             logger.info(e.getMessage());
         }
     }
