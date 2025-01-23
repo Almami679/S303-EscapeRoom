@@ -13,17 +13,17 @@ import java.util.Scanner;
 
 public class DisplayValueInventory implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         double sum = 0;
-        ObjectDecoService ods = new ObjectDecoService(repository);
+        ObjectDecoService ods = new ObjectDecoService();
         for(ObjectDeco o:ods.getAllObjectDeco()){
             sum+=o.getPrice();
         }
-        RoomService rs = new RoomService(repository);
+        RoomService rs = new RoomService();
         for(Room r:rs.getAllRoom()){
             sum+=r.getPrice();
         }
-        EscapeRoomService ers = new EscapeRoomService(repository);
+        EscapeRoomService ers = new EscapeRoomService();
         for(EscapeRoom er:ers.getAllEscapeRooms()){
             sum+=er.getPrice();
         }

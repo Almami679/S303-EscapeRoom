@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class DisplayIncome implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
 
     }
 }

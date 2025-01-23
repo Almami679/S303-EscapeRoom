@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class MenuController {
     private static final Map<Integer, ServiceProcessor> actions = new HashMap<>();
-    private static RepositoryImpl repository = new RepositoryImpl();
 
 
     static {
@@ -30,7 +29,7 @@ public class MenuController {
     public static void handleUserInput(int userInput, Scanner read) throws SQLException {
         ServiceProcessor action = actions.get(userInput);
         if (action != null) {
-            action.process(read, repository);
+            action.process(read);
         } else if (userInput == 0) {
             System.out.println("Exiting... Goodbye!");
         } else {
