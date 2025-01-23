@@ -17,9 +17,6 @@ public class EscapeRoomTesting {
                 .setName("Pedos House")
                 .setPrice(50.0)
                 .setTheme("Smelly")
-                .setDeleted(0)
-                .setCreatedAt(new Timestamp(System.currentTimeMillis()))
-                .setUpdatedAt(new Timestamp(System.currentTimeMillis()))
                 .build();
         RepositoryImpl repository = new RepositoryImpl();
 
