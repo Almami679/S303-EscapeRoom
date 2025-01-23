@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
-import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -36,20 +34,16 @@ public class RoomService {
 
 
 
-    private void assertIfRoomIdNotFound(int id) {
-        try {
-            this.repository
-                    .getAll(EntityAttributes.room)
-                    .stream()
-                    .map(this::castToRoom)
-                    .forEach(room -> {
-                        if (room.getId() != id) {
-                            throw new RoomNotFoundException();
-                        }
-                    });
-        } catch (SQLException e) {
-            logger.info(e.getMessage());
-        }
+    private void assertIfRoomIdNotFound(int id) throws SQLException {
+        this.repository
+                .getAll(EntityAttributes.room)
+                .stream()
+                .map(this::castToRoom)
+                .forEach(room -> {
+                    if (room.getId() != id) {
+                        throw new RoomNotFoundException();
+                    }
+                });
     }
 
     public void createRoom(
@@ -85,7 +79,7 @@ public class RoomService {
             this.assertIfRoomIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.room);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -108,29 +102,18 @@ public class RoomService {
                 .update(room, EntityAttributes.room);
     }
 
-    //Todo verificar estos metodos
-    public ArrayList<Room> getAllRooms() {
-        ArrayList<Room> outputList = new ArrayList<>();
-        try {
+
+    public ArrayList<Room> getAllRoom(){
+        ArrayList<Room> roomArrayList = new ArrayList<>();
+        try{
+
             this.repository
-                    .getAll(EntityAttributes.room).forEach(entity -> outputList.add((Room) entity));
-            return outputList;
-        } catch (SQLException e) {
+                    .getAll(EntityAttributes.room)
+                    .forEach(room -> roomArrayList.add((Room) room));
+            return roomArrayList;
+        }catch (SQLException e){
             logger.info(e.getMessage());
             return null;
         }
-    }
-
-    public void addObjectDecoToRoom(
-            ObjectDeco objectdeco,
-            int idRoom)
-            throws SQLException {
-            this.assertIfRoomIdNotFound(idRoom);
-
-            Room room = this.castToRoom(entity);
-            room.addObjectInRoom(objectdeco);
-
-            this.repository.add(room, EntityAttributes.room_has_objectdeco);
-
     }
 }

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.ObjectDecoNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -34,20 +33,16 @@ public class ObjectDecoService {
 
 
 
-    private void assertIfObjectDecoIdNotFound(int id) {
-        try {
-            this.repository
-                    .getAll(EntityAttributes.objectdeco)
-                    .stream()
-                    .map(this::castToDecoObject)
-                    .forEach(object -> {
-                        if (object.getId() != id) {
-                            throw new ObjectDecoNotFoundException();
-                        }
-                    });
-        } catch (SQLException e) {
-            logger.info(e.getMessage());
-        }
+    private void assertIfObjectDecoIdNotFound(int id) throws SQLException {
+        this.repository
+                .getAll(EntityAttributes.objectdeco)
+                .stream()
+                .map(this::castToDecoObject)
+                .forEach(object -> {
+                    if (object.getId() != id) {
+                        throw new ObjectDecoNotFoundException();
+                    }
+                });
     }
 
     public void createObjectDeco(
@@ -84,7 +79,7 @@ public class ObjectDecoService {
             this.assertIfObjectDecoIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.objectdeco);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -95,8 +90,13 @@ public class ObjectDecoService {
             String name,
             String material,
             double price
-    ) throws SQLException {
+    )  {
+        try{
+            
         this.assertIfObjectDecoIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         ObjectDeco objectDeco = this.castToDecoObject(entity);
         objectDeco.setPrice(price);
@@ -107,13 +107,15 @@ public class ObjectDecoService {
                 .update(objectDeco, EntityAttributes.objectdeco);
     }
 
-    //Todo verificar estos metodos
+
     public ArrayList<ObjectDeco> getAllObjectDeco() {
-        ArrayList<ObjectDeco> outputList = new ArrayList<>();
+        ArrayList<ObjectDeco> objectDecoArrayList = new ArrayList<>();
         try {
+
             this.repository
-                    .getAll(EntityAttributes.objectdeco).forEach(entity -> outputList.add((ObjectDeco) entity));
-            return outputList;
+                    .getAll(EntityAttributes.objectdeco)
+                    .forEach(objectDeco -> objectDecoArrayList.add((ObjectDeco) objectDeco));
+            return objectDecoArrayList;
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;

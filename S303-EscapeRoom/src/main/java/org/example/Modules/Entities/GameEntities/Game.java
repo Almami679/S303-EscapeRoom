@@ -26,16 +26,15 @@ public class Game extends Entity {
     private Timestamp finishedAt;
 
     public Game(EscapeRoom escapeRoom,
-                    Timestamp date,
-                    ArrayList<Player> players) {
+                    ArrayList<Player> players
+    ) {
         this.escapeRoom = escapeRoom;
-        this.gameDate = date;
         this.players = players;
         this.finish = 0;
         this.gameCertificate = null;
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updateAt = null;
-        this.finishedAt = null;
+        this.updateAt = new Timestamp(System.currentTimeMillis());
+        this.finishedAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Game (int id, int escapeRoomId, int finished, int deleted, Timestamp createdAt, Timestamp updateAt) throws SQLException {
@@ -74,6 +73,18 @@ public class Game extends Entity {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void setPlayers(Player player) {
+        this.players.add(player);
+    }
+
+    public void setFinish(int finish) {
+        this.finish = finish;
+    }
+
+    public void setFinishedAt(Timestamp finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public void finishGame(){

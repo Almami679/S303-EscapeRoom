@@ -23,7 +23,7 @@ public class Player extends Entity {
         this.name = name;
         this.email = email;
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updateAt = null;
+        this.updateAt = new Timestamp(System.currentTimeMillis());
         this.consentNotif = consentNotif;
         this.completedGames = new ArrayList<>();
         this.playerSales = new ArrayList<>();
@@ -74,11 +74,11 @@ public class Player extends Entity {
     }
 
     public Game getGame(){
-        return this.completedGames.getLast();
+        return this.completedGames.get(completedGames.size() -1);
     }
 
     public Sale getSale(){
-        return this.playerSales.getLast();
+        return this.playerSales.get(playerSales.size() -1);
     }
 
     public void addGame(Game game){

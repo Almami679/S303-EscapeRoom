@@ -1,11 +1,12 @@
 package org.example.Main;
 import org.example.Main.MenuController.MenuController;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Menu {
 
-    public void displayMenu(Scanner read) {
+    public void displayMenu(Scanner read) throws SQLException {
         int userInput;
         String text = "---------------------------------------------------------------------------\n" +
                 "------------------------WELCOME TO  THE ESCAPE ROOM------------------------\n" +
@@ -21,7 +22,7 @@ public class Menu {
         System.out.println("Exiting... Goodbye!");
     }
 
-    public void start() {
+    public void start() throws SQLException {
         int option, id;
         String name, theme, material, difficulty;
         double price;

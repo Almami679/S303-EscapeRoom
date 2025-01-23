@@ -38,22 +38,16 @@ public class TicketService {
     }
 
 
-
-    private void assertIfTicketIdNotFound(int id) {
-        try {
-
-            this.repository
-                    .getAll(EntityAttributes.objectdeco)
-                    .stream()
-                    .map(this::castToTicket)
-                    .forEach(ticket -> {
-                        if (ticket.getId() != id) {
-                            throw new TicketNotFoundException();
-                        }
-                    });
-        } catch (SQLException e) {
-            logger.info(e.getMessage());
-        }
+    private void assertIfTicketIdNotFound(int id) throws SQLException {
+        this.repository
+                .getAll(EntityAttributes.objectdeco)
+                .stream()
+                .map(this::castToTicket)
+                .forEach(ticket -> {
+                    if (ticket.getId() != id) {
+                        throw new TicketNotFoundException("Tocket with id " + id + " not found");
+                    }
+                });
     }
 
     public void createTicket(
@@ -83,12 +77,12 @@ public class TicketService {
 
     public void deleteTicket(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfTicketIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.ticket);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -99,8 +93,12 @@ public class TicketService {
             Player player,
             Sale sale,
             String text
-    ) throws SQLException {
-        this.assertIfTicketIdNotFound(id);
+    ) {
+        try {
+            this.assertIfTicketIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Ticket ticket = this.castToTicket(entity);
         ticket.setPlayer(player);
@@ -115,6 +113,7 @@ public class TicketService {
     public ArrayList<Ticket> getAllTicket() {
         ArrayList<Ticket> outputList = new ArrayList<>();
         try {
+
             this.repository
                     .getAll(EntityAttributes.ticket).forEach(entity -> outputList.add((Ticket) entity));
             return outputList;

@@ -11,9 +11,10 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SaleService {
-    private static Logger logger = LogManager.getLogger(SaleService.class);
+    private static final Logger logger = LogManager.getLogger(SaleService.class);
 
     private final Repository repository;
     private final Entity entity = new Entity();
@@ -32,8 +33,7 @@ public class SaleService {
     }
 
 
-
-    private void assertIfSaleIdNotFound(int id) {
+    private void assertIfSaleIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.sale)
                 .stream()
@@ -72,12 +72,12 @@ public class SaleService {
 
     public void deleteSale(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfSaleIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.sale);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -98,9 +98,17 @@ public class SaleService {
                 .update(sale, EntityAttributes.sale);
     }
 
-    //Todo verificar estos metodos
-    public void getAllSale(){
-        this.repository
-                .getAll(EntityAttributes.sale);
+    public ArrayList<Sale> getAllSale() {
+        ArrayList<Sale> saleArrayList = new ArrayList<>();
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.sale)
+                    .forEach(sale -> saleArrayList.add((Sale) sale));
+            return saleArrayList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

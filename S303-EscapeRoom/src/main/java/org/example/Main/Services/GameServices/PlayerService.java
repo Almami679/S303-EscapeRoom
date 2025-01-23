@@ -9,9 +9,9 @@ import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PlayerService {
-    //probando commit
     private static Logger logger = LogManager.getLogger(PlayerService.class);
 
     private final Repository repository;
@@ -31,7 +31,7 @@ public class PlayerService {
     }
 
 
-    private void assertIfPlayerAlreadyExists(String email) {
+    private void assertIfPlayerAlreadyExists(String email) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
@@ -43,7 +43,7 @@ public class PlayerService {
                 });
     }
 
-    private void assertIfPlayerIdNotFound(int id) {
+    private void assertIfPlayerIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
@@ -60,7 +60,7 @@ public class PlayerService {
             String email,
             int consentNotif
     ) {
-       // assertIfPlayerAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
+        // assertIfPlayerAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
         try {
             this
                     .repository
@@ -84,12 +84,12 @@ public class PlayerService {
 
     public void deletePlayer(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfPlayerIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.player);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -100,8 +100,13 @@ public class PlayerService {
             String name,
             String email,
             int consentNotif
-    ){
-        this.assertIfPlayerIdNotFound(id);
+    ) {
+        try {
+
+            this.assertIfPlayerIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Player player = this.castToPlayer(entity);
         player.setName(name);
@@ -112,9 +117,17 @@ public class PlayerService {
                 .update(player, EntityAttributes.player);
     }
 
-    //Todo verificar estos metodos
-    public void getAll(){
-        this.repository
-                .getAll(EntityAttributes.player);
+    public ArrayList<Player> getAllPlayer() {
+        ArrayList<Player> playerArrayList = new ArrayList<>();
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.player)
+                    .forEach(player -> playerArrayList.add((Player) player));
+            return playerArrayList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }
