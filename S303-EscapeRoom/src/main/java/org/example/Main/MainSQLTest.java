@@ -9,7 +9,6 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.RepositoryEscapeHasRoom;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.Serializers.Serializer;
 
@@ -23,6 +22,10 @@ public class MainSQLTest {
     static Logger logger = LogManager.getLogger(MainSQLTest.class);
 
     public static void main(String[] args) {
+        Repository repository = new RepositoryImpl();
+        PlayerService playerService = new PlayerService(repository);
+        playerService.createPlayer("inga", "example@email.com", 0);
+
         EscapeRoomTesting();
         /*RoomTesting();
         PlayerTesting();
@@ -36,17 +39,19 @@ public class MainSQLTest {
 
     private static void EscapeRoomTesting() {
         RepositoryImpl repository = new RepositoryImpl();
-        /*try {
+        try {
             ArrayList<Entity> entities = repository.getAll(EntityAttributes.escaperoom);
             ArrayList<EscapeRoom> escapeRooms = new ArrayList<>();
             for(int i = 0; i< entities.size(); i++){
                 escapeRooms.add((EscapeRoom) entities.get(i));
                 System.out.println(escapeRooms.get(i));
             }
+            /*for (EscapeRoom escapeRoom : escapeRooms) {
+                System.out.println(escapeRoom);
+            }*/
         } catch (SQLException e) {
             logger.error("Failed to retrieve escape rooms: ", e);
-        }*/
-
+        }
         /*EscapeRoom escapeRoom2 = null;
         try {
             escapeRoom2 = (EscapeRoom) repository.getById(3, EntityAttributes.escaperoom);
@@ -61,5 +66,4 @@ public class MainSQLTest {
             logger.error("Failed to add escape room and room relationship: ", e);
         }
     }
-
 }

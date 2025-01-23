@@ -2,6 +2,7 @@ package org.example.Main.MenuController;
 
 import org.example.Repository.Common.RepositoryImpl;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class MenuController {
         actions.put(12, new SubscribeNotifications());
     }
 
-    public static void handleUserInput(int userInput, Scanner read) {
+    public static void handleUserInput(int userInput, Scanner read) throws SQLException {
         ServiceProcessor action = actions.get(userInput);
         if (action != null) {
             action.process(read, repository);

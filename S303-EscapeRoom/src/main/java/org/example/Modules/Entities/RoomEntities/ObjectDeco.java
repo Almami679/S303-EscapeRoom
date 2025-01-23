@@ -18,7 +18,7 @@ public class ObjectDeco extends Entity {
         this.material = material;
         this.price = price;
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = null;
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
     public ObjectDeco(int id,
@@ -83,7 +83,7 @@ public class ObjectDeco extends Entity {
                 ", name='" + name + '\'' +
                 ", material='" + material + '\'' +
                 ", price=" + price +
-                ", deleted=" + deleted +
+                ", deleted=" + super.getDeleted() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

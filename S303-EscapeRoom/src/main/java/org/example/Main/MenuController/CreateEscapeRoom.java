@@ -31,9 +31,6 @@ public class CreateEscapeRoom implements ServiceProcessor {
         System.out.println("What is the Escape Room's theme?");
         theme = read.next();
         builder.setTheme(theme);
-        builder.setDeleted(0);
-        builder.setCreatedAt(new Timestamp(new Date().getTime()));
-        builder.setUpdatedAt(new Timestamp(new Date().getTime()));
         EscapeRoom eroom = builder.build();
         RepositoryImpl rep = new RepositoryImpl();
         try {
