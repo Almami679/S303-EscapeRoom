@@ -11,6 +11,7 @@ import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.RoomEntities.RoomHasObject;
 import org.example.Modules.Entities.RoomEntities.Tips;
 
 import java.sql.*;
@@ -175,7 +176,7 @@ public class EntityConstructorsSql {
 
     public static ObjectDeco objectDecoConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
 
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+        if (!resultSet.next()) {
             throw new SQLException("ResultSet not positioned properly.");
         }
         ObjectDeco entity = null;
@@ -187,6 +188,18 @@ public class EntityConstructorsSql {
         Timestamp createdAt = resultSet.getTimestamp((attributes.get(5)));
         Timestamp updateAt = resultSet.getTimestamp(attributes.get(6));
         entity = new ObjectDeco(id,name,material,price,deleted, createdAt,updateAt);
+        return entity;
+    }
+
+    public static RoomHasObject roomHasObjectConstructor (ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.next()) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
+        RoomHasObject entity = null;
+        int idObject = resultSet.getInt(attributes.get(0));
+        int idRoom = resultSet.getInt(attributes.get(1));
+        entity = new RoomHasObject(idObject,idRoom);
         return entity;
     }
 

@@ -1,3 +1,8 @@
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
+import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Services.EscapeRoomServices.ObjectDecoService;
+import org.example.Services.EscapeRoomServices.RoomService;
 import org.example.Services.GameServices.PlayerService;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.junit.Test;
@@ -21,6 +26,28 @@ public class ServicesTesting {
 
         String lastPlayerInDb = playersInDb.getLast().getEmail();
         assertEquals("Player Found in Db", playerTest.getEmail(), lastPlayerInDb);
+
+
+    }
+
+    @DisplayName("TEST ADD OBJECT IN ROOM")
+    @Test
+    public void testObjectsInRoom() {
+        RoomService roomService = new RoomService();
+        ObjectDecoService objectService = new ObjectDecoService();
+
+        Room roomTest = roomService.getRoomById(1);
+        objectService.createObjectDeco("Caca de perro", "Plastic", 5);
+        ObjectDeco objectTest = objectService.getObjectDecoById(5);
+
+        roomService.addObjectInRoom(roomTest.getId(), objectTest.getId());
+
+        String nameLastObject = roomService.getAllObjectsInRoom(1).getLast().getName();
+        String nameExpected = "Caca de perro";
+
+        assertEquals("Test OK", nameLastObject, nameExpected);
+
+
 
 
     }

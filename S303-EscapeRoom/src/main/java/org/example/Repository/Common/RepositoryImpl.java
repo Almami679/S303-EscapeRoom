@@ -14,11 +14,8 @@ import static org.example.Repository.Serializers.Serializer.deserialize;
 public class RepositoryImpl implements Repository{
 
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
-    //private static DatabaseConnection dbConnection;
 
-    /*public RepositoryImpl(DatabaseConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }*/
+
     @Override
     public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
         ArrayList<String> attributes = enumAttributes.getAttributes();
