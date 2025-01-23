@@ -1,12 +1,9 @@
-package org.example.Main.Services;
+package org.example.Services;
 
 import org.example.Main.MenuController.ServiceProcessor;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class AddDecorationObject implements ServiceProcessor {

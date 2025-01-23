@@ -2,7 +2,7 @@ package org.example.Main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Main.Services.GameServices.PlayerService;
+import org.example.Services.GameServices.PlayerService;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
@@ -21,8 +21,7 @@ public class MainSQLTest {
 
 
     public static void main(String[] args) {
-        Repository repository = new RepositoryImpl();
-        PlayerService playerService = new PlayerService(repository);
+        PlayerService playerService = new PlayerService();
         playerService.createPlayer("inga", "example@email.com", 0);
 
         EscapeRoomTesting();
