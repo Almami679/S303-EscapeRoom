@@ -18,7 +18,13 @@ import java.util.ArrayList;
 
 public class EntityConstructorsSql {
 
+
+
     public static Gift giftConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Gift entity = null;
         int id = resultSet.getInt(attributes.get(0));
         int gameId = resultSet.getInt(attributes.get(1));
@@ -30,6 +36,10 @@ public class EntityConstructorsSql {
     }
 
     public static Ticket ticketConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Ticket entity = null;
         int id = resultSet.getInt(attributes.get(0));
         int saleId = resultSet.getInt(attributes.get(1));
@@ -41,6 +51,10 @@ public class EntityConstructorsSql {
     }
 
     public static Certificate certificateConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Certificate entity = null;
         int id = resultSet.getInt(attributes.get(0));
         int gameId = resultSet.getInt(attributes.get(1));
@@ -52,6 +66,10 @@ public class EntityConstructorsSql {
     }
 
     public static Notification notificationConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Notification entity = null;
         int id = resultSet.getInt(attributes.get(0));
         int playerId = resultSet.getInt(attributes.get(1));
@@ -62,6 +80,10 @@ public class EntityConstructorsSql {
     }
 
     public static Game gameConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Game entity = null;
         int id = resultSet.getInt(attributes.get(0));
         int escapeRoomId = resultSet.getInt(attributes.get(1));
@@ -74,6 +96,10 @@ public class EntityConstructorsSql {
     }
 
     public static Room roomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Room entity = null;
         int id = resultSet.getInt(attributes.get(0));
         String name = resultSet.getString((attributes.get(1)));
@@ -87,6 +113,10 @@ public class EntityConstructorsSql {
     }
 
     public static Sale saleConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Sale entity = null;
         int id = resultSet.getInt(attributes.get(0));
         double price = resultSet.getDouble(attributes.get(1));
@@ -98,6 +128,10 @@ public class EntityConstructorsSql {
     }
 
     public static Tips tipsConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Tips entity = null;
         int id = resultSet.getInt(attributes.get(0));
         String text = resultSet.getString(attributes.get(1));
@@ -107,6 +141,10 @@ public class EntityConstructorsSql {
     }
 
     public static Player playerConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         Player entity = null;
         int id = resultSet.getInt(attributes.get(0));
         String name = resultSet.getString(attributes.get(1));
@@ -120,6 +158,10 @@ public class EntityConstructorsSql {
     }
 
     public static EscapeRoom escapeRoomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         EscapeRoom entity = null;
         int id = resultSet.getInt(attributes.get(0));
         String name = resultSet.getString(attributes.get(1));
@@ -133,6 +175,10 @@ public class EntityConstructorsSql {
     }
 
     public static ObjectDeco objectDecoConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
+
+        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
+            throw new SQLException("ResultSet not positioned properly.");
+        }
         ObjectDeco entity = null;
         int id = resultSet.getInt(attributes.get(0));
         String name = resultSet.getString(attributes.get(1));

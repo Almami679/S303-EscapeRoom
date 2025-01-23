@@ -7,6 +7,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class PlayerService {
     private final Entity entity = new Entity();
 
 
-    public PlayerService(Repository repository) {
-        this.repository = repository;
+    public PlayerService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Player castToPlayer(Entity entity) {
@@ -38,7 +39,7 @@ public class PlayerService {
                 .map(this::castToPlayer)
                 .forEach(player -> {
                     if (player.getEmail().equals(email)) {
-                        System.out.println("player already exosts");
+                        System.out.println("player already exists");
                     }
                 });
     }
