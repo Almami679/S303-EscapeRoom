@@ -1,4 +1,4 @@
-package org.example.Main.Services.EscapeRoomServices;
+package org.example.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +8,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class RoomService {
     private final Entity entity = new Entity();
 
 
-    public RoomService(Repository repository) {
-        this.repository = repository;
+    public RoomService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Room castToRoom(Entity entity) {

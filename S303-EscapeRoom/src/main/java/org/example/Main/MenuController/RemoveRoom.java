@@ -1,8 +1,7 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.ObjectDecoService;
-import org.example.Main.Services.EscapeRoomServices.RoomService;
+import org.example.Services.EscapeRoomServices.RoomService;
 import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;

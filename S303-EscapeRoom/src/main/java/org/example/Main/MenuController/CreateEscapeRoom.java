@@ -1,17 +1,10 @@
 package org.example.Main.MenuController;
 
 
-import org.example.Main.Services.EscapeRoomServices.EscapeRoomService;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
-import org.example.Repository.Common.EntityAttributes;
+import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CreateEscapeRoom implements ServiceProcessor {
