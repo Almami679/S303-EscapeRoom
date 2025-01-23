@@ -9,6 +9,7 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class EscapeRoomService {
     private final Entity entity = new Entity();
 
 
-    public EscapeRoomService(Repository repository) {
-        this.repository = repository;
+    public EscapeRoomService() {
+        this.repository = new RepositoryImpl();
     }
 
     private EscapeRoom castToEscapeRoom(Entity entity) {
@@ -34,7 +35,7 @@ public class EscapeRoomService {
 
 
 
-    private void assertIfEscapeRoomIdNotFound(int id) {
+    private void assertIfEscapeRoomIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.escaperoom)
                 .stream()
@@ -83,7 +84,7 @@ public class EscapeRoomService {
             this.assertIfEscapeRoomIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.escaperoom);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -94,8 +95,13 @@ public class EscapeRoomService {
             String name,
             String theme,
             double price
-    ) throws SQLException {
+    ) {
+        try {
+
         this.assertIfEscapeRoomIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         EscapeRoom escaperoom = this.castToEscapeRoom(entity);
         escaperoom.setPrice(price);
@@ -108,8 +114,14 @@ public class EscapeRoomService {
     //Todo verificar estos metodos
     public ArrayList<EscapeRoom> getAllEscapeRooms(){
         ArrayList<EscapeRoom> outputList = new ArrayList<>();
+        try {
+
         this.repository
                 .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
         return outputList;
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

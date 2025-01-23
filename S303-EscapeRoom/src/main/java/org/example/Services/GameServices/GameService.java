@@ -9,6 +9,7 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -21,8 +22,8 @@ public class GameService {
     private final Entity entity = new Entity();
 
 
-    public GameService(Repository repository) {
-        this.repository = repository;
+    public GameService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Game castToGame(Entity entity) {
@@ -33,7 +34,7 @@ public class GameService {
         return game;
     }
 
-    private void assertIfGameIdNotFound(int id) {
+    private void assertIfGameIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.game)
                 .stream()
@@ -78,7 +79,7 @@ public class GameService {
             this.assertIfGameIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.game);
-        }catch (GameNotFoundException e){
+        }catch (GameNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -89,7 +90,12 @@ public class GameService {
             EscapeRoom escapeRoom,
             Player player
     ){
+        try {
+
         this.assertIfGameIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         Game game = this.castToGame(entity);
         game.setEscapeRoom(escapeRoom);
@@ -101,10 +107,16 @@ public class GameService {
 
     public ArrayList<Game> getAllGame(){
         ArrayList<Game> gameArrayList = new ArrayList<>();
+        try{
+
         this.repository
                 .getAll(EntityAttributes.game)
                 .forEach(game -> gameArrayList.add((Game) game));
         return gameArrayList;
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 
     //TODO verify this method
@@ -112,7 +124,12 @@ public class GameService {
             int id,
             int finish
     ){
+        try{
+
         assertIfGameIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
         Game game = this.castToGame(entity);
         game.setFinish(finish);
 

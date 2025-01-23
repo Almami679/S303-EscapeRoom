@@ -11,6 +11,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class NotificationService {
     private final Entity entity = new Entity();
 
 
-    public NotificationService(Repository repository) {
-        this.repository = repository;
+    public NotificationService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Notification castToNotification(Entity entity) {
@@ -35,8 +36,7 @@ public class NotificationService {
     }
 
 
-
-    private void assertIfNotificationIdNotFound(int id) {
+    private void assertIfNotificationIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.notification)
                 .stream()
@@ -75,12 +75,12 @@ public class NotificationService {
 
     public void deleteNotification(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfNotificationIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.notification);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -90,8 +90,13 @@ public class NotificationService {
             int id,
             Player player,
             String text
-    ) throws SQLException {
-        this.assertIfNotificationIdNotFound(id);
+    ) {
+        try {
+
+            this.assertIfNotificationIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Notification notification = this.castToNotification(entity);
         notification.setPlayer(player);
@@ -102,11 +107,17 @@ public class NotificationService {
     }
 
     //Todo verificar estos metodos
-    public ArrayList<Notification> getAllNotification(){
+    public ArrayList<Notification> getAllNotification() {
         ArrayList<Notification> notifications = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.notification)
-                .forEach(notification -> notifications.add((Notification) notification));
-        return notifications;
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.notification)
+                    .forEach(notification -> notifications.add((Notification) notification));
+            return notifications;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

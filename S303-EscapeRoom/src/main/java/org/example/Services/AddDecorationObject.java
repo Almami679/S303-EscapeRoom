@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class AddDecorationObject implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         ObjectDeco obectDeco = null;
         String name, material, difficulty;
         double price;

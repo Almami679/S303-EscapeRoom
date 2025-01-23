@@ -2,8 +2,6 @@ package org.example.Repository.Serializers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Modules.Entities.CommunicatesEntities.Certificate;
-import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
@@ -19,6 +17,8 @@ public class Serializer {
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
 
     public static DatabaseConnection dbConnection = new DatabaseConnection();
+
+
     public static Entity deserialize(
             String query,
             EntityAttributes entityEnum) throws SQLException {
@@ -33,19 +33,29 @@ public class Serializer {
         }
     }
 
+    public static ArrayList<Entity> deserializeGetAll(String query, EntityAttributes entityEnum) throws SQLException {
+        ArrayList<Entity> entities = new ArrayList<>();
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                entities.add(createEntityToDeserialize(entityEnum, resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to deserialize entity: ", e);
+            throw e;
+        }
+        return entities;
+    }
+
     public static void serialize(String query, EntityAttributes entity, String action, ArrayList<String> values) {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            if (action.equals("add")) {
-                for (int i = 0; i < values.size(); i++) {
-                    statement.setString(i + 1, values.get(i));
-                }
-                statement.executeUpdate();
-                logger.info(entity.name() + " created.");
-            } else if (action.equals("delete")) {
-                statement.executeUpdate();
-                logger.info(entity.name() + " deleted.");
+            for (int i = 0; i < values.size(); i++) {
+                statement.setString(i + 1, values.get(i));
             }
+            statement.executeUpdate();
+            logger.info(entity.name() + " " + action + "d.");
             dbConnection.closeConnection(connection);
             logger.info(entity.name() + " serialized.");
         } catch (SQLException e) {
@@ -94,7 +104,6 @@ public class Serializer {
             /// constructores
 
         }
-
         return entity;
     }
 }

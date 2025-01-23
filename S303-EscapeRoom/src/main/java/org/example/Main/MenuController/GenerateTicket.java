@@ -1,27 +1,18 @@
 package org.example.Main.MenuController;
 
-import org.example.Modules.Entities.GameEntities.Sale;
+import org.example.Services.CommunicatesServices.TicketService;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+
+import static org.example.Main.MenuController.UserInputs.askString;
 
 public class GenerateTicket implements ServiceProcessor {
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
-
+    public void process(Scanner read) {
+        int id;
+        id = Integer.parseInt(askString("For which player would you like to create the ticket?",read));
+        TicketService ts = new TicketService();
+        ts.createTicket(id);
     }
-
-//    private static Sale selectSale(Scanner read, RepositoryImpl repository) {
-//        ArrayList<Sale> allSales = new ArrayList<>();
-//        int option = 0;
-//       // allSales = repository.getAll(EntityAttributes.sale);
-//        System.out.println("Select a sale ID to generate Ticket");
-//        allSales.forEach(System.out::println);
-//        try {
-//            option = read.nextInt();
-//        }
-//
-//
-//    }
 }

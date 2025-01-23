@@ -12,6 +12,7 @@ import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class TicketService {
     private final Entity entity = new Entity();
 
 
-    public TicketService(Repository repository) {
-        this.repository = repository;
+    public TicketService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Ticket castToTicket(Entity entity) {
@@ -38,8 +39,7 @@ public class TicketService {
     }
 
 
-
-    private void assertIfTicketIdNotFound(int id) {
+    private void assertIfTicketIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.objectdeco)
                 .stream()
@@ -78,12 +78,12 @@ public class TicketService {
 
     public void deleteTicket(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfTicketIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.ticket);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -94,8 +94,12 @@ public class TicketService {
             Player player,
             Sale sale,
             String text
-    ) throws SQLException {
-        this.assertIfTicketIdNotFound(id);
+    ) {
+        try {
+            this.assertIfTicketIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Ticket ticket = this.castToTicket(entity);
         ticket.setPlayer(player);
@@ -107,10 +111,16 @@ public class TicketService {
     }
 
     //Todo verificar estos metodos
-    public ArrayList<Ticket> getAllTicket(){
+    public ArrayList<Ticket> getAllTicket() {
         ArrayList<Ticket> outputList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.ticket).forEach(entity -> outputList.add((Ticket) entity));
-        return outputList;
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.ticket).forEach(entity -> outputList.add((Ticket) entity));
+            return outputList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

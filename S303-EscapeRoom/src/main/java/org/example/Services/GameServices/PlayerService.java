@@ -2,6 +2,7 @@ package org.example.Services.GameServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.Exceptions.PlayerAlreadyExistsException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -32,28 +33,31 @@ public class PlayerService {
     }
 
 
-    private void assertIfPlayerAlreadyExists(String email) {
-        this.repository
+    private boolean assertIfPlayerAlreadyExists(String email) throws SQLException, PlayerAlreadyExistsException {
+        boolean exists = this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
                 .map(this::castToPlayer)
-                .forEach(player -> {
-                    if (player.getEmail().equals(email)) {
-                        System.out.println("player already exosts");
-                    }
-                });
+                .anyMatch(player -> player.getEmail().equals(email));
+
+        if (exists) {
+            throw new PlayerAlreadyExistsException();
+        }
+
+        return exists;
     }
 
-    private void assertIfPlayerIdNotFound(int id) {
-        this.repository
+    private boolean assertIfPlayerIdNotFound(int id) throws SQLException {
+        boolean notFound = this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
                 .map(this::castToPlayer)
-                .forEach(player -> {
-                    if (player.getId() != id) {
-                        throw new PlayerNotFound("Player with " + id + " id not found");
-                    }
-                });
+                .anyMatch(player -> player.getId() != id);
+
+        if(notFound){
+            throw new PlayerNotFound("Player with id " + id + " not found");
+        }
+        return notFound;
     }
 
     public void createPlayer(
@@ -61,12 +65,13 @@ public class PlayerService {
             String email,
             int consentNotif
     ) {
-        assertIfPlayerAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
         try {
-            this
-                    .repository
-                    .add(new Player(name, email, consentNotif), EntityAttributes.player);
-        } catch (SQLException e) {
+            if (!assertIfPlayerAlreadyExists(email)) {
+                this
+                        .repository
+                        .add(new Player(name, email, consentNotif), EntityAttributes.player);
+            }
+        } catch (SQLException | PlayerAlreadyExistsException e ) {
             logger.info(e.getMessage());
         }
     }
@@ -75,7 +80,7 @@ public class PlayerService {
             int id
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
+           // this.assertIfPlayerIdNotFound(id);
             this.repository
                     .getById(id, EntityAttributes.player);
         } catch (SQLException e) {
@@ -85,12 +90,12 @@ public class PlayerService {
 
     public void deletePlayer(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfPlayerIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.player);
-        }catch (PlayerNotFound e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -101,8 +106,13 @@ public class PlayerService {
             String name,
             String email,
             int consentNotif
-    ){
-        this.assertIfPlayerIdNotFound(id);
+    ) {
+        try {
+
+            this.assertIfPlayerIdNotFound(id);
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
 
         Player player = this.castToPlayer(entity);
         player.setName(name);
@@ -113,17 +123,17 @@ public class PlayerService {
                 .update(player, EntityAttributes.player);
     }
 
-    //Todo verificar estos metodos
-    public void getAll(){
-        this.repository
-                .getAll(EntityAttributes.player);
-    }
-
-    public ArrayList<Player> getAllPlayer(){
+    public ArrayList<Player> getAllPlayer() {
         ArrayList<Player> playerArrayList = new ArrayList<>();
-        this.repository
-                .getAll(EntityAttributes.player)
-                .forEach(player -> playerArrayList.add((Player) player));
-        return playerArrayList;
+        try {
+
+            this.repository
+                    .getAll(EntityAttributes.player)
+                    .forEach(player -> playerArrayList.add((Player) player));
+            return playerArrayList;
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }

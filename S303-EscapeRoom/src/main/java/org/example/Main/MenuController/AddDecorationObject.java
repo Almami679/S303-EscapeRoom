@@ -1,32 +1,26 @@
 package org.example.Main.MenuController;
 
 
+import org.example.Services.EscapeRoomServices.ObjectDecoService;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Logger;
+
+import static org.example.Main.MenuController.UserInputs.askString;
 
 public class AddDecorationObject implements ServiceProcessor {
     private static final Logger LOGGER = Logger.getLogger(ObjectDeco.class.getName());
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         ObjectDeco objectDeco = null;
         String name, material;
         double price;
-        System.out.println("What is the decoration object's name?");
-        name = read.next();
-        System.out.println("What is the object's material?");
-        material = read.next();
-        System.out.println("What is the object's price?");
-        price = Double.parseDouble(read.next());
-        objectDeco = new ObjectDeco(name, material,price);
-        try {
-            repository.add(objectDeco, EntityAttributes.objectdeco);
-        } catch (SQLException e) {
-            LOGGER.info(e.getMessage());
-        }
+        name = askString("What is the decoration object's name?",read);
+        material = askString("What is the object's material?",read);
+        price = Double.parseDouble(askString("What is the object's price?",read));
+        ObjectDecoService ods= new ObjectDecoService();
+        ods.createObjectDeco(name,material,price);
     }
 }

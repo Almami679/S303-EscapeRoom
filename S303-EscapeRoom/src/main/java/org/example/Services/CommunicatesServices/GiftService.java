@@ -11,6 +11,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class GiftService {
     private final Entity entity = new Entity();
 
 
-    public GiftService(Repository repository) {
-        this.repository = repository;
+    public GiftService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Gift castToGift(Entity entity) {
@@ -37,7 +38,7 @@ public class GiftService {
 
 
 
-    private void assertIfGiftIdNotFound(int id) {
+    private void assertIfGiftIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.gift)
                 .stream()
@@ -82,7 +83,7 @@ public class GiftService {
             this.assertIfGiftIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.gift);
-        }catch (PlayerNotFound e){
+        }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -92,8 +93,13 @@ public class GiftService {
             int id,
             Player player,
             String text
-    ) throws SQLException {
+    )  {
+        try {
+
         this.assertIfGiftIdNotFound(id);
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+        }
 
         Gift gift = this.castToGift(entity);
         gift.setPlayer(player);
@@ -106,9 +112,15 @@ public class GiftService {
     //Todo verificar estos metodos
     public ArrayList<Gift> getAllGift(){
         ArrayList<Gift> giftArrayList = new ArrayList<>();
+        try{
+
         this.repository
                 .getAll(EntityAttributes.gift)
                 .forEach(gift -> giftArrayList.add((Gift) gift));
         return giftArrayList;
+        }catch (SQLException e){
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 }
