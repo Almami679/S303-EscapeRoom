@@ -22,9 +22,10 @@ public class MainSQLTest {
 
     public static void main(String[] args) {
         PlayerService playerService = new PlayerService();
-        playerService.createPlayer("inga", "example@email.com", 0);
+       // playerService.createPlayer("inga", "example@email.com", 0);
+        playerService.getPlayerById(2);
 
-        EscapeRoomTesting();
+       // EscapeRoomTesting();
         /*RoomTesting();
         PlayerTesting();
         ObjectsDecoTesting();
