@@ -1,11 +1,8 @@
 package org.example.Main.MenuController;
 
-import org.example.Main.Services.CommunicatesServices.TicketService;
-import org.example.Main.Services.EscapeRoomServices.RoomService;
-import org.example.Modules.Entities.GameEntities.Sale;
+import org.example.Services.CommunicatesServices.TicketService;
 import org.example.Repository.Common.RepositoryImpl;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GenerateTicket implements ServiceProcessor {

@@ -1,4 +1,4 @@
-package org.example.Main.Services.CommunicatesServices;
+package org.example.Services.CommunicatesServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +11,7 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class CertificateService {
     private final Entity entity = new Entity();
 
 
-    public CertificateService(Repository repository) {
-        this.repository = repository;
+    public CertificateService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Certificate castToCertificate(Entity entity) {

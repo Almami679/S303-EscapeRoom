@@ -1,4 +1,4 @@
-package org.example.Main.Services.GameServices;
+package org.example.Services.GameServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +9,7 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
+import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -21,8 +22,8 @@ public class GameService {
     private final Entity entity = new Entity();
 
 
-    public GameService(Repository repository) {
-        this.repository = repository;
+    public GameService() {
+        this.repository = new RepositoryImpl();
     }
 
     private Game castToGame(Entity entity) {
