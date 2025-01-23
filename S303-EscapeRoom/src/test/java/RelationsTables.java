@@ -24,7 +24,7 @@ public class RelationsTables {
     public void testAddGameHasPlayer() {
         RepositoryGameHasPlayer repositoryGameHasPlayer = new RepositoryGameHasPlayer();
         try {
-            repositoryGameHasPlayer.addGameHasPlayer(1, 2);
+            repositoryGameHasPlayer.addGameHasPlayer(1, 4);
         } catch (SQLException e) {
             Assertions.fail("Failed to add game and player relationship", e);
         }

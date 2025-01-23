@@ -33,8 +33,6 @@ public class EscapeRoomService {
         return escapeRoom;
     }
 
-
-
     private void assertIfEscapeRoomIdNotFound(int id) throws SQLException {
         this.repository
                 .getAll(EntityAttributes.escaperoom)

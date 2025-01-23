@@ -74,34 +74,20 @@ public class RepositoryImpl implements Repository{
 
     @Override
     public void update(Entity entity, EntityAttributes enumAttributes) {
-
-        ///UPDATE escaperoomdb.certificate
-        ///SET Certificate_text = "Segunda Prueba de update",
-        ///Certificate_gameId = 3,
-        ///Certificate_playerId = 3
-        ///WHERE Certificate_id = 1;
-
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
-
-        ///Consultar esto del atomic
-
-        AtomicInteger pos = new AtomicInteger();
         StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
-        attributes.forEach(attribute -> {
-            if(attribute.equals(attributes.get(attributes.size() -1))) {
-                query.append(attribute + " = " + values.get(attributes.size() -1) +
-                        " WHERE " + enumAttributes.getAttributes().get(0) +
-                        " = " + entity.getId() + ";");
-            } else {
-                query.append(attribute + " = " + values.get(pos.get()) + ", ");
-                pos.getAndIncrement();
+        for (int i = 0; i < attributes.size(); i++) {
+            query.append(attributes.get(i)).append(" = ?");
+            if (i < attributes.size() - 1) {
+                query.append(", ");
             }
-        });
+        }
+        query.append(" WHERE ").append(attributes.get(0)).append(" = ?;");
+        values.add(String.valueOf(entity.getId()));
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        //serialize(queryString, enumAttributes, "set");
+        Serializer.serialize(queryString, enumAttributes, "update", values);
     }
 
 }

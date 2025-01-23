@@ -158,11 +158,10 @@ public class EntityConstructorsSql {
     }
 
     public static EscapeRoom escapeRoomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
+        if (!resultSet.next()) {
+            throw new SQLException("No data found in ResultSet.");
         }
-        EscapeRoom entity = null;
+        EscapeRoom entity;
         int id = resultSet.getInt(attributes.get(0));
         String name = resultSet.getString(attributes.get(1));
         double price = resultSet.getDouble(attributes.get(2));
