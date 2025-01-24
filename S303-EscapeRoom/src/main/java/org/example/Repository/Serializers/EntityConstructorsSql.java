@@ -123,7 +123,8 @@ public class EntityConstructorsSql {
         double price = resultSet.getDouble(attributes.get(1));
         int gameId = resultSet.getInt(attributes.get(2));
         int deleted = resultSet.getInt(attributes.get(4));
-        entity = new Sale(id,price,gameId,deleted);
+        Timestamp createdAt = resultSet.getTimestamp(attributes.get(5));
+        entity = new Sale(id,price,gameId,deleted,createdAt);
 
         return entity;
     }

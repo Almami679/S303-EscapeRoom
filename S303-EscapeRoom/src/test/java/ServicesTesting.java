@@ -79,7 +79,7 @@ public class ServicesTesting {
     }
 
     @Test
-    public void getTicket() { //index out of Bound
+    public void getTicket() { //index out of Bound (que viene de sale)
         TicketService commService = new TicketService();
         Ticket ticket = commService.getTicketById(1);
         System.out.println(ticket);
@@ -121,7 +121,7 @@ public class ServicesTesting {
     }
 
     @Test
-    public void getSale() { // Out of Bound
+    public void getSale() { // Error dserialize
         SaleService commService = new SaleService();
         Sale sale = commService.getSaleById(1);
         System.out.println(sale);

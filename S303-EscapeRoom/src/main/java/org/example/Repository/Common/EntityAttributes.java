@@ -91,7 +91,8 @@ public enum EntityAttributes {
             "sale_id",
             "sale_price",
             "sale_gameId",
-            "sale_deleted"
+            "sale_deleted",
+            "sale_createdAt"
     ),
     ticket(
             "ticket_id",
