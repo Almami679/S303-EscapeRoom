@@ -7,9 +7,12 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
+import org.example.Repository.RepositoryRelations.RepositroyRoomHasObjectDeco;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -137,5 +140,34 @@ public class GameService {
         if(finish == 0){
             game.setFinishedAt(new Timestamp(System.currentTimeMillis()));
         }
+    }
+
+    public void addPlayerInGame(int PlayerId, int GameId) {
+        RepositoryGameHasPlayer repo = new RepositoryGameHasPlayer();
+        try {
+            repo.addGameHasPlayer(PlayerId , GameId);
+        } catch (SQLException e) {
+            logger.info("Fail to fetch player in game");
+        }
+    }
+
+    public ArrayList<Player> getAllPlayersInGame(int gameId) {
+        RepositoryGameHasPlayer repoGameHasPlayer = new RepositoryGameHasPlayer();
+        try {
+            return repoGameHasPlayer.getAllPlayersByGameId(gameId);
+        } catch (SQLException e) {
+            logger.info("Fail to get players in game[id: " + gameId + "]");
+        }
+        return null;
+    }
+
+    public ArrayList<Game> getAllGamesInPlayer(int playerId) {
+        RepositoryGameHasPlayer repoGameHasPlayer = new RepositoryGameHasPlayer();
+        try {
+            return repoGameHasPlayer.getAllGamesByPlayerId(playerId);
+        } catch (SQLException e) {
+            logger.info("Fail to get games for player[id: " + playerId + "]");
+        }
+        return null;
     }
 }
