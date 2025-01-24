@@ -65,7 +65,7 @@ public class ObjectDecoService {
             int id
     ) {
         try {
-            this.assertIfObjectDecoIdNotFound(id);
+            //this.assertIfObjectDecoIdNotFound(id);
             return (ObjectDeco) repository
                     .getById(id, EntityAttributes.objectdeco);
         } catch (SQLException e) {
