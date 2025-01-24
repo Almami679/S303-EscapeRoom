@@ -79,7 +79,7 @@ public class ServicesTesting {
     }
 
     @Test
-    public void getTicket() { //Timestamp (que viene de sale)
+    public void getTicket() {
         TicketService commService = new TicketService();
         Ticket ticket = commService.getTicketById(1);
         System.out.println(ticket);

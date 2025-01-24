@@ -31,7 +31,7 @@ public class Communicate extends Entity {
         return player;
     }
 
-    public Timestamp getCreated_at() {
+    public Timestamp getCreatedAt() {
         return created_at;
     }
 
