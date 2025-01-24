@@ -1,11 +1,14 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
+import org.example.Services.GameServices.GameService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+
+    private static GameService gameService = new GameService();
 
     private String name;
     private String email;
@@ -40,6 +43,7 @@ public class Player extends Entity {
         this.consentNotif = consentNotif;
         this.name = name;
         this.email = email;
+        this.completedGames = gameService.getAllGamesInPlayer(id);
         this.createdAt = createdAt;
         this.updateAt = updateAt;
 
@@ -87,7 +91,7 @@ public class Player extends Entity {
 
     @Override
     public String toString() {
-        return "PlayerTEST{" +
+        return "Player{" +
                 "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

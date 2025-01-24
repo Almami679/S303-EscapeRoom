@@ -54,7 +54,7 @@ public class PlayerService {
                 .map(this::castToPlayer)
                 .anyMatch(player -> player.getId() != id);
 
-        if(notFound){
+        if (notFound) {
             throw new PlayerNotFound("Player with id " + id + " not found");
         }
         return notFound;
@@ -72,20 +72,21 @@ public class PlayerService {
                         .repository
                         .add(new Player(name, email, consentNotif), EntityAttributes.player);
             }
-        } catch (SQLException | PlayerAlreadyExistsException e ) {
+        } catch (SQLException | PlayerAlreadyExistsException e) {
             logger.info(e.getMessage());
         }
     }
 
-    public void getPlayerById(
+    public Player getPlayerById(
             int id
     ) {
         try {
-           // this.assertIfPlayerIdNotFound(id);
-            this.repository
+            //this.assertIfPlayerIdNotFound(id);
+            return (Player) this.repository
                     .getById(id, EntityAttributes.player);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

@@ -6,6 +6,7 @@ import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EscapeRoom extends Entity {
     private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
@@ -25,7 +26,7 @@ public class EscapeRoom extends Entity {
         this.theme = theme;
         this.deleted = 0;
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = null;
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
     public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp createdAt, Timestamp updatedAt) {
@@ -36,7 +37,8 @@ public class EscapeRoom extends Entity {
         this.theme = theme;
         this.deleted = deleted;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updatedAt = Objects.requireNonNullElseGet(
+                updatedAt, () -> new Timestamp(System.currentTimeMillis()));
     }
 
 

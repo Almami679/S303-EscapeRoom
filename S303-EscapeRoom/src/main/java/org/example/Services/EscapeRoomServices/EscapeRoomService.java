@@ -65,15 +65,16 @@ public class EscapeRoomService {
         }
     }
 
-    public void getEscapeRoomById(
+    public EscapeRoom getEscapeRoomById(
             int id
     ) {
         try {
-            this.assertIfEscapeRoomIdNotFound(id);
-            this.repository
+            //this.assertIfEscapeRoomIdNotFound(id);
+            return (EscapeRoom) this.repository
                     .getById(id, EntityAttributes.escaperoom);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

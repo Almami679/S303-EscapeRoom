@@ -59,15 +59,16 @@ public class SaleService {
         }
     }
 
-    public void getSaleById(
+    public Sale getSaleById(
             int id
     ) {
         try {
-            this.assertIfSaleIdNotFound(id);
-            this.repository
+            //this.assertIfSaleIdNotFound(id);
+            return (Sale) this.repository
                     .getById(id, EntityAttributes.sale);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

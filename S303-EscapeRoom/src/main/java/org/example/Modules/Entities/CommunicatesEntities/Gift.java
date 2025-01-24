@@ -29,8 +29,8 @@ public class Gift extends Communicate implements CommunicationInterface {
         this.game = player.getGame();
     }
 
-    public Gift(int id, int gameId, String text, int playerId, String giftKey/*, Timestamp created_at*/) throws SQLException {
-        super(id, playerId, new Timestamp(System.currentTimeMillis()));
+    public Gift(int id, int gameId, String text, int playerId, String giftKey, Timestamp createdAt) throws SQLException {
+        super(id, playerId, createdAt);
         this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
         this.text = text;
         this.discountKey = giftKey;
@@ -51,7 +51,7 @@ public class Gift extends Communicate implements CommunicationInterface {
         return this.game;
     }
 
-    public String getDiscountKey() {
+    public String getGiftKey() {
         return discountKey;
     }
 
@@ -74,6 +74,17 @@ public class Gift extends Communicate implements CommunicationInterface {
         KeysInUse.add(kb.toString());
 
         return kb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Gift{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                ", discountKey='" + discountKey + '\'' +
+                ", game=" + game +
+                '}';
     }
 
     @Override

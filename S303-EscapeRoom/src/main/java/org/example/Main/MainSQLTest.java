@@ -16,8 +16,8 @@ public class MainSQLTest {
 
     public static void main(String[] args) {
         PlayerService playerService = new PlayerService();
-       // playerService.createPlayer("inga", "example@email.com", 0);
-        playerService.getPlayerById(1);
+        playerService.createPlayer("inga", "example@email.com", 0);
+
 
         EscapeRoomTesting();
         /*RoomTesting();

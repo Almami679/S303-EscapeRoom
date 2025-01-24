@@ -31,12 +31,22 @@ public class Communicate extends Entity {
         return player;
     }
 
-    public Timestamp getCreated_at() {
+    public Timestamp getCreatedAt() {
         return created_at;
     }
 
     public Communicate setPlayer(Player player) {
         this.player = player;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Communicate{" +
+                "id= " + super.getId() +
+                "player=" + player +
+                ", type=" + type +
+                ", created_at=" + created_at +
+                '}';
     }
 }

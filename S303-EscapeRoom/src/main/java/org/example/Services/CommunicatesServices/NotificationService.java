@@ -61,15 +61,16 @@ public class NotificationService {
         }
     }
 
-    public void getNotificationById(
+    public Notification getNotificationById(
             int id
     ) {
         try {
-            this.assertIfNotificationIdNotFound(id);
-            this.repository
+            //this.assertIfNotificationIdNotFound(id);
+            return (Notification) this.repository
                     .getById(id, EntityAttributes.notification);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

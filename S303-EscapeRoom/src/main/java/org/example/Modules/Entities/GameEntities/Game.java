@@ -6,6 +6,8 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.EscapeRoomServices.EscapeRoomService;
+import org.example.Services.GameServices.GameService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -14,7 +16,8 @@ import java.util.ArrayList;
 
 public class Game extends Entity {
 
-    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private static EscapeRoomService escaperoomService = new EscapeRoomService();
+    private static GameService gameService = new GameService();
 
     private EscapeRoom escapeRoom;
     private Timestamp gameDate;
@@ -39,12 +42,12 @@ public class Game extends Entity {
 
     public Game (int id, int escapeRoomId, int finished, int deleted, Timestamp createdAt, Timestamp updateAt) throws SQLException {
         super(id, deleted);
-        this.escapeRoom = (EscapeRoom) repositoryImpl.getById(escapeRoomId, EntityAttributes.escaperoom);
+        this.escapeRoom = escaperoomService.getEscapeRoomById(escapeRoomId);
         this.finish = finished;
+        this.players = gameService.getAllPlayersInGame(id);
         this.createdAt = createdAt;
         this.updateAt = updateAt;
 
-        ///Añadir lista de jugadores cuando tengamos el SQL de gameHasPLayers
     }
 
     public EscapeRoom getEscapeRoom() {
