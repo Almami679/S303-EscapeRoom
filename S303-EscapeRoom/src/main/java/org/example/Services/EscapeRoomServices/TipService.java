@@ -60,15 +60,16 @@ public class TipService {
         }
     }
 
-    public void getTipById(
+    public Tips getTipById(
             int id
     ) {
         try {
-            this.assertIfTipIdNotFound(id);
-            this.repository
+            //this.assertIfTipIdNotFound(id);
+            return (Tips) this.repository
                     .getById(id, EntityAttributes.tips);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

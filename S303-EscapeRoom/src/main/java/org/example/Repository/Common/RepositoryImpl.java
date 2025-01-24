@@ -51,7 +51,7 @@ public class RepositoryImpl implements Repository{
     @Override
     public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
-        String attribute = enumAttributes.getAttributes().get(0);
+        String attribute = enumAttributes.getAttributes().getFirst();
         String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
         return deserialize(query, enumAttributes);
     }

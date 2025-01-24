@@ -66,44 +66,50 @@ public class Serializer {
     private static Entity createEntityToDeserialize(EntityAttributes entityEnum, ResultSet resultSet) throws SQLException {
         Entity entity = null;
         ArrayList<String> attributes = entityEnum.getAttributes();
-        switch(entityEnum) {
-            case gift -> {
-                entity = giftConstructor(resultSet, attributes);
+        if (resultSet.next()) {
+            switch (entityEnum) {
+                case gift -> { /// Fallo con Timestamp
+                    entity = giftConstructor(resultSet, attributes);
+                }
+                case ticket -> { /// Out of Bound
+                    entity = ticketConstructor(resultSet, attributes);
+                }
+                case certificate -> {
+                    entity = certificateConstructor(resultSet, attributes);
+                }
+                case notification -> {
+                    entity = notificationConstructor(resultSet, attributes);
+                }
+                case game -> {
+                    entity = gameConstructor(resultSet, attributes);
+                }
+                case room -> {
+                    entity = roomConstructor(resultSet, attributes);
+                }
+                case sale -> { /// Out of Bound
+                    entity = saleConstructor(resultSet, attributes);
+                }
+                case tips -> {
+                    entity = tipsConstructor(resultSet, attributes);
+                }
+                case player -> {
+                    entity = playerConstructor(resultSet, attributes);
+                }
+                case objectdeco -> { /// failed to deserialized
+                    entity = objectDecoConstructor(resultSet, attributes);
+                }
+                case escaperoom -> {
+                    entity = escapeRoomConstructor(resultSet, attributes);
+                }
+                case room_has_objectdeco -> {
+                    entity = roomHasObjectConstructor(resultSet, attributes);
+                    /// Seguir haciendo los casos de las entities con las clases definitivas y sus respectivos
+                    /// constructores
+
+                }
             }
-            case ticket -> {
-                entity = ticketConstructor(resultSet, attributes);
-            }
-            case certificate -> {
-                entity = certificateConstructor(resultSet, attributes);
-            }
-            case notification -> {
-                entity = notificationConstructor(resultSet, attributes);
-            }
-            case game ->  {
-                entity = gameConstructor(resultSet, attributes);
-            }
-            case room ->  {
-                entity = roomConstructor(resultSet, attributes);
-            }
-            case sale ->  {
-                entity = saleConstructor(resultSet, attributes);
-            }
-            case tips ->  {
-                entity = tipsConstructor(resultSet, attributes);
-            }
-            case player -> {
-                entity = playerConstructor(resultSet, attributes);
-            }
-            case objectdeco -> {
-                entity = objectDecoConstructor(resultSet, attributes);
-            }
-            case escaperoom -> {
-                entity = escapeRoomConstructor(resultSet, attributes);
-            }
-            case room_has_objectdeco ->
-                entity = roomHasObjectConstructor(resultSet, attributes);
-            /// Seguir haciendo los casos de las entities con las clases definitivas y sus respectivos
-            /// constructores
+            }else{
+            throw new SQLException("No data found in the result set");
 
         }
         return entity;

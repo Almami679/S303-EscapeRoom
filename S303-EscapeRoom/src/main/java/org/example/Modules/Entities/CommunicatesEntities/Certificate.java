@@ -58,6 +58,16 @@ public class Certificate extends Communicate implements CommunicationInterface {
     }
 
     @Override
+    public String toString() {
+        return "Certificate{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                ", game=" + game +
+                '}';
+    }
+
+    @Override
     public void send() {
         logger.info("sending Certificate to " + super.getPlayer().getEmail() + "\n" +
                 "Game[" + this.game + "]\nFinished at[" +

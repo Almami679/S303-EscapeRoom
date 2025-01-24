@@ -71,15 +71,16 @@ public class PlayerService {
         }
     }
 
-    public void getPlayerById(
+    public Player getPlayerById(
             int id
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
-            this.repository
+            //this.assertIfPlayerIdNotFound(id);
+            return (Player) this.repository
                     .getById(id, EntityAttributes.player);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

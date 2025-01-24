@@ -60,15 +60,16 @@ public class GameService {
         }
     }
 
-    public void getGameById(
+    public Game getGameById(
             int id
     ) {
         try {
-            this.assertIfGameIdNotFound(id);
-            this.repository
+            //this.assertIfGameIdNotFound(id);
+            return (Game) this.repository
                     .getById(id, EntityAttributes.game);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

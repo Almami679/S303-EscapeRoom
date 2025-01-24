@@ -87,7 +87,7 @@ public class Player extends Entity {
 
     @Override
     public String toString() {
-        return "PlayerTEST{" +
+        return "Player{" +
                 "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

@@ -39,4 +39,14 @@ public class Communicate extends Entity {
         this.player = player;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Communicate{" +
+                "id= " + super.getId() +
+                "player=" + player +
+                ", type=" + type +
+                ", created_at=" + created_at +
+                '}';
+    }
 }

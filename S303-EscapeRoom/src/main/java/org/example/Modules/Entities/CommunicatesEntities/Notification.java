@@ -35,6 +35,15 @@ public class Notification extends Communicate implements CommunicationInterface 
     }
 
     @Override
+    public String toString() {
+        return "Notification{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                '}';
+    }
+
+    @Override
     public void send() {
         if(super.getPlayer().getConsentNotif() == 1) {
             logger.info("sending email to " + super.getPlayer().getEmail() +

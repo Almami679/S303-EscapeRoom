@@ -64,15 +64,16 @@ public class GiftService {
         }
     }
 
-    public void getGiftById(
+    public Gift getGiftById(
             int id
     ) {
         try {
-            this.assertIfGiftIdNotFound(id);
-            this.repository
+            //this.assertIfGiftIdNotFound(id);
+            return (Gift) this.repository
                     .getById(id, EntityAttributes.gift);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
