@@ -9,6 +9,8 @@ import org.example.Repository.Common.RepositoryImpl;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.example.Repository.Serializers.EntityConstructorsSql.*;
 
@@ -18,48 +20,43 @@ public class Serializer {
 
     public static DatabaseConnection dbConnection = new DatabaseConnection();
 
-/*
-    public static Entity deserialize(
-            String query,
-            EntityAttributes entityEnum) throws SQLException {
-        try (Connection connection = dbConnection.dbConnect();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return createEntityToDeserialize(entityEnum, resultSet);
+    public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
+        Map<String, Object> entityData = new HashMap<>();
+        logger.info("Deserializando ResultSet...");
+
+        for (String attribute : entityEnum.getAttributes()) {
+            try {
+                Object value = resultSet.getObject(attribute);
+                logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
+                entityData.put(attribute, value);
             } catch (SQLException e) {
-                logger.error("Failed to deserialize entity: ", e);
-                throw e;
+                logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
             }
         }
+
+        return entityData;
     }
- */
-    ///VERSION DE CAROLINA
-    public static Entity deserialize(
-            String query,
-            EntityAttributes entityEnum) throws SQLException {
+
+    public static Entity deserialize(String query, EntityAttributes entityEnum) throws SQLException {
+        Entity entity = null;
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
-            // Validar si el ResultSet está vacío
-            if (!resultSet.next()) {
-                logger.warn("No data found for query: {}", query);
-                return null; // O lanza una excepción si es crítico no tener resultados
+            if (resultSet.next()) {
+                // Primero deserializamos el ResultSet a un Map
+                Map<String, Object> entityData = deserialize(resultSet, entityEnum);
+
+                // Luego creamos la entidad a partir del Map
+                entity = createEntityToDeserialize(entityEnum, entityData);
+            } else {
+                throw new SQLException("No data found for the given ID.");
             }
-
-            // Reposicionar el cursor si es necesario
-            resultSet.beforeFirst();
-            return createEntityToDeserialize(entityEnum, resultSet);
-
         } catch (SQLException e) {
-            // Registrar un mensaje más descriptivo
-            logger.error("Failed to deserialize entity for query [{}]: {}", query, e.getMessage());
-            throw new SQLException("Error while deserializing entity: " + e.getMessage(), e);
-        } catch (Exception e) {
-            // Manejar otras excepciones inesperadas
-            logger.error("Unexpected error during deserialization: ", e);
-            throw new RuntimeException("Unexpected error during deserialization", e);
+            logger.error("Error during deserialization: ", e);
+            throw e;
         }
+        return entity;
     }
 
     public static ArrayList<Entity> deserializeGetAll(String query, EntityAttributes entityEnum) throws SQLException {
@@ -67,8 +64,13 @@ public class Serializer {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
+
             while (resultSet.next()) {
-                entities.add(createEntityToDeserialize(entityEnum, resultSet));
+                // Deserializamos el ResultSet a Map<String, Object>
+                Map<String, Object> entityData = deserialize(resultSet, entityEnum);
+
+                // Ahora pasamos ese Map a createEntityToDeserialize
+                entities.add(createEntityToDeserialize(entityEnum, entityData));
             }
         } catch (SQLException e) {
             logger.error("Failed to deserialize entity: ", e);
@@ -92,53 +94,57 @@ public class Serializer {
         }
     }
 
-    private static Entity createEntityToDeserialize(EntityAttributes entityEnum, ResultSet resultSet) throws SQLException {
+    public static Entity createEntityToDeserialize(EntityAttributes entityEnum, Map<String, Object> entityData) throws SQLException {
         Entity entity = null;
+
+        // Usamos los atributos que corresponden al enum para acceder a los datos
         ArrayList<String> attributes = entityEnum.getAttributes();
-        if (resultSet.next()) {
+
+        // Verificamos que el HashMap no esté vacío
+        if (!entityData.isEmpty()) {
             switch (entityEnum) {
-                case gift -> { /// Fallo con Timestamp
-                    entity = giftConstructor(resultSet, attributes);
+                case gift -> {
+                    entity = giftConstructor(entityData, attributes);
                 }
-                case ticket -> { /// Fallo con Timestamp
-                    entity = ticketConstructor(resultSet, attributes);
+                case ticket -> {
+                    entity = ticketConstructor(entityData, attributes);
                 }
                 case certificate -> {
-                    entity = certificateConstructor(resultSet, attributes);
+                    entity = certificateConstructor(entityData, attributes);
                 }
                 case notification -> {
-                    entity = notificationConstructor(resultSet, attributes);
+                    entity = notificationConstructor(entityData, attributes);
                 }
                 case game -> {
-                    entity = gameConstructor(resultSet, attributes);
+                    entity = gameConstructor(entityData, attributes);
                 }
                 case room -> {
-                    entity = roomConstructor(resultSet, attributes);
+                    entity = roomConstructor(entityData, attributes);
                 }
-                case sale -> { /// Out of Bound
-                    entity = saleConstructor(resultSet, attributes);
+                case sale -> {
+                    entity = saleConstructor(entityData, attributes);
                 }
                 case tips -> {
-                    entity = tipsConstructor(resultSet, attributes);
+                    entity = tipsConstructor(entityData, attributes);
                 }
                 case player -> {
-                    entity = playerConstructor(resultSet, attributes);
+                    entity = playerConstructor(entityData, attributes);
                 }
-                case objectdeco -> { /// failed to deserialized
-                    entity = objectDecoConstructor(resultSet, attributes);
+                case objectdeco -> {
+                    entity = objectDecoConstructor(entityData, attributes);
                 }
                 case escaperoom -> {
-                    entity = escapeRoomConstructor(resultSet, attributes);
+                    entity = escapeRoomConstructor(entityData, attributes);
                 }
                 case room_has_objectdeco -> {
-                    entity = roomHasObjectConstructor(resultSet, attributes);
-
+                    entity = roomHasObjectConstructor(entityData, attributes);
                 }
+                default -> throw new SQLException("Unsupported entity type");
             }
-            }else{
-            throw new SQLException("No data found in the result set");
-
+        } else {
+            throw new SQLException("No data found in the provided map");
         }
+
         return entity;
     }
 }

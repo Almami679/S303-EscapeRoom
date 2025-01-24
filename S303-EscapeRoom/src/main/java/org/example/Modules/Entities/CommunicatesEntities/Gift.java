@@ -51,7 +51,7 @@ public class Gift extends Communicate implements CommunicationInterface {
         return this.game;
     }
 
-    public String getDiscountKey() {
+    public String getGiftKey() {
         return discountKey;
     }
 

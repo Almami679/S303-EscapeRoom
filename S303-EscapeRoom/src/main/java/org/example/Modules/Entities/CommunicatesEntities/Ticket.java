@@ -79,7 +79,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
         values.add(this.text);
         value = super.getPlayer().getId()+"";
         values.add(value);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         return values;
     }
 }
