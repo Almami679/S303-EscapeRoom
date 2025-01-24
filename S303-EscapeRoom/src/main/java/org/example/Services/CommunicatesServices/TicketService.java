@@ -64,15 +64,16 @@ public class TicketService {
         }
     }
 
-    public void getObjectDecoById(
+    public Ticket getTicketById(
             int id
     ) {
         try {
-            this.assertIfTicketIdNotFound(id);
-            this.repository
+            //this.assertIfTicketIdNotFound(id);
+            return (Ticket) this.repository
                     .getById(id, EntityAttributes.ticket);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

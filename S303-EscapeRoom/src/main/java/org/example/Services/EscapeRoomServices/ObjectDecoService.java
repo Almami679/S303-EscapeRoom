@@ -61,15 +61,16 @@ public class ObjectDecoService {
         }
     }
 
-    public void getObjectDecoById(
+    public ObjectDeco getObjectDecoById(
             int id
     ) {
         try {
-            this.assertIfObjectDecoIdNotFound(id);
-            this.repository
+            //this.assertIfObjectDecoIdNotFound(id);
+            return (ObjectDeco) repository
                     .getById(id, EntityAttributes.objectdeco);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

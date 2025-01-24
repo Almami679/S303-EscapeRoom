@@ -63,15 +63,16 @@ public class CertificateService {
         }
     }
 
-    public void getCertificateById(
+    public Certificate getCertificateById(
             int id
     ) {
         try {
-            this.assertIfCertificateIdNotFound(id);
-            this.repository
+            //this.assertIfCertificateIdNotFound(id);
+            return (Certificate) this.repository
                     .getById(id, EntityAttributes.certificate);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
