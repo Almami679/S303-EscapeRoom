@@ -63,7 +63,7 @@ public class Notification extends Communicate implements CommunicationInterface 
         value = super.getPlayer().getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         return values;
     }
 

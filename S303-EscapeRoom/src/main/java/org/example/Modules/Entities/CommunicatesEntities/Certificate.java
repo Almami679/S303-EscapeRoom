@@ -82,7 +82,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
         value = super.getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         value = super.getPlayer().getId() + "";
         values.add(value);
         return values;
