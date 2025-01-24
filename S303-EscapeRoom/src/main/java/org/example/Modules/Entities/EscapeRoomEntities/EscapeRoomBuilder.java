@@ -1,11 +1,18 @@
 package org.example.Modules.Entities.EscapeRoomEntities;
 
+import org.example.observers.Observer;
+
 import java.sql.Timestamp;
 
 public class EscapeRoomBuilder {
     private String name;
     private double price;
     private String theme;
+    private final EscapeRoomNotifier notifier;
+
+    public EscapeRoomBuilder(EscapeRoomNotifier notifier) {
+        this.notifier = notifier;
+    }
 
     public EscapeRoomBuilder setName(String name) {
         this.name = name;
@@ -23,6 +30,12 @@ public class EscapeRoomBuilder {
     }
 
     public EscapeRoom build() {
-        return new EscapeRoom(name, price, theme);
+        EscapeRoom escapeRoom = new EscapeRoom(name, price, theme);
+        notifier.notifyObservers("¡Nuevo EscapeRoom creado: " + name + " con tema " + theme + "!");
+        return escapeRoom;
+    }
+
+    public void addObserver(Observer observer) {
+        notifier.addObserver(observer);
     }
 }

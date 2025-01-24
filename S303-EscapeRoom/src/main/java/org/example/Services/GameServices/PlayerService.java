@@ -33,18 +33,13 @@ public class PlayerService {
     }
 
 
-    private boolean assertIfPlayerAlreadyExists(String email) throws SQLException, PlayerAlreadyExistsException {
-        boolean exists = this.repository
+    private boolean assertIfPlayerAlreadyExists(String email) throws SQLException {
+        return this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
-                .map(this::castToPlayer)
-                .anyMatch(player -> player.getEmail().equals(email));
-
-        if (exists) {
-            throw new PlayerAlreadyExistsException();
-        }
-
-        return exists;
+                .filter(entity -> entity instanceof Player) // Aseguramos que solo trabajamos con Player
+                .map(this::castToPlayer) // Realizamos el cast
+                .anyMatch(player -> player.getEmail().equalsIgnoreCase(email)); // Verificamos el email (case-insensitive)
     }
 
     private boolean assertIfPlayerIdNotFound(int id) throws SQLException {
@@ -67,11 +62,12 @@ public class PlayerService {
     ) {
 
         try {
-            if (!assertIfPlayerAlreadyExists(email)) {
+            if (assertIfPlayerAlreadyExists(email)) {
+                logger.warn("Usurio con email " + email + " ya existe") ;
+            }
                 this
                         .repository
                         .add(new Player(name, email, consentNotif), EntityAttributes.player);
-            }
         } catch (SQLException | PlayerAlreadyExistsException e ) {
             logger.info(e.getMessage());
         }
