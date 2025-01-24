@@ -1,11 +1,12 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
+import org.example.observers.Observer;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Player extends Entity {
+public class Player extends Entity implements Observer {
 
     private String name;
     private String email;
@@ -110,5 +111,12 @@ public class Player extends Entity {
         values.add(createdAt.toString());
         values.add(updateAt.toString());
         return values;
+    }
+
+    @Override
+    public void update(String msg) {
+        if(this.consentNotif == 1){
+            System.out.println("Notificación para " + this.name + " " +  this.email + " : " + msg);
+        }
     }
 }
