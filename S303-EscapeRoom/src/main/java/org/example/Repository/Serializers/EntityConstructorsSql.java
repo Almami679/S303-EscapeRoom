@@ -31,8 +31,9 @@ public class EntityConstructorsSql {
         int gameId = resultSet.getInt(attributes.get(1));
         String text = resultSet.getString(attributes.get(2));
         String giftKey = resultSet.getString(attributes.get(3));
-        int playerId = resultSet.getInt(attributes.get(4));
-        entity = new Gift(id, gameId, text, playerId, giftKey);
+        Timestamp createdAt = resultSet.getTimestamp(attributes.get(4));
+        int playerId = resultSet.getInt(attributes.get(5));
+        entity = new Gift(id, gameId, text, playerId, giftKey, createdAt);
         return entity;
     }
 

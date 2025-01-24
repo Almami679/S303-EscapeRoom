@@ -18,7 +18,7 @@ public class Serializer {
 
     public static DatabaseConnection dbConnection = new DatabaseConnection();
 
-
+/*
     public static Entity deserialize(
             String query,
             EntityAttributes entityEnum) throws SQLException {
@@ -30,6 +30,35 @@ public class Serializer {
                 logger.error("Failed to deserialize entity: ", e);
                 throw e;
             }
+        }
+    }
+ */
+    ///VERSION DE CAROLINA
+    public static Entity deserialize(
+            String query,
+            EntityAttributes entityEnum) throws SQLException {
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            // Validar si el ResultSet está vacío
+            if (!resultSet.next()) {
+                logger.warn("No data found for query: {}", query);
+                return null; // O lanza una excepción si es crítico no tener resultados
+            }
+
+            // Reposicionar el cursor si es necesario
+            resultSet.beforeFirst();
+            return createEntityToDeserialize(entityEnum, resultSet);
+
+        } catch (SQLException e) {
+            // Registrar un mensaje más descriptivo
+            logger.error("Failed to deserialize entity for query [{}]: {}", query, e.getMessage());
+            throw new SQLException("Error while deserializing entity: " + e.getMessage(), e);
+        } catch (Exception e) {
+            // Manejar otras excepciones inesperadas
+            logger.error("Unexpected error during deserialization: ", e);
+            throw new RuntimeException("Unexpected error during deserialization", e);
         }
     }
 
@@ -71,7 +100,7 @@ public class Serializer {
                 case gift -> { /// Fallo con Timestamp
                     entity = giftConstructor(resultSet, attributes);
                 }
-                case ticket -> { /// Out of Bound
+                case ticket -> { /// Fallo con Timestamp
                     entity = ticketConstructor(resultSet, attributes);
                 }
                 case certificate -> {
