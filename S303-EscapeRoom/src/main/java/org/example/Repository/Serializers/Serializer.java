@@ -96,7 +96,6 @@ public class Serializer {
 
     public static Entity createEntityToDeserialize(EntityAttributes entityEnum, Map<String, Object> entityData) throws SQLException {
         Entity entity = null;
-
         // Usamos los atributos que corresponden al enum para acceder a los datos
         ArrayList<String> attributes = entityEnum.getAttributes();
 

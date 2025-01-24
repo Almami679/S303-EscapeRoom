@@ -2,6 +2,7 @@
 import org.assertj.core.api.Assertions;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class EscapeRoomTesting {
     @Test
     ///Arreglado el Null de Timestamp
     public void testEscapeRoomTesting() {
-        EscapeRoom escapeRoom1 = new EscapeRoomBuilder()
+        EscapeRoom escapeRoom1 = new EscapeRoomBuilder(new EscapeRoomNotifier())
                 .setName("Pedos House")
                 .setPrice(50.0)
                 .setTheme("Smelly")

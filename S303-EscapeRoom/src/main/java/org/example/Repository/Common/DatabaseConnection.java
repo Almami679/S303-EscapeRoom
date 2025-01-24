@@ -7,6 +7,7 @@ import org.example.Exceptions.DatabaseConnectionFailed;
 import java.sql.*;
 
 public class DatabaseConnection {
+
     private String URL;
     private String USER = "root";
     private String PASSWORD;
@@ -29,8 +30,8 @@ public class DatabaseConnection {
                 PASSWORD = "password";
                 break;
             case 3://Pau
-                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
-                PASSWORD = "";
+//                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
+//                PASSWORD = "";
                 break;
         }
     }
