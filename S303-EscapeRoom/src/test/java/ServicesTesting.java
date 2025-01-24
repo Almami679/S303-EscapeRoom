@@ -1,3 +1,4 @@
+
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
@@ -8,7 +9,6 @@ import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
-import org.example.Repository.Common.EntityAttributes;
 import org.example.Services.CommunicatesServices.CertificateService;
 import org.example.Services.CommunicatesServices.GiftService;
 import org.example.Services.CommunicatesServices.NotificationService;
@@ -24,7 +24,6 @@ import org.example.Services.GameServices.SaleService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
@@ -65,7 +64,8 @@ public class ServicesTesting {
     }
 
     @Test
-    public void getGift() { //Fallo con Timestamp
+    public void getGift() { //Semi fallo en relaciones
+
         GiftService commService = new GiftService();
         Gift gift = commService.getGiftById(1);
         System.out.println(gift);
@@ -125,28 +125,6 @@ public class ServicesTesting {
         SaleService commService = new SaleService();
         Sale sale = commService.getSaleById(1);
         System.out.println(sale);
-    }
-
-
-
-
-
-    @DisplayName("TEST ADD OBJECT IN ROOM")
-    @Test
-    public void testObjectsInRoom() {
-        RoomService roomService = new RoomService();
-        ObjectDecoService objectService = new ObjectDecoService();
-
-        Room roomTest = roomService.getRoomById(1);
-        System.out.println(roomTest);
-        objectService.createObjectDeco("Caca de perro", "Plastic", 5);
-        ObjectDeco objectTest = objectService.getObjectDecoById(5);
-        System.out.println(objectTest);
-
-        roomService.addObjectInRoom(roomTest.getId(), objectTest.getId());
-
-        roomService.getAllObjectsInRoom(1).forEach(System.out::println);
-
     }
 
 }

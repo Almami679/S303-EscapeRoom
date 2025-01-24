@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class EscapeRoomTesting {
 
     @Test
+    ///Arreglado el Null de Timestamp
     public void testEscapeRoomTesting() {
         EscapeRoom escapeRoom1 = new EscapeRoomBuilder()
                 .setName("Pedos House")
