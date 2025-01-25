@@ -138,6 +138,9 @@ public class Serializer {
                 case room_has_objectdeco -> {
                     entity = roomHasObjectConstructor(entityData, attributes);
                 }
+                case room_has_tips -> {
+                    entity = roomHasTipsConstructor(entityData, attributes);
+                }
                 default -> throw new SQLException("Unsupported entity type");
             }
         } else {

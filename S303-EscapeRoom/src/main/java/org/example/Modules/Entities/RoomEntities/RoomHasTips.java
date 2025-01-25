@@ -13,7 +13,7 @@ public class RoomHasTips extends Entity {
         this.idRoom = idRoom;
     }
 
-    public int getIdObject() {
+    public int getIdTip() {
         return idTip;
     }
 

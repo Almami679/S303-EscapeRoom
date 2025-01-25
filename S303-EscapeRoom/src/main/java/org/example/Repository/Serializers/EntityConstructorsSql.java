@@ -9,10 +9,7 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
-import org.example.Modules.Entities.RoomEntities.ObjectDeco;
-import org.example.Modules.Entities.RoomEntities.Room;
-import org.example.Modules.Entities.RoomEntities.RoomHasObject;
-import org.example.Modules.Entities.RoomEntities.Tips;
+import org.example.Modules.Entities.RoomEntities.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -155,6 +152,14 @@ public class EntityConstructorsSql {
         int idObject = (Integer) entityData.get(attributes.get(0));
         int idRoom = (Integer) entityData.get(attributes.get(1));
         entity = new RoomHasObject(idObject, idRoom);
+        return entity;
+    }
+
+    public static RoomHasTips roomHasTipsConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
+        RoomHasTips entity = null;
+        int idTip = (Integer) entityData.get(attributes.get(0));
+        int idRoom = (Integer) entityData.get(attributes.get(1));
+        entity = new RoomHasTips(idTip, idRoom);
         return entity;
     }
 }
