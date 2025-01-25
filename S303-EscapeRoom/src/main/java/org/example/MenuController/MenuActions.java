@@ -1,8 +1,10 @@
 package org.example.MenuController;
 
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuActions {
@@ -11,7 +13,6 @@ public class MenuActions {
     public static void createEscapeRoom(Scanner read) {
         System.out.print("Enter the name of the escape room: ");
         String name = read.next();
-
         double price = 0;
         boolean validInput = false;
         do {
@@ -24,18 +25,25 @@ public class MenuActions {
                 read.next();
             }
         } while (!validInput);
-
         System.out.print("Enter the theme of the escape room: ");
         String theme = read.next();
-
         escapeRoomService.createEscapeRoom(name, price, theme);
         System.out.println("Escape room created successfully!");
+    }
+    public static void displayEscapeRoom() {
+        List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
+        if (escapeRooms.isEmpty()) {
+            System.out.println("No escape rooms found.");
+        } else {
+            escapeRooms.forEach(escapeRoom -> System.out.println(escapeRoom.toStringDisplay()));
+        }
     }
     public static void addNewRoom(Scanner read) {
 
     }
 
     public static void displayRooms(Scanner read) {
+
 
     }
 
@@ -108,10 +116,6 @@ public class MenuActions {
     }
 
     public static void removeSale(Scanner read) {
-
-    }
-
-    public static void displayEscapeRoom(Scanner read) {
 
     }
 }

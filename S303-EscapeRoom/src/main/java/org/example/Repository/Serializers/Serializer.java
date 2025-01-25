@@ -22,12 +22,12 @@ public class Serializer {
 
     public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
         Map<String, Object> entityData = new HashMap<>();
-        logger.info("Deserializando ResultSet...");
+        //logger.info("Deserializando ResultSet...");
 
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
-                logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
+                //logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
                 entityData.put(attribute, value);
             } catch (SQLException e) {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());

@@ -113,6 +113,12 @@ public class EscapeRoom extends Entity {
         this.createdAt = escapeRoomCreatedAt;
     }
 
+
+    public String toStringDisplay() {
+        return  "name: '" + name + '\'' +
+                ", price: ' " + price +
+                ", theme: '" + theme + '\'';
+    }
     @Override
     public String toString() {
         return "EscapeRoom{" +
@@ -121,8 +127,8 @@ public class EscapeRoom extends Entity {
                 ", price=" + price +
                 ", theme='" + theme + '\'' +
                 ", deleted=" + deleted +
-                ", created_at=" + createdAt +
-                ", updated_at=" + updatedAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
