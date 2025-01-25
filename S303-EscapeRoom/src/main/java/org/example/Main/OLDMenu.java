@@ -1,10 +1,10 @@
 package org.example.Main;
-import org.example.Main.MenuController.MenuController;
+import org.example.OLDMenuController.MenuController;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class Menu {
+public class OLDMenu {
 
     public void displayMenu(Scanner read) throws SQLException {
         int userInput;
