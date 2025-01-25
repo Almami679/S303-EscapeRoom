@@ -1,33 +1,79 @@
 package org.example.Main;
-import org.example.Main.MenuController.MenuController;
+
+
+import org.example.Main.MenuOptions;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
+    private MenuController menuController = new MenuController();
 
-    public void displayMenu(Scanner read) throws SQLException {
+    public void displayMainMenu(Scanner read) throws SQLException {
         int userInput;
-        String text = "---------------------------------------------------------------------------\n" +
-                "------------------------WELCOME TO  THE ESCAPE ROOM------------------------\n" +
-                "---------------------------------------------------------------------------\n" +
-                "[1]Create Escape Room\t\t\t[2]Add new room\n[3]Add tip to room\t\t\t[4]Add object to room\n" +
-                "[5]Display Inventory\t\t\t[6]Display inventory value\n[7]Remove room\t\t\t[8]Remove tip\n" +
-                "[9]Remove object\t\t\t[10]Generate player's ticket\n[11]Display ticket sales\t\t\t[12]Subscribe to receive notifications\n[0]Exit";
         do {
-            System.out.println(text);
-            userInput = read.nextInt();
-            MenuController.handleUserInput(userInput, read);
-        } while (userInput != 0);
-        System.out.println("Exiting... Goodbye!");
+            System.out.print(MenuOptions.MAIN_MENU.getMenuText());
+            try {
+                userInput = read.nextInt();
+                menuController.handleMainMenu(userInput, read);
+            } catch (InputMismatchException e) {
+                read.next();
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        } while (true);
     }
 
     public void start() throws SQLException {
-        int option, id;
-        String name, theme, material, difficulty;
-        double price;
         Scanner read = new Scanner(System.in);
         read.useDelimiter("\r?\n");
-        displayMenu(read);
-    }
-}
+        displayMainMenu(read);
+    }}
+/*
+Main Menu ==> 1. Create Escape Room
+              2. Manage Escape Room
+              3. Display Escape Room
+              4. Manage Inventory
+              5. Manage Game
+              6. Manage Sales
+              0. Exit
+
+Manage Escape Room ==> 1. Manage rooms
+                       2. Manage tips
+                       3. Manage Inventory
+                       0. Exit
+
+Manage Rooms ==> 1. Add new room
+                 2. Display rooms
+                 3. Update room
+                 4. Remove room
+                 5. Manage tips
+                 0. Exit
+
+Manage Tips ==> 1. Add new tip
+                2. Display tips
+                3. Remove tip
+                0. Exit
+
+Manage Inventory ==> 1. Add new object
+                     2. Display inventory
+                     3. Remove object
+                     0. Exit
+
+Manage Game ==> 1. Add new game
+                2. Display games
+                3. Finish game
+                4. Manage players
+                0. Exit
+
+Manage Players ==> 1. Create player
+                   2. Display players
+                   3. Update player
+                   4. Remove player
+                   0. Exit
+
+Manage Sales ==> 1. Generate new sale
+                 2. Display sales
+                 3. Remove sale
+                 0. Exit
+*/
