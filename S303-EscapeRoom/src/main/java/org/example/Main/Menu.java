@@ -1,6 +1,7 @@
 package org.example.Main;
 
 
+import org.example.Exceptions.InvalidMenuOptionException;
 import org.example.Main.MenuOptions;
 
 import java.sql.SQLException;
@@ -20,6 +21,8 @@ public class Menu {
             } catch (InputMismatchException e) {
                 read.next();
                 System.out.println("Invalid input. Please enter a number.");
+            } catch (InvalidMenuOptionException e) {
+                System.out.println(e.getMessage());
             }
         } while (true);
     }
