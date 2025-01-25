@@ -155,7 +155,6 @@ public class EscapeRoomService {
     public ArrayList<EscapeRoom> getAllEscapeRooms() {
         ArrayList<EscapeRoom> outputList = new ArrayList<>();
         try {
-
             this.repository
                     .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
             return outputList;

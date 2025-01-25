@@ -45,8 +45,6 @@ public class ServicesTesting {
 
         String lastPlayerInDb = playersInDb.get(playersInDb.size() - 1).getEmail();
         assertEquals("Player Found in Db", playerTest.getEmail(), lastPlayerInDb);
-
-
     }
 
     @DisplayName("TEST GET ENTITIES")

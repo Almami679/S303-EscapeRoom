@@ -33,7 +33,6 @@ public class Serializer {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
             }
         }
-
         return entityData;
     }
 
@@ -44,10 +43,7 @@ public class Serializer {
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                // Primero deserializamos el ResultSet a un Map
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
-                // Luego creamos la entidad a partir del Map
                 entity = createEntityToDeserialize(entityEnum, entityData);
             } else {
                 throw new SQLException("No data found for the given ID.");
