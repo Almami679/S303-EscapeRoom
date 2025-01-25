@@ -146,4 +146,38 @@ public class ServicesTesting {
         tipsTest.forEach(System.out::println);
     }
 
+    @Test
+    public void addObjectsInRoom() {
+        RoomService roomService = new RoomService();
+        ObjectDecoService objectService = new ObjectDecoService();
+        ArrayList<ObjectDeco> objects = objectService.getAllObjectDeco();
+        objects.forEach(objectDeco -> roomService.addObjectInRoom(objectDeco.getId(), 1));
+        ArrayList<ObjectDeco> objectsInRoomTest = roomService.getAllObjectsInRoom(1);
+        objectsInRoomTest.forEach(System.out::println);
+        System.out.println("___________________________");
+        objects.forEach(System.out::println);
+    }
+
+    @Test
+    public void getAllObjectsInRoom() {
+        RoomService roomService = new RoomService();
+        ArrayList<ObjectDeco> objectsTest = roomService.getAllObjectsInRoom(1);
+        objectsTest.forEach(System.out::println);
+    }
+
+    @Test
+    public void addPlayerInGame() {
+        GameService gameService = new GameService();
+        PlayerService playerService = new PlayerService();
+        ArrayList<Player> players = playerService.getAllPlayer();
+        System.out.println(players);
+        players.forEach(player -> gameService.addPlayerInGame(player.getId(), 1));
+        ArrayList<Player> playersInGameTest = gameService.getAllPlayersInGame(1);
+        playersInGameTest.forEach(System.out::println);
+        System.out.println("___________________________");
+        players.forEach(System.out::println);
+
+        assertEquals(players, playersInGameTest);
+    }
+
 }
