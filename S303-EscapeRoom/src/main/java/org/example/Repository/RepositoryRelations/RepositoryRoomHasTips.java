@@ -1,5 +1,9 @@
 package org.example.Repository.RepositoryRelations;
 
+import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
+import org.example.Modules.Entities.RoomEntities.RoomHasObject;
+import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.Serializers.Serializer;
@@ -18,5 +22,21 @@ public class RepositoryRoomHasTips extends RepositoryImpl {
         values.add(String.valueOf(tipsId));
         values.add(String.valueOf(roomId));
         Serializer.serialize(query, EntityAttributes.room_has_tips, "add", values);
+    }
+
+    public ArrayList<Tips> getAllTipsByRoomId(int roomId) throws SQLException {
+        String query = "SELECT * FROM escaperoomdb.room_has_tips WHERE room_room_id = " + roomId +";";
+        ArrayList<Entity> IdTipsInRoom = new ArrayList<>();
+        ArrayList<Tips> tipsInRoom = new ArrayList<>();
+        IdTipsInRoom = Serializer.deserializeGetAll(query,EntityAttributes.room_has_tips);
+        IdTipsInRoom.forEach(entityForId -> {
+            try {
+                RoomHasObject entity = (RoomHasObject) entityForId;
+                tipsInRoom.add((Tips) getById(entity.getIdObject(), EntityAttributes.tips));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return tipsInRoom;
     }
 }
