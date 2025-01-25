@@ -1,13 +1,36 @@
 package org.example.MenuController;
 
+import org.example.Services.EscapeRoomServices.EscapeRoomService;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuActions {
+    private static final EscapeRoomService escapeRoomService = new EscapeRoomService();
 
     public static void createEscapeRoom(Scanner read) {
+        System.out.print("Enter the name of the escape room: ");
+        String name = read.next();
 
+        double price = 0;
+        boolean validInput = false;
+        do {
+            System.out.print("Enter the price of the escape room: ");
+            try {
+                price = read.nextDouble();
+                validInput = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                read.next();
+            }
+        } while (!validInput);
+
+        System.out.print("Enter the theme of the escape room: ");
+        String theme = read.next();
+
+        escapeRoomService.createEscapeRoom(name, price, theme);
+        System.out.println("Escape room created successfully!");
     }
-
     public static void addNewRoom(Scanner read) {
 
     }
