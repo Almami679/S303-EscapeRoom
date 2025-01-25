@@ -10,8 +10,8 @@ import org.example.Repository.Serializers.Serializer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RepositoryRoomHasObjectDeco extends RepositoryImpl {
-    public RepositoryRoomHasObjectDeco() {
+public class RepositroyRoomHasObjectDeco extends RepositoryImpl {
+    public RepositroyRoomHasObjectDeco() {
         super();
     }
 

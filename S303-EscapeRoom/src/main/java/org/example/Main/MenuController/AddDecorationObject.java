@@ -8,20 +8,19 @@ import org.example.Repository.Common.RepositoryImpl;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import static org.example.Main.MenuController.UserInputs.askString;
+
 public class AddDecorationObject implements ServiceProcessor {
     private static final Logger LOGGER = Logger.getLogger(ObjectDeco.class.getName());
     @Override
-    public void process(Scanner read, RepositoryImpl repository) {
+    public void process(Scanner read) {
         ObjectDeco objectDeco = null;
         String name, material;
         double price;
-        System.out.println("What is the decoration object's name?");
-        name = read.next();
-        System.out.println("What is the object's material?");
-        material = read.next();
-        System.out.println("What is the object's price?");
-        price = Double.parseDouble(read.next());
-        ObjectDecoService ods= new ObjectDecoService(repository);
+        name = askString("What is the decoration object's name?",read);
+        material = askString("What is the object's material?",read);
+        price = Double.parseDouble(askString("What is the object's price?",read));
+        ObjectDecoService ods= new ObjectDecoService();
         ods.createObjectDeco(name,material,price);
     }
 }

@@ -53,6 +53,16 @@ public class Ticket extends Communicate implements CommunicationInterface {
     }
 
     @Override
+    public String toString() {
+        return "Ticket{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                ", sale=" + sale +
+                '}';
+    }
+
+    @Override
     public void send() {
         logger.info("sending Ticket to " + super.getPlayer().getEmail() + "\n" +
                 "Ticket[id: " + super.getId() + " || Value: " + getSale().getPrice() + "€]");
@@ -69,7 +79,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
         values.add(this.text);
         value = super.getPlayer().getId()+"";
         values.add(value);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         return values;
     }
 }

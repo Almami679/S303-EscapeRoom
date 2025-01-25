@@ -50,26 +50,31 @@ public class NotificationService {
 
     public void createNotification(
             int playerId
-    ) {
+    )  {
         try {
             Notification notification = (Notification) mainFactory.createCommunicate(CommunicateType.NOTIFICATION, playerId);
-            this
-                    .repository
-                    .add(notification, EntityAttributes.notification);
+
+            if (notification != null) {
+                this.repository.add(notification, EntityAttributes.notification);
+                logger.info("Notificación creada y guardada: " + notification.getText());
+            } else {
+                logger.info("Error: La notificación es nula.");
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    public void getNotificationById(
+    public Notification getNotificationById(
             int id
     ) {
         try {
-            this.assertIfNotificationIdNotFound(id);
-            this.repository
+            //this.assertIfNotificationIdNotFound(id);
+            return (Notification) this.repository
                     .getById(id, EntityAttributes.notification);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 

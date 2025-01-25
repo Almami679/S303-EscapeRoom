@@ -14,11 +14,8 @@ import static org.example.Repository.Serializers.Serializer.deserialize;
 public class RepositoryImpl implements Repository{
 
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
-    //private static DatabaseConnection dbConnection;
 
-    /*public RepositoryImpl(DatabaseConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }*/
+
     @Override
     public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
         ArrayList<String> attributes = enumAttributes.getAttributes();
@@ -47,14 +44,14 @@ public class RepositoryImpl implements Repository{
     @Override
     public ArrayList<Entity> getAll(EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
-        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + tableName + "_deleted = 0;";
+        String query = "SELECT * FROM escaperoomdb." + tableName;
         return Serializer.deserializeGetAll(query, enumAttributes);
     }
 
     @Override
     public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
-        String attribute = enumAttributes.getAttributes().get(0);
+        String attribute = enumAttributes.getAttributes().getFirst();
         String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
         return deserialize(query, enumAttributes);
     }
