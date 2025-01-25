@@ -1,5 +1,7 @@
 package org.example.Main;
 
+import MenuController.Menu;
+
 import java.sql.SQLException;
 
 public class Main {
