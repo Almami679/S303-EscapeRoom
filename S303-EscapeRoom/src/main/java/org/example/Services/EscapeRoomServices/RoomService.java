@@ -7,10 +7,12 @@ import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
+import org.example.Repository.RepositoryRelations.RepositoryRoomHasTips;
 import org.example.Repository.RepositoryRelations.RepositroyRoomHasObjectDeco;
 
 import java.sql.SQLException;
@@ -134,6 +136,25 @@ public class RoomService {
         RepositroyRoomHasObjectDeco repoRoomHasObject = new RepositroyRoomHasObjectDeco();
         try {
             return repoRoomHasObject.getAllObjectsByRoomId(roomId);
+        } catch (SQLException e) {
+            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+        }
+        return null;
+    }
+
+    public void addTipInRoom(int TipId, int roomId) {
+        RepositoryRoomHasTips repo = new RepositoryRoomHasTips();
+        try {
+            repo.addRoomHasTips(roomId, TipId);
+        } catch (SQLException e) {
+            logger.info("Fail to fetch object in room");
+        }
+    }
+
+    public ArrayList<Tips> getAllTipsInRoom(int roomId) {
+        RepositoryRoomHasTips repoRoomHasTips = new RepositoryRoomHasTips();
+        try {
+            return repoRoomHasTips.getAllTipsByRoomId(roomId);
         } catch (SQLException e) {
             logger.info("Fail to get Objects in Room[id: " + roomId + "]");
         }
