@@ -16,193 +16,146 @@ import org.example.Modules.Entities.RoomEntities.Tips;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class EntityConstructorsSql {
 
 
 
-    public static Gift giftConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Gift giftConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Gift entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        int gameId = resultSet.getInt(attributes.get(1));
-        String text = resultSet.getString(attributes.get(2));
-        String giftKey = resultSet.getString(attributes.get(3));
-        Timestamp createdAt = resultSet.getTimestamp(attributes.get(4));
-        int playerId = resultSet.getInt(attributes.get(5));
+        int id = (Integer) entityData.get(attributes.get(0));
+        int gameId = (Integer) entityData.get(attributes.get(1));
+        String text = (String) entityData.get(attributes.get(2));
+        String giftKey = (String) entityData.get(attributes.get(3));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(4));
+        int playerId = (Integer) entityData.get(attributes.get(5));
         entity = new Gift(id, gameId, text, playerId, giftKey, createdAt);
         return entity;
     }
 
-    public static Ticket ticketConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Ticket ticketConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Ticket entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        int saleId = resultSet.getInt(attributes.get(1));
-        String text = resultSet.getString(attributes.get(2));
-        int playerId = resultSet.getInt(attributes.get(3));
-        Timestamp date = resultSet.getTimestamp(attributes.get(4));
+        int id = (Integer) entityData.get(attributes.get(0));
+        int saleId = (Integer) entityData.get(attributes.get(1));
+        String text = (String) entityData.get(attributes.get(2));
+        int playerId = (Integer) entityData.get(attributes.get(3));
+        Timestamp date = (Timestamp) entityData.get(attributes.get(4));
         entity = new Ticket(id, playerId, saleId, text, date);
         return entity;
     }
 
-    public static Certificate certificateConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Certificate certificateConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Certificate entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        int gameId = resultSet.getInt(attributes.get(1));
-        String text = resultSet.getString(attributes.get(2));
-        Timestamp created_at = resultSet.getTimestamp(attributes.get(3));
-        int playerId = resultSet.getInt(attributes.get(4));
+        int id = (Integer) entityData.get(attributes.get(0));
+        int gameId = (Integer) entityData.get(attributes.get(1));
+        String text = (String) entityData.get(attributes.get(2));
+        Timestamp created_at = (Timestamp) entityData.get(attributes.get(3));
+        int playerId = (Integer) entityData.get(attributes.get(4));
         entity = new Certificate(id, gameId, playerId, text, created_at);
         return entity;
     }
 
-    public static Notification notificationConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Notification notificationConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Notification entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        int playerId = resultSet.getInt(attributes.get(1));
-        String text = resultSet.getString(attributes.get(2));
-        Timestamp created_at = resultSet.getTimestamp((attributes.get(3)));
+        int id = (Integer) entityData.get(attributes.get(0));
+        int playerId = (Integer) entityData.get(attributes.get(1));
+        String text = (String) entityData.get(attributes.get(2));
+        Timestamp created_at = (Timestamp) entityData.get(attributes.get(3));
         entity = new Notification(id, playerId, text, created_at);
         return entity;
     }
 
-    public static Game gameConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Game gameConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Game entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        int escapeRoomId = resultSet.getInt(attributes.get(1));
-        int finished = resultSet.getInt(attributes.get(2));
-        int deleted = resultSet.getInt(attributes.get(3));
-        Timestamp createdAt = resultSet.getTimestamp((attributes.get(4)));
-        Timestamp updateAt = resultSet.getTimestamp(attributes.get(5));
-        entity = new Game(id,escapeRoomId, finished, deleted, createdAt, updateAt);
+        int id = (Integer) entityData.get(attributes.get(0));
+        int escapeRoomId = (Integer) entityData.get(attributes.get(1));
+        int finished = (Integer) entityData.get(attributes.get(2));
+        int deleted = (Integer) entityData.get(attributes.get(3));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(4));
+        Timestamp updateAt = (Timestamp) entityData.get(attributes.get(5));
+        entity = new Game(id, escapeRoomId, finished, deleted, createdAt, updateAt);
         return entity;
     }
 
-    public static Room roomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Room roomConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Room entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        String name = resultSet.getString((attributes.get(1)));
-        String difficulty = resultSet.getString((attributes.get(2)));
-        double price = resultSet.getDouble(attributes.get(3));
-        int deleted = resultSet.getInt(attributes.get(4));
-        Timestamp createdAt = resultSet.getTimestamp((attributes.get(5)));
-        Timestamp updateAt = resultSet.getTimestamp(attributes.get(6));
-        entity = new Room(id,name,difficulty,price,deleted,createdAt,updateAt);
+        int id = (Integer) entityData.get(attributes.get(0));
+        String name = (String) entityData.get(attributes.get(1));
+        String difficulty = (String) entityData.get(attributes.get(2));
+        double price = (Double) entityData.get(attributes.get(3));
+        int deleted = (Integer) entityData.get(attributes.get(4));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(5));
+        Timestamp updateAt = (Timestamp) entityData.get(attributes.get(6));
+        entity = new Room(id, name, difficulty, price, deleted, createdAt, updateAt);
         return entity;
     }
 
-    public static Sale saleConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Sale saleConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Sale entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        double price = resultSet.getDouble(attributes.get(1));
-        int gameId = resultSet.getInt(attributes.get(2));
-        int deleted = resultSet.getInt(attributes.get(4));
-        Timestamp createdAt = resultSet.getTimestamp(attributes.get(5));
-        entity = new Sale(id,price,gameId,deleted,createdAt);
-
+        int id = (Integer) entityData.get(attributes.get(0));
+        double price = (Double) entityData.get(attributes.get(1));
+        int gameId = (Integer) entityData.get(attributes.get(2));
+        int deleted = (Integer) entityData.get(attributes.get(3));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(4));
+        entity = new Sale(id, price, gameId, deleted, createdAt);
         return entity;
     }
 
-    public static Tips tipsConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Tips tipsConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Tips entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        String text = resultSet.getString(attributes.get(1));
-        int deleted = resultSet.getInt(attributes.get(2));
-        entity = new Tips(id,text,deleted);
+        int id = (Integer) entityData.get(attributes.get(0));
+        String text = (String) entityData.get(attributes.get(1));
+        int deleted = (Integer) entityData.get(attributes.get(2));
+        entity = new Tips(id, text, deleted);
         return entity;
     }
 
-    public static Player playerConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.isBeforeFirst() && resultSet.getRow() == 0) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static Player playerConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         Player entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        String name = resultSet.getString(attributes.get(1));
-        String email = resultSet.getString(attributes.get(2));
-        int consetNotif = resultSet.getInt(attributes.get(3));
-        int deleted = resultSet.getInt(attributes.get(4));
-        Timestamp createdAt = resultSet.getTimestamp((attributes.get(5)));
-        Timestamp updateAt = resultSet.getTimestamp(attributes.get(6));
-        entity = new Player(id,name,email,consetNotif,deleted, createdAt,updateAt);
+        int id = (Integer) entityData.get(attributes.get(0));
+        String name = (String) entityData.get(attributes.get(1));
+        String email = (String) entityData.get(attributes.get(2));
+        int consetNotif = (Integer) entityData.get(attributes.get(3));
+        int deleted = (Integer) entityData.get(attributes.get(4));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(5));
+        Timestamp updateAt = (Timestamp) entityData.get(attributes.get(6));
+        entity = new Player(id, name, email, consetNotif, deleted, createdAt, updateAt);
         return entity;
     }
 
-    public static EscapeRoom escapeRoomConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-        if (!resultSet.next()) {
-            throw new SQLException("No data found in ResultSet.");
-        }
-        EscapeRoom entity;
-        int id = resultSet.getInt(attributes.get(0));
-        String name = resultSet.getString(attributes.get(1));
-        double price = resultSet.getDouble(attributes.get(2));
-        String theme = resultSet.getString(attributes.get(3));
-        int deleted = resultSet.getInt(attributes.get(4));
-        Timestamp createdAt = resultSet.getTimestamp((attributes.get(5)));
-        Timestamp updateAt = resultSet.getTimestamp(attributes.get(6));
-        entity = new EscapeRoom(id,name,price,theme,deleted, createdAt,updateAt);
+    public static EscapeRoom escapeRoomConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
+        EscapeRoom entity = null;
+        int id = (Integer) entityData.get(attributes.get(0));
+        String name = (String) entityData.get(attributes.get(1));
+        double price = (Double) entityData.get(attributes.get(2));
+        String theme = (String) entityData.get(attributes.get(3));
+        int deleted = (Integer) entityData.get(attributes.get(4));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(5));
+        Timestamp updateAt = (Timestamp) entityData.get(attributes.get(6));
+        entity = new EscapeRoom(id, name, price, theme, deleted, createdAt, updateAt);
         return entity;
     }
 
-    public static ObjectDeco objectDecoConstructor(ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.next()) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static ObjectDeco objectDecoConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         ObjectDeco entity = null;
-        int id = resultSet.getInt(attributes.get(0));
-        String name = resultSet.getString(attributes.get(1));
-        String material = resultSet.getString(attributes.get(3));
-        double price = resultSet.getDouble(attributes.get(2));
-        int deleted = resultSet.getInt(attributes.get(4));
-        Timestamp createdAt = resultSet.getTimestamp((attributes.get(5)));
-        Timestamp updateAt = resultSet.getTimestamp(attributes.get(6));
-        entity = new ObjectDeco(id,name,material,price,deleted, createdAt,updateAt);
+        int id = (Integer) entityData.get(attributes.get(0));
+        String name = (String) entityData.get(attributes.get(1));
+        String material = (String) entityData.get(attributes.get(2));
+        double price = (Double) entityData.get(attributes.get(3));
+        int deleted = (Integer) entityData.get(attributes.get(4));
+        Timestamp createdAt = (Timestamp) entityData.get(attributes.get(5));
+        Timestamp updateAt = (Timestamp) entityData.get(attributes.get(6));
+        entity = new ObjectDeco(id, name, material, price, deleted, createdAt, updateAt);
         return entity;
     }
 
-    public static RoomHasObject roomHasObjectConstructor (ResultSet resultSet, ArrayList<String> attributes) throws SQLException {
-
-        if (!resultSet.next()) {
-            throw new SQLException("ResultSet not positioned properly.");
-        }
+    public static RoomHasObject roomHasObjectConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
         RoomHasObject entity = null;
-        int idObject = resultSet.getInt(attributes.get(0));
-        int idRoom = resultSet.getInt(attributes.get(1));
-        entity = new RoomHasObject(idObject,idRoom);
+        int idObject = (Integer) entityData.get(attributes.get(0));
+        int idRoom = (Integer) entityData.get(attributes.get(1));
+        entity = new RoomHasObject(idObject, idRoom);
         return entity;
     }
-
 }
+

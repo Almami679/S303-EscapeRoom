@@ -49,7 +49,7 @@ public class PlayerService {
                 .map(this::castToPlayer)
                 .anyMatch(player -> player.getId() != id);
 
-        if(notFound){
+        if (notFound) {
             throw new PlayerNotFound("Player with id " + id + " not found");
         }
         return notFound;
@@ -60,15 +60,14 @@ public class PlayerService {
             String email,
             int consentNotif
     ) {
-
         try {
             if (assertIfPlayerAlreadyExists(email)) {
-                logger.warn("Usurio con email " + email + " ya existe") ;
+                logger.warn("Usurio con email " + email + " ya existe");
             }
-                this
-                        .repository
-                        .add(new Player(name, email, consentNotif), EntityAttributes.player);
-        } catch (SQLException | PlayerAlreadyExistsException e ) {
+            this
+                    .repository
+                    .add(new Player(name, email, consentNotif), EntityAttributes.player);
+        } catch (SQLException | PlayerAlreadyExistsException e) {
             logger.info(e.getMessage());
         }
     }
@@ -106,7 +105,6 @@ public class PlayerService {
             int consentNotif
     ) {
         try {
-
             this.assertIfPlayerIdNotFound(id);
         } catch (SQLException e) {
             logger.info(e.getMessage());
