@@ -1,5 +1,4 @@
-package org.example.Main;
-import org.example.OLDMenuController.MenuController;
+package org.example.OLDMenuController;
 
 import java.sql.SQLException;
 import java.util.Scanner;

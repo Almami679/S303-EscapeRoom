@@ -1,11 +1,16 @@
 package org.example.MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Services.EscapeRoomServices.EscapeRoomService;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuController {
+    private static EscapeRoomService escapeRoomService = new EscapeRoomService();
     public static void handleMainMenu(int userInput, Scanner read) throws SQLException, InvalidMenuOptionException {
         switch (userInput) {
             case 1:
@@ -15,7 +20,7 @@ public class MenuController {
                 displayManageEscapeRoomMenu(read);
                 break;
             case 3:
-                MenuActions.displayEscapeRoom(read);
+                MenuActions.displayEscapeRoom();
                 break;
             case 4:
                 displayManageInventoryMenu(read);
@@ -34,12 +39,37 @@ public class MenuController {
     }
 
     private static void displayManageEscapeRoomMenu(Scanner read) throws SQLException {
-        int userInput;
-        do {
-            System.out.print(MenuOptions.MANAGE_ESCAPE_ROOM_MENU.getMenuText());
-            userInput = read.nextInt();
-            handleManageEscapeRoomMenu(userInput, read);
-        } while (userInput != 0);
+        List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
+        if (escapeRooms.isEmpty()) {
+            System.out.println("No escape rooms found.");
+        }else {
+            System.out.println("Select an Escape Room:");
+            for (int i = 0; i < escapeRooms.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
+            }
+            int selectedEscapeRoom = -1;
+            boolean validInput = false;
+            do {
+                System.out.print("Enter the number of the escape room: ");
+                try {
+                    selectedEscapeRoom = read.nextInt();
+                    if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    read.next();
+                }
+            } while (!validInput);
+            int userInput;
+            do {
+                System.out.print(MenuOptions.MANAGE_ESCAPE_ROOM_MENU.getMenuText());
+                userInput = read.nextInt();
+                handleManageEscapeRoomMenu(userInput, read);
+            } while (userInput != 0);
+        }
     }
 
     private static void handleManageEscapeRoomMenu(int userInput, Scanner read) throws SQLException {
