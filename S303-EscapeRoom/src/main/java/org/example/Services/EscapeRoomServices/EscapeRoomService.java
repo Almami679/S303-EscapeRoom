@@ -4,25 +4,41 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.EscapeRoomNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
+import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.CommunicatesServices.NotificationService;
+import org.example.observers.Observer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EscapeRoomService {
     private static Logger logger = LogManager.getLogger(RoomService.class);
-    private final EscapeRoomBuilder builder = new EscapeRoomBuilder();
+    private final EscapeRoomNotifier notifier;
+    private final EscapeRoomBuilder builder;
     private final Repository repository;
+    private final NotificationService notificationService;
     private final Entity entity = new Entity();
 
 
     public EscapeRoomService() {
+        this.notifier = new EscapeRoomNotifier();
+        this.builder = new EscapeRoomBuilder(notifier);
         this.repository = new RepositoryImpl();
+        this.notificationService = new NotificationService();
+
+    }
+
+    public void addObserver(Observer observer) {
+        notifier.addObserver(observer);
     }
 
     private EscapeRoom castToEscapeRoom(Entity entity) {
@@ -33,6 +49,13 @@ public class EscapeRoomService {
         return escapeRoom;
     }
 
+    private Notification castToNotification(Entity entity) {
+        Notification notification = null;
+        if (entity instanceof Notification) {
+            notification = (Notification) entity;
+        }
+        return notification;
+    }
 
 
     private void assertIfEscapeRoomIdNotFound(int id) throws SQLException {
@@ -60,6 +83,22 @@ public class EscapeRoomService {
             this
                     .repository
                     .add(escaperoom, EntityAttributes.escaperoom);
+            String message = "Se ha creado un nuevo EscapeRoom: " + name + " con el tema " + theme;
+            notifier.notifyObservers(message);
+
+            List<Player> players = new ArrayList<>();
+            this.repository.getAll(EntityAttributes.player).forEach(entity -> {
+                if (entity instanceof Player) {
+                    players.add((Player) entity);
+                }
+            });
+
+            for (Player player : players) {
+                if (player.getConsentNotif() == 1) {
+                    notificationService.createNotification(player.getId());
+                    logger.info("Notificación enviada a: " + player.getName());
+                }
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -80,12 +119,12 @@ public class EscapeRoomService {
 
     public void deleteEscapeRoom(
             int id
-    ){
-        try{
+    ) {
+        try {
             this.assertIfEscapeRoomIdNotFound(id);
             this.repository
                     .delete(id, EntityAttributes.escaperoom);
-        }catch (PlayerNotFound | SQLException e){
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -99,8 +138,8 @@ public class EscapeRoomService {
     ) {
         try {
 
-        this.assertIfEscapeRoomIdNotFound(id);
-        }catch (SQLException e){
+            this.assertIfEscapeRoomIdNotFound(id);
+        } catch (SQLException e) {
             logger.info(e.getMessage());
         }
 
@@ -113,14 +152,13 @@ public class EscapeRoomService {
     }
 
     //Todo verificar estos metodos
-    public ArrayList<EscapeRoom> getAllEscapeRooms(){
+    public ArrayList<EscapeRoom> getAllEscapeRooms() {
         ArrayList<EscapeRoom> outputList = new ArrayList<>();
         try {
-
-        this.repository
-                .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
-        return outputList;
-        }catch (SQLException e){
+            this.repository
+                    .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
+            return outputList;
+        } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
         }

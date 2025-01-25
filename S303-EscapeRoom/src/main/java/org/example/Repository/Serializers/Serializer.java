@@ -22,17 +22,17 @@ public class Serializer {
 
     public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
         Map<String, Object> entityData = new HashMap<>();
-        logger.info("Deserializando ResultSet...");
+        //logger.info("Deserializando ResultSet...");
 
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
+
                 entityData.put(attribute, value);
             } catch (SQLException e) {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
             }
         }
-
         return entityData;
     }
 
@@ -43,10 +43,7 @@ public class Serializer {
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                // Primero deserializamos el ResultSet a un Map
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
-                // Luego creamos la entidad a partir del Map
                 entity = createEntityToDeserialize(entityEnum, entityData);
             } else {
                 throw new SQLException("No data found for the given ID.");
@@ -95,7 +92,6 @@ public class Serializer {
 
     public static Entity createEntityToDeserialize(EntityAttributes entityEnum, Map<String, Object> entityData) throws SQLException {
         Entity entity = null;
-
         // Usamos los atributos que corresponden al enum para acceder a los datos
         ArrayList<String> attributes = entityEnum.getAttributes();
 

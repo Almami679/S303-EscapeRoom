@@ -24,26 +24,27 @@ import org.example.Services.GameServices.SaleService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 public class ServicesTesting {
+
 
     @DisplayName("TEST CREATE NEW PLAYER FROM PlayerService")
     @Test
     public void testNewPlayerFromPlayerService(){
         PlayerService playerService = new PlayerService();
         Player playerTest = new Player ("Juan", "juanito@gmail.com", 0);
-
         playerService.createPlayer("Juan", "juanito@gmail.com", 0);
 
         ArrayList<Player> playersInDb = new ArrayList<>();
         playersInDb = playerService.getAllPlayer();
 
-        String lastPlayerInDb = playersInDb.getLast().getEmail();
+        String lastPlayerInDb = playersInDb.get(playersInDb.size() - 1).getEmail();
         assertEquals("Player Found in Db", playerTest.getEmail(), lastPlayerInDb);
-
-
     }
 
     @DisplayName("TEST GET ENTITIES")

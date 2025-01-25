@@ -101,7 +101,8 @@ CREATE TABLE IF NOT EXISTS `EscapeRoomDB`.`player` (
   `player_deleted` TINYINT NOT NULL,
   `player_createdAt` TIMESTAMP NOT NULL,
   `player_updatedAt` TIMESTAMP NULL,
-  PRIMARY KEY (`player_id`))
+  PRIMARY KEY (`player_id`),
+  UNIQUE INDEX `player_email_UNIQUE` (`player_email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 

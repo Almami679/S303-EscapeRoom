@@ -1,11 +1,10 @@
-package org.example.Main.MenuController;
+package org.example.OLDMenuController;
 
 import org.example.Services.CommunicatesServices.TicketService;
-import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
-import static org.example.Main.MenuController.UserInputs.askString;
+import static org.example.OLDMenuController.UserInputs.askString;
 
 public class GenerateTicket implements ServiceProcessor {
     @Override

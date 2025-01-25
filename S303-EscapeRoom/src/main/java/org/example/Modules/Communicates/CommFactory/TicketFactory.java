@@ -19,6 +19,5 @@ public class TicketFactory implements CommFactoryInterface{
                 "Payment success by " +player.getName() + "!";
 
         return new Ticket(player,text,sale);
-
     }
 }
