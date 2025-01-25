@@ -1,4 +1,4 @@
-package MenuController;
+package org.example.MenuController;
 
 public enum MenuOptions {
     MAIN_MENU("---------------------------------------------------------------------------\n" +

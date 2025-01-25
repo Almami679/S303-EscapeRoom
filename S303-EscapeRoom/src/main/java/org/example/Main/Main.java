@@ -1,6 +1,6 @@
 package org.example.Main;
 
-import MenuController.Menu;
+import org.example.MenuController.Menu;
 
 import java.sql.SQLException;
 

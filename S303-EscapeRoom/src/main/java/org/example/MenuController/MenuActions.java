@@ -1,4 +1,4 @@
-package MenuController;
+package org.example.MenuController;
 
 import java.util.Scanner;
 

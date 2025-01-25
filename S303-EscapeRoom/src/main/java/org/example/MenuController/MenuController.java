@@ -1,4 +1,4 @@
-package MenuController;
+package org.example.MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
 
