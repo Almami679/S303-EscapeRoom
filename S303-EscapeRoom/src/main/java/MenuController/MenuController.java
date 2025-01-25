@@ -1,7 +1,6 @@
-package org.example.Main;
+package MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
-import org.example.Main.MenuOptions;
 
 import java.sql.SQLException;
 import java.util.Scanner;
