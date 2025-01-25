@@ -125,7 +125,9 @@ public class PlayerService {
 
             this.repository
                     .getAll(EntityAttributes.player)
-                    .forEach(player -> playerArrayList.add((Player) player));
+                    .forEach(player ->
+                        playerArrayList.add((Player) player)
+                    );
             return playerArrayList;
         } catch (SQLException e) {
             logger.info(e.getMessage());

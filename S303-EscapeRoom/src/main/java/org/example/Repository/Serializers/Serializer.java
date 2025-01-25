@@ -27,7 +27,7 @@ public class Serializer {
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
-                //logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
+
                 entityData.put(attribute, value);
             } catch (SQLException e) {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
@@ -136,6 +136,9 @@ public class Serializer {
                 }
                 case room_has_tips -> {
                     entity = roomHasTipsConstructor(entityData, attributes);
+                }
+                case game_has_player -> {
+                    entity = gameHasPlayerConstructor(entityData, attributes);
                 }
                 default -> throw new SQLException("Unsupported entity type");
             }

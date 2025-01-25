@@ -7,6 +7,7 @@ import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.*;
@@ -160,6 +161,14 @@ public class EntityConstructorsSql {
         int idTip = (Integer) entityData.get(attributes.get(0));
         int idRoom = (Integer) entityData.get(attributes.get(1));
         entity = new RoomHasTips(idTip, idRoom);
+        return entity;
+    }
+
+    public static GameHasPlayer gameHasPlayerConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
+        GameHasPlayer entity = null;
+        int idPlayer = (Integer) entityData.get(attributes.get(0));
+        int idRoom = (Integer) entityData.get(attributes.get(1));
+        entity = new GameHasPlayer(idPlayer, idRoom);
         return entity;
     }
 }
