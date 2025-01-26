@@ -51,10 +51,10 @@ public class GiftService {
     }
 
     public void createGift(
-            int playerId
+            Player player
     ) {
         try {
-            Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, playerId);
+            Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, player);
 
             this
                     .repository

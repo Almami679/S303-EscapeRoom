@@ -83,7 +83,7 @@ public class Player extends Entity implements Observer {
     }
 
     public Sale getSale(){
-        return this.playerSales.get(playerSales.size() -1);
+        return this.playerSales.getLast();
     }
 
     public void addGame(Game game){

@@ -167,6 +167,12 @@ public class ServicesTesting {
     }
 
     @Test
+    public void getAllGames(){
+        GameService service = new GameService();
+        System.out.println(service.getAllGame());
+    }
+
+    @Test
     public void addPlayerInGame() {
         GameService gameService = new GameService();
         PlayerService playerService = new PlayerService();
@@ -179,6 +185,14 @@ public class ServicesTesting {
         players.forEach(System.out::println);
 
         assertEquals(players, playersInGameTest);
+    }
+
+    @Test
+    public void createTicketSale() {
+        SaleService saleService = new SaleService();
+
+        saleService.getTicketSale(1,2);
+
     }
 
 }

@@ -12,6 +12,6 @@ public class GenerateTicket implements ServiceProcessor {
         int id;
         id = Integer.parseInt(askString("For which player would you like to create the ticket?",read));
         TicketService ts = new TicketService();
-        ts.createTicket(id);
+
     }
 }

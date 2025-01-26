@@ -12,8 +12,7 @@ import java.sql.SQLException;
 public class CertificateFactory implements CommFactoryInterface{
     RepositoryImpl repositoryImpl = new RepositoryImpl();
     @Override
-    public Certificate createCommunicate(int idPlayer) throws SQLException {
-        Player player = (Player) repositoryImpl.getById(idPlayer, EntityAttributes.player);
+    public Certificate createCommunicate(Player player) {
         Game game = player.getGame();
         String text = "Congratulations!\n" +
                 player.getName() +" You have finished our " + game.getEscapeRoom() +

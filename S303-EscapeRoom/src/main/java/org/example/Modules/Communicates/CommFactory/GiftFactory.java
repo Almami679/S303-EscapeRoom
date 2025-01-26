@@ -13,8 +13,7 @@ public class GiftFactory implements CommFactoryInterface{
     RepositoryImpl repository = new RepositoryImpl();
 
     @Override
-    public Gift createCommunicate(int idPlayer) throws SQLException {
-        Player player = (Player) repository.getById(idPlayer, EntityAttributes.player);
+    public Gift createCommunicate(Player player) {
         String text = "New Reward!\n" +
                 player.getName() +" You have finished our horror " +
                 "escape room without using clues\n "+

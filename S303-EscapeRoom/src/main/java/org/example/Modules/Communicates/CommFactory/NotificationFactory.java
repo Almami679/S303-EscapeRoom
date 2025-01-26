@@ -13,11 +13,8 @@ import java.sql.SQLException;
 public class NotificationFactory implements CommFactoryInterface{
     Repository repository = new RepositoryImpl();
     @Override
-    public Notification createCommunicate(int idPlayer) throws SQLException {
-        Player player = (Player) repository.getById(idPlayer, EntityAttributes.player);
-        if (player == null) {
-            throw new SQLException("Player with id " + idPlayer + " not found.");
-        }
+    public Notification createCommunicate(Player player) {
+
         String text = "News flash!\n" +
                 player.getName() +" You can't miss the new Christmas Escaperoom " +
                 "from November 12 to January 10.\n" +
