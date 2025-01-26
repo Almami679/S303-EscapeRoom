@@ -41,34 +41,6 @@ public class EscapeRoomService {
         notifier.addObserver(observer);
     }
 
-    private EscapeRoom castToEscapeRoom(Entity entity) {
-        EscapeRoom escapeRoom = null;
-        if (entity instanceof EscapeRoom) {
-            escapeRoom = (EscapeRoom) entity;
-        }
-        return escapeRoom;
-    }
-
-    private Notification castToNotification(Entity entity) {
-        Notification notification = null;
-        if (entity instanceof Notification) {
-            notification = (Notification) entity;
-        }
-        return notification;
-    }
-
-
-    private void assertIfEscapeRoomIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.escaperoom)
-                .stream()
-                .map(this::castToEscapeRoom)
-                .forEach(escaperoom -> {
-                    if (escaperoom.getId() != id) {
-                        throw new EscapeRoomNotFoundException();
-                    }
-                });
-    }
 
     public void createEscapeRoom(
             String name,
@@ -108,10 +80,15 @@ public class EscapeRoomService {
             int id
     ) {
         try {
-            //this.assertIfEscapeRoomIdNotFound(id);
-            return (EscapeRoom) this.repository
-                    .getById(id, EntityAttributes.escaperoom);
-        } catch (SQLException e) {
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
+
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+                return (EscapeRoom) this.repository
+                        .getById(id, EntityAttributes.escaperoom);
+            }
+        } catch (SQLException | EscapeRoomNotFoundException  e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -121,15 +98,20 @@ public class EscapeRoomService {
             int id
     ) {
         try {
-            this.assertIfEscapeRoomIdNotFound(id);
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
+
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+
             this.repository
                     .delete(id, EntityAttributes.escaperoom);
-        } catch (PlayerNotFound | SQLException e) {
+            }
+        } catch (EscapeRoomNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateEscapeRoom(
             int id,
             String name,
@@ -137,18 +119,22 @@ public class EscapeRoomService {
             double price
     ) {
         try {
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
 
-            this.assertIfEscapeRoomIdNotFound(id);
-        } catch (SQLException e) {
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+                escapeRoom.setPrice(price);
+                escapeRoom.setName(name);
+                escapeRoom.setTheme(theme);
+                this.repository
+                        .update(escapeRoom, EntityAttributes.escaperoom);
+            }
+        } catch (EscapeRoomNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
 
-        EscapeRoom escaperoom = this.castToEscapeRoom(entity);
-        escaperoom.setPrice(price);
-        escaperoom.setName(name);
-        escaperoom.setTheme(theme);
-        this.repository
-                .update(escaperoom, EntityAttributes.escaperoom);
+
     }
 
     //Todo verificar estos metodos

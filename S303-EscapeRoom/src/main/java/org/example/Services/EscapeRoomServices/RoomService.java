@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
@@ -70,8 +71,14 @@ public class RoomService {
             int id
     ) {
         try {
-            return (Room) this.repository
-                    .getById(id, EntityAttributes.room);
+            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
+
+            if (room == null) {
+                throw new RoomNotFoundException();
+            } else {
+                return (Room) this.repository
+                        .getById(id, EntityAttributes.room);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -82,10 +89,14 @@ public class RoomService {
             int id
     ){
         try{
-            this.assertIfRoomIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.room);
-        }catch (PlayerNotFound | SQLException e){
+            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
+            if (room == null) {
+                throw new RoomNotFoundException();
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.room);
+            }
+        }catch (RoomNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -96,16 +107,22 @@ public class RoomService {
             String name,
             String dificutly,
             double price
-    ) throws SQLException {
-        this.assertIfRoomIdNotFound(id);
+    )  {
+        try{
+            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
+            if (room == null) {
+                throw new RoomNotFoundException();
+            } else {
+                room.setPrice(price);
+                room.setName(name);
+                room.setDifficulty(dificutly);
 
-        Room room = this.castToRoom(entity);
-        room.setPrice(price);
-        room.setName(name);
-        room.setDifficulty(dificutly);
-
-        this.repository
-                .update(room, EntityAttributes.room);
+                this.repository
+                        .update(room, EntityAttributes.room);
+            }
+        }catch (SQLException | RoomNotFoundException e){
+                logger.info(e.getMessage());
+            }
     }
 
 
