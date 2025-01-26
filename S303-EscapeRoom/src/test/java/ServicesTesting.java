@@ -9,6 +9,8 @@ import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
 import org.example.Services.CommunicatesServices.CertificateService;
 import org.example.Services.CommunicatesServices.GiftService;
 import org.example.Services.CommunicatesServices.NotificationService;
@@ -24,6 +26,7 @@ import org.example.Services.GameServices.SaleService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +64,13 @@ public class ServicesTesting {
     public void getCertificate() {
         CertificateService commService = new CertificateService();
         Certificate certificate = commService.getCertificateById(1);
+        System.out.println(certificate);
+    }
+
+    @Test
+    public void getCertificateDesdeRepo() throws SQLException {
+        RepositoryImpl repo = new RepositoryImpl();
+        Certificate certificate = (Certificate) repo.getById(2, EntityAttributes.certificate);
         System.out.println(certificate);
     }
 
