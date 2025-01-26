@@ -8,13 +8,16 @@ import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
+import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 import org.example.Services.CommunicatesServices.NotificationService;
 import org.example.observers.Observer;
 
@@ -43,34 +46,6 @@ public class EscapeRoomService {
         notifier.addObserver(observer);
     }
 
-    private EscapeRoom castToEscapeRoom(Entity entity) {
-        EscapeRoom escapeRoom = null;
-        if (entity instanceof EscapeRoom) {
-            escapeRoom = (EscapeRoom) entity;
-        }
-        return escapeRoom;
-    }
-
-    private Notification castToNotification(Entity entity) {
-        Notification notification = null;
-        if (entity instanceof Notification) {
-            notification = (Notification) entity;
-        }
-        return notification;
-    }
-
-
-    private void assertIfEscapeRoomIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.escaperoom)
-                .stream()
-                .map(this::castToEscapeRoom)
-                .forEach(escaperoom -> {
-                    if (escaperoom.getId() != id) {
-                        throw new EscapeRoomNotFoundException();
-                    }
-                });
-    }
 
     public void createEscapeRoom(
             String name,
@@ -110,10 +85,15 @@ public class EscapeRoomService {
             int id
     ) {
         try {
-            //this.assertIfEscapeRoomIdNotFound(id);
-            return (EscapeRoom) this.repository
-                    .getById(id, EntityAttributes.escaperoom);
-        } catch (SQLException e) {
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
+
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+                return (EscapeRoom) this.repository
+                        .getById(id, EntityAttributes.escaperoom);
+            }
+        } catch (SQLException | EscapeRoomNotFoundException  e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -123,15 +103,20 @@ public class EscapeRoomService {
             int id
     ) {
         try {
-            this.assertIfEscapeRoomIdNotFound(id);
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
+
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+
             this.repository
                     .delete(id, EntityAttributes.escaperoom);
-        } catch (PlayerNotFound | SQLException e) {
+            }
+        } catch (EscapeRoomNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateEscapeRoom(
             int id,
             String name,
@@ -139,18 +124,22 @@ public class EscapeRoomService {
             double price
     ) {
         try {
+            EscapeRoom escapeRoom = (EscapeRoom) this.repository.getById(id, EntityAttributes.escaperoom);
 
-            this.assertIfEscapeRoomIdNotFound(id);
-        } catch (SQLException e) {
+            if (escapeRoom == null) {
+                throw new EscapeRoomNotFoundException();
+            } else {
+                escapeRoom.setPrice(price);
+                escapeRoom.setName(name);
+                escapeRoom.setTheme(theme);
+                this.repository
+                        .update(escapeRoom, EntityAttributes.escaperoom);
+            }
+        } catch (EscapeRoomNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
 
-        EscapeRoom escaperoom = this.castToEscapeRoom(entity);
-        escaperoom.setPrice(price);
-        escaperoom.setName(name);
-        escaperoom.setTheme(theme);
-        this.repository
-                .update(escaperoom, EntityAttributes.escaperoom);
+
     }
 
     //Todo verificar estos metodos
@@ -166,13 +155,23 @@ public class EscapeRoomService {
         }
     }
 
-    public ArrayList<Room> getRoomInEscapeRoom(int roomId) {
+    public ArrayList<Room> getRoomInEscapeRoom(int escapeRoomId) {
         RepositoryEscapeHasRoom repositoryEscapeHasRoom = new RepositoryEscapeHasRoom();
         try {
-            return repositoryEscapeHasRoom.getAllRoomsByEscapeRoomId(roomId);
+            return repositoryEscapeHasRoom.getAllRoomsByEscapeRoomId(escapeRoomId);
         } catch (SQLException e) {
-            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+            logger.info("Failed to get rooms in escaperoom[id: " + escapeRoomId + "]");
         }
         return null;
+    }
+
+    public void addRoomToEscapeRoom(int escapeRoomId, int roomID) {
+        RepositoryEscapeHasRoom repo = new RepositoryEscapeHasRoom();
+        Entity entity = new EscapeRoomHasRoom(roomID, escapeRoomId);
+        try {
+            repo.addEscapeRoomHasRoom(entity);
+        } catch (SQLException e) {
+            logger.info("Failed to add room[id: " + roomID + "] to escape room[id: " + escapeRoomId + "]");
+        }
     }
 }

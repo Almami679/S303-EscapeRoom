@@ -28,27 +28,6 @@ public class GiftService {
         this.repository = new RepositoryImpl();
     }
 
-    private Gift castToGift(Entity entity) {
-        Gift gift = null;
-        if (entity instanceof Gift) {
-            gift = (Gift) entity;
-        }
-        return gift;
-    }
-
-
-
-    private void assertIfGiftIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.gift)
-                .stream()
-                .map(this::castToGift)
-                .forEach(gift -> {
-                    if (gift.getId() != id) {
-                        throw new GiftNotFoundException("Gift with id: " + id + " not found");
-                    }
-                });
-    }
 
     public void createGift(
             int player
@@ -68,9 +47,15 @@ public class GiftService {
             int id
     ) {
         try {
-            //this.assertIfGiftIdNotFound(id);
+            Gift gift = (Gift) this.repository.getById(id, EntityAttributes.gift);
+
+            if (gift == null) {
+                throw new GiftNotFoundException("Gift with id " + id + " not found");
+            } else {
+
             return (Gift) this.repository
                     .getById(id, EntityAttributes.gift);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -81,15 +66,18 @@ public class GiftService {
             int id
     ){
         try{
-            this.assertIfGiftIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.gift);
-        }catch (PlayerNotFound | SQLException e){
+            Gift gift = (Gift) this.repository.getById(id, EntityAttributes.gift);
+            if (gift == null) {
+                throw new GiftNotFoundException("Player with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.gift);
+            }
+        }catch (GiftNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateGift(
             int id,
             int player,
@@ -97,20 +85,21 @@ public class GiftService {
     )  {
         try {
 
-        this.assertIfGiftIdNotFound(id);
+            Gift gift = (Gift) this.repository.getById(id, EntityAttributes.gift);
+            if (gift == null) {
+                throw new GiftNotFoundException("Player with id " + id + " not found");
+            } else {
+                gift.setPlayer(player);
+                gift.setText(text);
+                this.repository
+                        .update(gift, EntityAttributes.gift);
+            }
         }catch (SQLException e){
             logger.info(e.getMessage());
         }
 
-        Gift gift = this.castToGift(entity);
-        gift.setPlayer(player);
-        gift.setText(text);
-
-        this.repository
-                .update(gift, EntityAttributes.gift);
     }
 
-    //Todo verificar estos metodos
     public ArrayList<Gift> getAllGift(){
         ArrayList<Gift> giftArrayList = new ArrayList<>();
         try{

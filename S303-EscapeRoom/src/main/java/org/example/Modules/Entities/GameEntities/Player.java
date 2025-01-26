@@ -8,6 +8,7 @@ import org.example.observers.Observer;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Player extends Entity implements Observer {
 
@@ -84,8 +85,16 @@ public class Player extends Entity implements Observer {
         return gameService.getAllGamesInPlayer(super.getId());
     }
 
-    public Game getLastGame(){
-        return this.getGames().getLast();
+//    public Game getLastGame(){
+//        return this.getGames().getLast();
+//    }
+
+    public Game getLastGame() {
+        List<Game> games = this.getGames();
+        if (games != null && !games.isEmpty()) {
+            return games.get(games.size() - 1);
+        }
+        return null; // Si no hay juegos, devuelve null o lanza una excepción.
     }
 
     public ArrayList<Sale> getSales(){

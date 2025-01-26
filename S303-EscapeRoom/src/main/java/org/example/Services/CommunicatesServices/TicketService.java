@@ -39,17 +39,7 @@ public class TicketService {
     }
 
 
-    private void assertIfTicketIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.ticket)
-                .stream()
-                .map(this::castToTicket)
-                .forEach(ticket -> {
-                    if (ticket.getId() != id) {
-                        throw new TicketNotFoundException("Tocket with id " + id + " not found");
-                    }
-                });
-    }
+
 
     public void createTicket(
             Ticket ticket
@@ -67,10 +57,14 @@ public class TicketService {
             int id
     ) {
         try {
-            //this.assertIfTicketIdNotFound(id);
-            return (Ticket) this.repository
-                    .getById(id, EntityAttributes.ticket);
-        } catch (SQLException e) {
+            Ticket ticket = (Ticket) this.repository.getById(id, EntityAttributes.ticket);
+            if (ticket == null) {
+                throw new TicketNotFoundException("Ticket with id " + id + " not found");
+            } else {
+                return (Ticket) this.repository
+                        .getById(id, EntityAttributes.ticket);
+            }
+        } catch (SQLException | TicketNotFoundException e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -80,10 +74,14 @@ public class TicketService {
             int id
     ) {
         try {
-            this.assertIfTicketIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.ticket);
-        } catch (PlayerNotFound | SQLException e) {
+            Ticket ticket = (Ticket) this.repository.getById(id, EntityAttributes.ticket);
+            if (ticket == null) {
+                throw new TicketNotFoundException("Ticket with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.ticket);
+            }
+        } catch (TicketNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
@@ -96,18 +94,21 @@ public class TicketService {
             String text
     ) {
         try {
-            this.assertIfTicketIdNotFound(id);
+            Ticket ticket = (Ticket) this.repository.getById(id, EntityAttributes.ticket);
+            if (ticket == null) {
+                throw new TicketNotFoundException("Ticket with id " + id + " not found");
+            } else {
+
+                ticket.setPlayer(player);
+                ticket.setSale(sale);
+                ticket.setText(text);
+                this.repository
+                        .update(ticket, EntityAttributes.ticket);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
 
-        Ticket ticket = this.castToTicket(entity);
-        ticket.setPlayer(player);
-        ticket.setSale(sale);
-        ticket.setText(text);
-
-        this.repository
-                .update(ticket, EntityAttributes.ticket);
     }
 
     //Todo verificar estos metodos

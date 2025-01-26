@@ -20,6 +20,9 @@ public class Entity {
     public int getDeleted() {
         return deleted;
     }
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
     public void delete() {
         this.deleted = 1;
     }

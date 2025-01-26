@@ -35,18 +35,6 @@ public class NotificationService {
     }
 
 
-    private void assertIfNotificationIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.notification)
-                .stream()
-                .map(this::castToNotification)
-                .forEach(notification -> {
-                    if (notification.getId() != id) {
-                        throw new NotificationNotFoundException("Notification with id: " + id + " not found");
-                    }
-                });
-    }
-
     public void createNotification(
             Notification notification
     )  {
@@ -66,9 +54,14 @@ public class NotificationService {
             int id
     ) {
         try {
-            //this.assertIfNotificationIdNotFound(id);
-            return (Notification) this.repository
-                    .getById(id, EntityAttributes.notification);
+            Notification notification = (Notification) this.repository.getById(id, EntityAttributes.notification);
+
+            if (notification == null) {
+                throw new NotificationNotFoundException("Notification with id " + id + " not found");
+            } else {
+                return (Notification) this.repository
+                        .getById(id, EntityAttributes.notification);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -79,15 +72,19 @@ public class NotificationService {
             int id
     ) {
         try {
-            this.assertIfNotificationIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.notification);
-        } catch (PlayerNotFound | SQLException e) {
+            Notification notification = (Notification) this.repository.getById(id, EntityAttributes.notification);
+
+            if (notification == null) {
+                throw new NotificationNotFoundException("Notification with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.notification);
+            }
+        } catch (NotificationNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateNotification(
             int id,
             int player,
@@ -95,17 +92,19 @@ public class NotificationService {
     ) {
         try {
 
-            this.assertIfNotificationIdNotFound(id);
-        } catch (SQLException e) {
+            Notification notification = (Notification) this.repository.getById(id, EntityAttributes.notification);
+
+            if (notification == null) {
+                throw new NotificationNotFoundException("Notification with id " + id + " not found");
+            } else {
+                notification.setPlayer(player);
+                notification.setText(text);
+                this.repository
+                        .update(notification, EntityAttributes.notification);
+            }
+        } catch (NotificationNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
-
-        Notification notification = this.castToNotification(entity);
-        notification.setPlayer(player);
-        notification.setText(text);
-
-        this.repository
-                .update(notification, EntityAttributes.notification);
     }
 
     //Todo verificar estos metodos

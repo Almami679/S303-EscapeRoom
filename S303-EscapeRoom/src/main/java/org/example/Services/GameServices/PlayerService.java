@@ -39,23 +39,11 @@ public class PlayerService {
         return this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
-                .filter(entity -> entity instanceof Player) // Aseguramos que solo trabajamos con Player
-                .map(this::castToPlayer) // Realizamos el cast
-                .anyMatch(player -> player.getEmail().equalsIgnoreCase(email)); // Verificamos el email (case-insensitive)
-    }
-
-    private boolean assertIfPlayerIdNotFound(int id) throws SQLException {
-        boolean notFound = this.repository
-                .getAll(EntityAttributes.player)
-                .stream()
+                .filter(entity -> entity instanceof Player)
                 .map(this::castToPlayer)
-                .anyMatch(player -> player.getId() != id);
-
-        if (notFound) {
-            throw new PlayerNotFound("Player with id " + id + " not found");
-        }
-        return notFound;
+                .anyMatch(player -> player.getEmail().equalsIgnoreCase(email));
     }
+
 
     public void createPlayer(
             String name,
@@ -74,15 +62,23 @@ public class PlayerService {
         }
     }
 
-    public Player getPlayerById(
-            int id
-    ) {
+    public Player getPlayerById(int id) {
         try {
-            //this.assertIfPlayerIdNotFound(id);
-            return (Player) this.repository
-                    .getById(id, EntityAttributes.player);
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                logger.info(player.getValues());
+            }
+
+            return player;
+
+        } catch (PlayerNotFound e) {
+            logger.warn(e.getMessage());
+            return null;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.error("Database error: " + e.getMessage());
             return null;
         }
     }
@@ -91,9 +87,15 @@ public class PlayerService {
             int id
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.player);
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.player);
+
+            }
         } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
@@ -107,18 +109,23 @@ public class PlayerService {
             int consentNotif
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
-        } catch (SQLException e) {
+
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                player.setName(name);
+                player.setEmail(email);
+                player.setConsentNotif(consentNotif);
+                this.repository
+                        .update(player, EntityAttributes.player);
+
+            }
+        } catch (PlayerNotFound | SQLException e) {
+
             logger.info(e.getMessage());
         }
-
-        Player player = this.castToPlayer(entity);
-        player.setName(name);
-        player.setEmail(email);
-        player.setConsentNotif(consentNotif);
-
-        this.repository
-                .update(player, EntityAttributes.player);
     }
 
     public ArrayList<Player> getAllPlayer() {
@@ -128,7 +135,7 @@ public class PlayerService {
             this.repository
                     .getAll(EntityAttributes.player)
                     .forEach(player ->
-                        playerArrayList.add((Player) player)
+                            playerArrayList.add((Player) player)
                     );
             return playerArrayList;
         } catch (SQLException e) {
@@ -141,7 +148,7 @@ public class PlayerService {
         RepositoryGameHasPlayer repoGameHasPlayer = new RepositoryGameHasPlayer();
         try {
             return repoGameHasPlayer.getAllGamesByPlayerId(playerId).stream()
-                    .filter( game -> game.getId() == gameId)
+                    .filter(game -> game.getId() == gameId)
                     .findFirst()
                     .orElse(null);
 

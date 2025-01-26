@@ -22,8 +22,7 @@ public class Serializer {
 
     public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
         Map<String, Object> entityData = new HashMap<>();
-        logger.info("Deserializando ResultSet...");
-
+        //logger.info("Deserializando ResultSet...");
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
@@ -41,10 +40,8 @@ public class Serializer {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
-
             if (resultSet.next()) {
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
                 entity = createEntityToDeserialize(entityEnum, entityData);
                 return entity;
             } else {
@@ -61,10 +58,8 @@ public class Serializer {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
-
             while (resultSet.next()) {
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
                 entities.add(createEntityToDeserialize(entityEnum, entityData));
             }
         } catch (SQLException e) {
@@ -74,22 +69,46 @@ public class Serializer {
         return entities;
     }
 
+    public static void serializeUpdate(String query, EntityAttributes enumAttributes, String action, ArrayList<String> attributes) {
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Ejecuta la consulta generada
+            int affectedRows = stmt.executeUpdate();
+
+            // Verifica si hubo filas afectadas
+            if (affectedRows == 0) {
+                logger.warn("No rows affected for action: " + action);
+            } else {
+                logger.info("Query executed successfully. Affected rows: " + affectedRows);
+            }
+
+            // Confirma la transacción si es necesario
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error during serialization: " + e.getMessage());
+            try {
+                if (!dbConnection.dbConnect().getAutoCommit()) {
+                    dbConnection.dbConnect().rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                logger.error("Error during rollback: " + rollbackEx.getMessage());
+            }
+        }
+    }
+
+
     public static void serialize(String query, EntityAttributes entity, String action, ArrayList<String> values) {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            if (action.equalsIgnoreCase("add")) {
-                for (int i = 0; i < values.size(); i++) {
-                    statement.setString(i + 1, values.get(i));
-                }
-                statement.executeUpdate();
-                dbConnection.closeConnection(connection);
-                logger.info(entity.name() + " serialized.");
-            } else if(action.equalsIgnoreCase("delete")) {
-                System.out.println(query);
-                statement.executeUpdate();
-                dbConnection.closeConnection(connection);
-                logger.info(entity.name() + " deleted.");
+            for (int i = 0; i < values.size(); i++) {
+                statement.setString(i+1, values.get(i));
             }
+            statement.executeUpdate();
+            dbConnection.closeConnection(connection);
+            //logger.info(entity.name() + " serialized.");
         } catch (SQLException e) {
             logger.error("Failed to serialize " + entity.name() + ": ", e);
             // Puedes manejar la excepción aquí, por ejemplo, lanzar una excepción personalizada

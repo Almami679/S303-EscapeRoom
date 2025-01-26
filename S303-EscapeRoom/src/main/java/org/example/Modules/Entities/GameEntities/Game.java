@@ -4,8 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
-import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.RepositoryImpl;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Services.GameServices.GameService;
 
