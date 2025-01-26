@@ -85,7 +85,6 @@ public class SaleService {
             int deleted,
             Timestamp createdat
     ) throws SQLException {
-        this.assertIfSaleIdNotFound(id);
 
         Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
         sale.setPrice(price);
