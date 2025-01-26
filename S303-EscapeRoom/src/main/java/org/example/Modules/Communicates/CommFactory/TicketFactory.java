@@ -11,15 +11,15 @@ import java.sql.SQLException;
 
 
 public class TicketFactory implements CommFactoryInterface{
-    private RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private static final PlayerService playerService = new PlayerService();
     @Override
-    public Ticket createCommunicate(Player player) {
+    public Ticket createCommunicate(int playerId) {
 
 
-        Sale sale = player.getSale();
+        Sale sale = playerService.getPlayerById(playerId).getLastSale();
         String text = "Last sale for " + sale.getPrice() + "€\n" +
-                "Payment success by " +player.getName() + "!";
+                "Payment success by " +playerService.getPlayerById(playerId).getName() + "!";
 
-        return new Ticket(player,text,sale);
+        return new Ticket(playerId,text,sale.getId());
     }
 }

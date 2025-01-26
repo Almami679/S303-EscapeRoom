@@ -17,6 +17,7 @@ import org.example.Repository.RepositoryRelations.RepositroyRoomHasObjectDeco;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class GameService {
     private static Logger logger = LogManager.getLogger(GameService.class);
@@ -50,14 +51,13 @@ public class GameService {
     }
 
     public void createGame(
-            EscapeRoom escapeRoom,
-            ArrayList<Player> players
+            int escapeRoomId
     ) {
         // assertIfGameAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
         try {
             this
                     .repository
-                    .add(new Game(escapeRoom, players), EntityAttributes.game);
+                    .add(new Game(escapeRoomId), EntityAttributes.game);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -91,8 +91,7 @@ public class GameService {
     //Todo verificar estos metodos
     public void updateGame(
             int id,
-            EscapeRoom escapeRoom,
-            Player player
+            int escapeRoomId
     ){
         try {
 
@@ -102,8 +101,7 @@ public class GameService {
         }
 
         Game game = this.castToGame(entity);
-        game.setEscapeRoom(escapeRoom);
-        game.setPlayers(player);
+        game.setEscapeRoom(escapeRoomId);
 
         this.repository
                 .update(game, EntityAttributes.game);
@@ -169,5 +167,13 @@ public class GameService {
             logger.info("Fail to get games for player[id: " + playerId + "]");
         }
         return null;
+    }
+
+    public Game getLastGameByPlayer(int playerId) {
+        ArrayList<Game> games = this.getAllGamesInPlayer(playerId);
+        return games.stream()
+                .filter(game -> game.getDeleted() == 0) // Ignorar juegos eliminados
+                .max(Comparator.comparing(Game::getGameDate)) // Buscar el máximo por `gameDate`
+                .orElse(null); // Si no hay juegos, devuelve null
     }
 }

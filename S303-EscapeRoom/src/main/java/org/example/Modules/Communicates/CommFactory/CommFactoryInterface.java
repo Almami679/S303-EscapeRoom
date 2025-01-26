@@ -7,7 +7,7 @@ import org.example.Modules.Entities.GameEntities.Player;
 import java.sql.SQLException;
 
 public interface CommFactoryInterface {
-        Entity createCommunicate (Player player);
+        Entity createCommunicate (int playerId);
 
 
 ///https://www.youtube.com/watch?v=v-NdSDNVb4U&ab_channel=ProgramandoenJAVA

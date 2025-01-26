@@ -15,8 +15,8 @@ public class Notification extends Communicate implements CommunicationInterface 
     Logger logger = LogManager.getLogger(Notification.class);
     private String text;
 
-    public Notification(Player player, String text) {
-        super(player);
+    public Notification(int playerId, String text) {
+        super(playerId);
         this.text = text;
     }
 

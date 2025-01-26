@@ -2,22 +2,25 @@ package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
 import org.example.Services.GameServices.GameService;
+import org.example.Services.GameServices.SaleService;
 import org.example.observers.Observer;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Player extends Entity implements Observer {
 
     private static GameService gameService = new GameService();
+    private static SaleService saleService = new SaleService();
 
     private String name;
     private String email;
     private int consentNotif;
     private Timestamp createdAt;
     private Timestamp updateAt;
-    private ArrayList<Game> completedGames;
-    private ArrayList<Sale> playerSales;
+    private ArrayList<Integer> completedGamesIds;
+    private ArrayList<Integer> playerSalesIds;
 
 
     public Player(String name,
@@ -29,8 +32,8 @@ public class Player extends Entity implements Observer {
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.updateAt = new Timestamp(System.currentTimeMillis());
         this.consentNotif = consentNotif;
-        this.completedGames = new ArrayList<>();
-        this.playerSales = new ArrayList<>();
+        this.completedGamesIds = new ArrayList<>();
+        this.playerSalesIds = new ArrayList<>();
     }
 
     public Player(int id,
@@ -44,7 +47,6 @@ public class Player extends Entity implements Observer {
         this.consentNotif = consentNotif;
         this.name = name;
         this.email = email;
-        this.completedGames = gameService.getAllGamesInPlayer(id);
         this.createdAt = createdAt;
         this.updateAt = updateAt;
 
@@ -74,20 +76,33 @@ public class Player extends Entity implements Observer {
         this.consentNotif = consentNotif;
     }
 
-    public void addSale(Sale sale){
-        this.playerSales.add(sale);
+    public void addSale(int saleId){
+        this.playerSalesIds.add(saleId);
     }
 
-    public Game getGame(){
-        return this.completedGames.get(completedGames.size() -1);
+    public ArrayList<Game> getGames(){
+        return gameService.getAllGamesInPlayer(super.getId());
     }
 
-    public Sale getSale(){
-        return this.playerSales.getLast();
+    public Game getLastGame(){
+        return this.getGames().getLast();
     }
 
-    public void addGame(Game game){
-        this.completedGames.add(game);
+    public ArrayList<Sale> getSales(){
+        ArrayList<Sale> salesForPlayer = new ArrayList<>();
+        playerSalesIds.forEach(saleId-> salesForPlayer.add(saleService.getSaleById(saleId)));
+        return salesForPlayer;
+    }
+
+    public Sale getLastSale(){
+        return getSales().stream()
+                .filter(sale -> sale.getDeleted() == 0)
+                .max(Comparator.comparing(Sale::getCreatedAt))
+                .orElse(null);
+    }
+
+    public void addGame(int gameId){
+        this.completedGamesIds.add(gameId);
     }
 
     @Override

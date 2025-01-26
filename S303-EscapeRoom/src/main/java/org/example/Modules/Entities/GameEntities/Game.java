@@ -19,20 +19,16 @@ public class Game extends Entity {
     private static EscapeRoomService escaperoomService = new EscapeRoomService();
     private static GameService gameService = new GameService();
 
-    private EscapeRoom escapeRoom;
+    private int escapeRoomId;
     private Timestamp gameDate;
-    private ArrayList<Player> players;
     private int finish;
     private Certificate gameCertificate;
     private Timestamp createdAt;
     private Timestamp updateAt;
     private Timestamp finishedAt;
 
-    public Game(EscapeRoom escapeRoom,
-                    ArrayList<Player> players
-    ) {
-        this.escapeRoom = escapeRoom;
-        this.players = players;
+    public Game(int escapeRoomId) {
+        this.escapeRoomId = escapeRoomId;
         this.finish = 0;
         this.gameCertificate = null;
         this.createdAt = new Timestamp(System.currentTimeMillis());
@@ -42,16 +38,15 @@ public class Game extends Entity {
 
     public Game (int id, int escapeRoomId, int finished, int deleted, Timestamp createdAt, Timestamp updateAt) throws SQLException {
         super(id, deleted);
-        this.escapeRoom = escaperoomService.getEscapeRoomById(escapeRoomId);
+        this.escapeRoomId = escapeRoomId;
         this.finish = finished;
-        this.players = gameService.getAllPlayersInGame(id);
         this.createdAt = createdAt;
         this.updateAt = updateAt;
 
     }
 
     public EscapeRoom getEscapeRoom() {
-        return escapeRoom;
+        return escaperoomService.getEscapeRoomById(escapeRoomId);
     }
 
     public Timestamp getGameDate() {
@@ -62,6 +57,10 @@ public class Game extends Entity {
         return this.finishedAt;
     }
 
+    public int getId(){
+        return super.getId();
+    }
+
     public void setGameCertificate(Certificate gameCertificate) {
         this.gameCertificate = gameCertificate;
     }
@@ -70,16 +69,13 @@ public class Game extends Entity {
         return gameCertificate;
     }
 
-    public void setEscapeRoom(EscapeRoom escapeRoom) {
-        this.escapeRoom = escapeRoom;
+    public void setEscapeRoom(int escapeRoomId) {
+        this.escapeRoomId = escapeRoomId;
     }
 
     public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Player player) {
-        this.players.add(player);
+        ArrayList<Player> playersObj = gameService.getAllPlayersInGame(super.getId());
+        return playersObj;
     }
 
     public void setFinish(int finish) {
@@ -95,18 +91,32 @@ public class Game extends Entity {
         this.finishedAt = new Timestamp(System.currentTimeMillis());
         LogManager.getLogger(Game.class).info("GameId: " + super.getId() +
                 " has finish.");
-        this.players.forEach(player -> {
-            player.addGame(this);
+        ArrayList<Player> players = getPlayers();
+        players.forEach(player -> {
+            player.addGame(super.getId());
             LogManager.getLogger(Game.class).info("Finish Game with Id: " + super.getId() +
                     " added to player " + player.getName());
         });
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "escapeRoomId=" + escapeRoomId +
+                ", gameDate=" + gameDate +
+                ", finish=" + finish +
+                ", gameCertificate=" + gameCertificate +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", finishedAt=" + finishedAt +
+                '}';
     }
 
     public ArrayList<String> getValues(){
         ArrayList<String> values =  new ArrayList<>();
         String value = super.getId() + "";
         values.add(value);
-        value = this.escapeRoom.getId()+"";
+        value = this.escapeRoomId+"";
         values.add(value);
         value = this.finish +"";
         values.add(value);
