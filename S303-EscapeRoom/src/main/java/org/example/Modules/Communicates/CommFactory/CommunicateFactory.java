@@ -11,13 +11,13 @@ import java.sql.SQLException;
 
 public class CommunicateFactory {
 
-    public Entity createCommunicate(CommunicateType communicate, Player player) {
+    public Entity createCommunicate(CommunicateType communicate, int playerId) {
 
         return switch (communicate) {
-            case TICKET -> new TicketFactory().createCommunicate(player);
-            case NOTIFICATION -> new NotificationFactory().createCommunicate(player);
-            case GIFT -> new GiftFactory().createCommunicate(player);
-            case CERTIFICATE -> new CertificateFactory().createCommunicate(player);
+            case TICKET -> new TicketFactory().createCommunicate(playerId);
+            case NOTIFICATION -> new NotificationFactory().createCommunicate(playerId);
+            case GIFT -> new GiftFactory().createCommunicate(playerId);
+            case CERTIFICATE -> new CertificateFactory().createCommunicate(playerId);
         };
 
     }

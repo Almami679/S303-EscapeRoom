@@ -51,7 +51,7 @@ public class GiftService {
     }
 
     public void createGift(
-            Player player
+            int player
     ) {
         try {
             Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, player);
@@ -92,7 +92,7 @@ public class GiftService {
     //Todo verificar estos metodos
     public void updateGift(
             int id,
-            Player player,
+            int player,
             String text
     )  {
         try {

@@ -5,10 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerAlreadyExistsException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -133,5 +135,19 @@ public class PlayerService {
             logger.info(e.getMessage());
             return null;
         }
+    }
+
+    public Game getGameForId(int playerId, int gameId) {
+        RepositoryGameHasPlayer repoGameHasPlayer = new RepositoryGameHasPlayer();
+        try {
+            return repoGameHasPlayer.getAllGamesByPlayerId(playerId).stream()
+                    .filter( game -> game.getId() == gameId)
+                    .findFirst()
+                    .orElse(null);
+
+        } catch (SQLException e) {
+            logger.info("Fail to get games for player[id: " + playerId + "]");
+        }
+        return null;
     }
 }

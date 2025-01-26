@@ -51,10 +51,10 @@ public class CertificateService {
 
 
     public void createCertificate(
-            Player player
+            int playerId
     ) {
         try {
-            Certificate certificate = (Certificate) mainFactory.createCommunicate(CommunicateType.CERTIFICATE, player);
+            Certificate certificate = (Certificate) mainFactory.createCommunicate(CommunicateType.CERTIFICATE, playerId);
             this
                     .repository
                     .add(certificate, EntityAttributes.certificate);
@@ -91,9 +91,9 @@ public class CertificateService {
     //Todo verificar estos metodos
     public void updateCertificate(
             int id,
-            Player player,
+            int player,
             String text,
-            Game game
+            int gameId
     ) {
         try {
             this.assertIfCertificateIdNotFound(id);
@@ -104,7 +104,7 @@ public class CertificateService {
         Certificate certificate = this.castToCertificate(entity);
         certificate.setPlayer(player);
         certificate.setText(text);
-        certificate.setGame(game);
+        certificate.setGame(gameId);
 
         this.repository
                 .update(certificate, EntityAttributes.certificate);

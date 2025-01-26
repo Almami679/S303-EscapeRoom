@@ -90,7 +90,7 @@ public class NotificationService {
     //Todo verificar estos metodos
     public void updateNotification(
             int id,
-            Player player,
+            int player,
             String text
     ) {
         try {

@@ -91,8 +91,8 @@ public class TicketService {
     //Todo verificar estos metodos
     public void updateTicket(
             int id,
-            Player player,
-            Sale sale,
+            int player,
+            int sale,
             String text
     ) {
         try {

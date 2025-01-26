@@ -124,10 +124,9 @@ public class SaleService {
         PlayerService playerService = new PlayerService();
         TicketService ticketService = new TicketService();
 
-        Sale sale = this.getSaleById(saleId);
         Player player = playerService.getPlayerById(playerId);
-        player.addSale(sale);
-        Ticket ticket = (Ticket) mainFactory.createCommunicate(CommunicateType.TICKET, player);
+        player.addSale(saleId);
+        Ticket ticket = (Ticket) mainFactory.createCommunicate(CommunicateType.TICKET, playerId);
         ticketService.createTicket(ticket);
         ticket.send();
         return ticket;

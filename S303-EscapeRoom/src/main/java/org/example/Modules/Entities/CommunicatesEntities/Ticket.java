@@ -7,6 +7,7 @@ import org.example.Modules.Communicates.CommunicationInterface;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -16,21 +17,21 @@ import java.util.ArrayList;
 public class Ticket extends Communicate implements CommunicationInterface {
 
     Logger logger = LogManager.getLogger(Ticket.class);
-    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private final SaleService saleService = new SaleService();
     private String text;
-    private Sale sale;
+    private int saleId;
 
 
-    public Ticket(Player player, String text, Sale sale) {
-        super(player);
+    public Ticket(int playerId, String text, int sale) {
+        super(playerId);
         this.text = text;
-        this.sale = sale;
+        this.saleId = sale;
 
     }
 
     public Ticket(int id, int playerId, int saleId, String text, Timestamp created_at) throws SQLException {
         super(id, playerId, created_at);
-        this.sale = (Sale) repositoryImpl.getById(saleId, EntityAttributes.sale);
+        this.saleId = saleId;
         this.text = text;
     }
 
@@ -42,15 +43,14 @@ public class Ticket extends Communicate implements CommunicationInterface {
         this.text = text;
         return this;
     }
+    public void setSale(int saleId) {
+        this.saleId = saleId;
+    }
 
     public Sale getSale() {
-        return sale;
+        return saleService.getSaleById(saleId);
     }
 
-    public Ticket setSale(Sale sale) {
-        this.sale = sale;
-        return this;
-    }
 
     @Override
     public String toString() {
@@ -58,7 +58,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
                 "id= " + super.getId() +
                 "Player= " + super.getPlayer() +
                 "text='" + text + '\'' +
-                ", sale=" + sale +
+                ", saleId=" + saleId +
                 '}';
     }
 
@@ -74,7 +74,7 @@ public class Ticket extends Communicate implements CommunicationInterface {
         ArrayList<String> values =  new ArrayList<>();
         String value = super.getId() + "";
         values.add(value);
-        value = this.sale.getId() + "";
+        value = this.saleId + "";
         values.add(value);
         values.add(this.text);
         value = super.getPlayer().getId()+"";
