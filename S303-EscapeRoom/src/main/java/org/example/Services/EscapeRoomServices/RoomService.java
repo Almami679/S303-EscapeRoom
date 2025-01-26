@@ -38,19 +38,16 @@ public class RoomService {
         }
         return room;
     }
-
-
-
     private void assertIfRoomIdNotFound(int id) throws SQLException {
-        this.repository
+        boolean roomFound = this.repository
                 .getAll(EntityAttributes.room)
                 .stream()
                 .map(this::castToRoom)
-                .forEach(room -> {
-                    if (room.getId() != id) {
-                        throw new RoomNotFoundException();
-                    }
-                });
+                .anyMatch(room -> room.getId() == id);
+
+        if (!roomFound) {
+            throw new RoomNotFoundException();
+        }
     }
 
     public void createRoom(
@@ -59,8 +56,7 @@ public class RoomService {
             String dificulty
     ) {
         try {
-            this
-                    .repository
+            this.repository
                     .add(new Room(name, dificulty, price), EntityAttributes.room);
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -71,14 +67,8 @@ public class RoomService {
             int id
     ) {
         try {
-            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
-
-            if (room == null) {
-                throw new RoomNotFoundException();
-            } else {
-                return (Room) this.repository
-                        .getById(id, EntityAttributes.room);
-            }
+            return (Room) this.repository
+                    .getById(id, EntityAttributes.room);
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -101,28 +91,20 @@ public class RoomService {
         }
     }
 
-    //Todo verificar estos metodos
     public void updateRoom(
             int id,
             String name,
-            String dificutly,
-            double price
-    )  {
-        try{
-            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
-            if (room == null) {
-                throw new RoomNotFoundException();
-            } else {
-                room.setPrice(price);
-                room.setName(name);
-                room.setDifficulty(dificutly);
-
-                this.repository
-                        .update(room, EntityAttributes.room);
-            }
-        }catch (SQLException | RoomNotFoundException e){
-                logger.info(e.getMessage());
-            }
+            String difficulty,
+            double price,
+            int deleted
+    ) throws SQLException {
+        this.assertIfRoomIdNotFound(id);
+        Room room = (Room) this.repository.getById(id, EntityAttributes.room);
+        room.setPrice(price);
+        room.setName(name);
+        room.setDifficulty(difficulty);
+        room.setDeleted(deleted);
+        this.repository.update(room, EntityAttributes.room);
     }
 
 

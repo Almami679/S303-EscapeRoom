@@ -36,8 +36,8 @@ public class RepositoryImpl implements Repository {
         }
         query.append(");");
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        serialize(queryString, enumAttributes, "add", values);
+        //logger.info("Query created, and casted to String.\n[" + queryString + "]");
+        Serializer.serialize(queryString, enumAttributes, "add", values);
     }
 
     @Override
@@ -64,18 +64,11 @@ public class RepositoryImpl implements Repository {
                 "WHERE " + idAttribute + " = ?";
         ArrayList<String> values = new ArrayList<>();
         values.add(String.valueOf(id));
-        serialize(query, enumAttributes, "delete", values);
+        Serializer.serialize(query, enumAttributes, "delete", values);
     }
 
     @Override
     public void update(Entity entity, EntityAttributes enumAttributes) {
-
-        ///UPDATE escaperoomdb.certificate
-        ///SET Certificate_text = "Segunda Prueba de update",
-        ///Certificate_gameId = 3,
-        ///Certificate_playerId = 3
-        ///WHERE Certificate_id = 1;
-
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();

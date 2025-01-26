@@ -104,16 +104,16 @@ public class MenuController {
     private static void handleManageRoomsMenu(int userInput, Scanner read) throws SQLException {
         switch (userInput) {
             case 1:
-                MenuActions.addNewRoom(read);
+                MenuActions.addNewRoom(read,selectedID);
                 break;
             case 2:
                 MenuActions.displayRooms(selectedID);
                 break;
             case 3:
-                MenuActions.updateRoom(read);
+                MenuActions.updateRoom(read,selectedID);
                 break;
             case 4:
-                MenuActions.removeRoom(read);
+                MenuActions.removeRoom(read,selectedID);
                 break;
             case 5:
                 displayManageTipsMenu(read);

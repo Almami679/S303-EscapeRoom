@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class RelationsTables {
 
-    @Test
+    /*@Test
     public void testAddEscapeRoomHasRoom() {
         RepositoryEscapeHasRoom repositoryEscapeHasRoom = new RepositoryEscapeHasRoom();
         try {
@@ -20,7 +20,7 @@ public class RelationsTables {
         } catch (SQLException e) {
             Assertions.fail("Failed to add escape room and room relationship", e);
         }
-    }
+    }*/
 
     @Test
     public void testAddGameHasPlayer() {

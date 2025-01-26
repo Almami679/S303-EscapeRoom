@@ -16,11 +16,9 @@ public class RepositoryEscapeHasRoom extends RepositoryImpl {
         super();
     }
 
-    public void addEscapeRoomHasRoom(int escapeRoomId, int roomId) throws SQLException {
+    public void addEscapeRoomHasRoom(Entity entity) throws SQLException {
         String query = "INSERT INTO escaperoomdb.escaperoom_has_room (escaperoom_escaperoom_id, room_room_id) VALUES (?, ?);";
-        ArrayList<String> values = new ArrayList<>();
-        values.add(String.valueOf(escapeRoomId));
-        values.add(String.valueOf(roomId));
+        ArrayList<String> values = entity.getValues();
         Serializer.serialize(query, EntityAttributes.escaperoom_has_room, "add", values);
     }
 

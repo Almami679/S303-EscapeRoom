@@ -78,7 +78,7 @@ public class EntityConstructorsSql {
     }
 
     public static Room roomConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
-        Room entity = null;
+        Room entity;
         int id = (Integer) entityData.get(attributes.get(0));
         String name = (String) entityData.get(attributes.get(1));
         String difficulty = (String) entityData.get(attributes.get(2));
@@ -91,7 +91,7 @@ public class EntityConstructorsSql {
     }
 
     public static Sale saleConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
-        Sale entity = null;
+        Sale entity;
         int id = (Integer) entityData.get(attributes.get(0));
         double price = (Double) entityData.get(attributes.get(1));
         int gameId = (Integer) entityData.get(attributes.get(2));
