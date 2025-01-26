@@ -6,6 +6,7 @@ import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -169,6 +170,13 @@ public class EntityConstructorsSql {
         int idPlayer = (Integer) entityData.get(attributes.get(0));
         int idRoom = (Integer) entityData.get(attributes.get(1));
         entity = new GameHasPlayer(idPlayer, idRoom);
+        return entity;
+    }
+    public static EscapeRoomHasRoom escapeRoomHasRoomConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
+        EscapeRoomHasRoom entity;
+        int idEscapeRoom = (Integer) entityData.get(attributes.get(0));
+        int idRoom = (Integer) entityData.get(attributes.get(1));
+        entity = new EscapeRoomHasRoom(idEscapeRoom, idRoom);
         return entity;
     }
 }

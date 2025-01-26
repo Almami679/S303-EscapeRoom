@@ -25,7 +25,7 @@ public class RepositroyRoomHasObjectDeco extends RepositoryImpl {
 
     public ArrayList<ObjectDeco> getAllObjectsByRoomId(int roomId) throws SQLException {
         String query = "SELECT * FROM escaperoomdb.room_has_objectdeco WHERE room_room_id = " + roomId +";";
-        ArrayList<Entity> IdObjectsInRoom = new ArrayList<>();
+        ArrayList<Entity> IdObjectsInRoom;
         ArrayList<ObjectDeco> objectsInRoom = new ArrayList<>();
         IdObjectsInRoom = Serializer.deserializeGetAll(query,EntityAttributes.room_has_objectdeco);
         IdObjectsInRoom.forEach(entityForId -> {
