@@ -22,17 +22,18 @@ public class Serializer {
 
     public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
         Map<String, Object> entityData = new HashMap<>();
-        //logger.info("Deserializando ResultSet...");
+        logger.info("Deserializando ResultSet...");
 
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
-
+                logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
                 entityData.put(attribute, value);
             } catch (SQLException e) {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
             }
         }
+
         return entityData;
     }
 
@@ -43,8 +44,12 @@ public class Serializer {
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
+                // Primero deserializamos el ResultSet a un Map
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
+
+                // Luego creamos la entidad a partir del Map
                 entity = createEntityToDeserialize(entityEnum, entityData);
+                return entity;
             } else {
                 throw new SQLException("No data found for the given ID.");
             }
@@ -52,7 +57,6 @@ public class Serializer {
             logger.error("Error during deserialization: ", e);
             throw e;
         }
-        return entity;
     }
 
     public static ArrayList<Entity> deserializeGetAll(String query, EntityAttributes entityEnum) throws SQLException {

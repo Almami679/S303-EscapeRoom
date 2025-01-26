@@ -113,10 +113,10 @@ public class GameService {
         ArrayList<Game> gameArrayList = new ArrayList<>();
         try{
 
-        this.repository
+            this.repository
                 .getAll(EntityAttributes.game)
                 .forEach(game -> gameArrayList.add((Game) game));
-        return gameArrayList;
+            return gameArrayList;
         }catch (SQLException e){
             logger.info(e.getMessage());
             return null;
