@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class MenuController {
     private static EscapeRoomService escapeRoomService = new EscapeRoomService();
+    private static int selectedID;
     public static void handleMainMenu(int userInput, Scanner read) throws SQLException, InvalidMenuOptionException {
         switch (userInput) {
             case 1:
@@ -42,7 +43,7 @@ public class MenuController {
         List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
         if (escapeRooms.isEmpty()) {
             System.out.println("No escape rooms found.");
-        }else {
+        } else {
             System.out.println("Select an Escape Room:");
             for (int i = 0; i < escapeRooms.size(); i++) {
                 System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
@@ -55,6 +56,7 @@ public class MenuController {
                     selectedEscapeRoom = read.nextInt();
                     if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
                         validInput = true;
+                        selectedID = selectedEscapeRoom;
                     } else {
                         System.out.println("Invalid selection. Please try again.");
                     }
@@ -105,7 +107,7 @@ public class MenuController {
                 MenuActions.addNewRoom(read);
                 break;
             case 2:
-                MenuActions.displayRooms(read);
+                MenuActions.displayRooms(selectedID);
                 break;
             case 3:
                 MenuActions.updateRoom(read);
