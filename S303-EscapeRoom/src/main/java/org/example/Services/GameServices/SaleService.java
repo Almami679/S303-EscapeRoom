@@ -17,6 +17,7 @@ import org.example.Repository.Common.RepositoryImpl;
 import org.example.Services.CommunicatesServices.TicketService;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class SaleService {
@@ -80,22 +81,19 @@ public class SaleService {
     public void updateSale(
             int id,
             double price,
-            Game game
-    ) {
-        try {
-            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
-            if (sale == null) {
-                throw new SaleIdNotFoundException();
-            } else {
-                sale.setPrice(price);
-                sale.setGame(game.getId());
-                this.repository
-                        .update(sale, EntityAttributes.sale);
-                logger.info(sale.getValues());
-            }
-        } catch (SQLException e) {
-            logger.info(e.getMessage());
-        }
+            int gameId,
+            int deleted,
+            Timestamp createdat
+    ) throws SQLException {
+        this.assertIfSaleIdNotFound(id);
+
+        Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
+        sale.setPrice(price);
+        sale.setGame(gameId);
+        sale.setDeleted(deleted);
+        sale.setCreatedAt(createdat);
+        this.repository
+                .update(sale, EntityAttributes.sale);
     }
 
     public ArrayList<Sale> getAllSale() {

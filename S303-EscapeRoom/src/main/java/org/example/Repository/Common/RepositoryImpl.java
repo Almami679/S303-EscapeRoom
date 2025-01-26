@@ -58,7 +58,7 @@ public class RepositoryImpl implements Repository {
     public void delete(int id, EntityAttributes enumAttributes) {
         String tableName = enumAttributes.name();
         String deletedAttribute = tableName + "_deleted";
-        String idAttribute = enumAttributes.getAttributes().get(0);
+        String idAttribute = tableName + "_id";
         String query = "UPDATE escaperoomdb." + tableName +
                 " SET " + deletedAttribute + " = 1 " +
                 "WHERE " + idAttribute + " = ?";
