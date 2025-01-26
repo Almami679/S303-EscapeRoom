@@ -27,10 +27,9 @@ public class Sale extends Entity {
     }
 
     public Sale(int id, double price, int gameId, int deleted, Timestamp createdAt) throws SQLException {
-        this.id = id;
+        super(id, deleted);
         this.price = price;
         this.gameId = gameId;
-        this.deleted = deleted;
         this.createdAt = createdAt;
     }
 
@@ -75,8 +74,8 @@ public class Sale extends Entity {
         this.deleted = deleted;
     }
 
-    @Override
-    public String toString() {
+
+    public String toStringSQL() {
         return "SaleTEST{" +
                 "id=" + id +
                 ", created_at=" + createdAt +
@@ -84,6 +83,14 @@ public class Sale extends Entity {
                 ", gameId=" + this.gameId +
                 ", deleted=" + deleted +
                 '}';
+    }
+
+    @Override
+    public String toString() {
+        return
+                " Date: '" + createdAt + '\'' +
+                ", GameId: '" + gameId + '\'' +
+                ", Price: '" + price + "€" + '\'';
     }
 
     public ArrayList<String> getValues() {

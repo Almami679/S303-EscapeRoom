@@ -2,7 +2,9 @@ package org.example.MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
+import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 
 public class MenuController {
     private static EscapeRoomService escapeRoomService = new EscapeRoomService();
+    private static SaleService salesService = new SaleService();
     private static int selectedID;
     public static void handleMainMenu(int userInput, Scanner read) throws SQLException, InvalidMenuOptionException {
         switch (userInput) {
@@ -254,10 +257,10 @@ public class MenuController {
                 MenuActions.generateNewSale(read);
                 break;
             case 2:
-                MenuActions.displaySales(read);
+                MenuActions.displaySales();
                 break;
             case 3:
-                MenuActions.removeSale(read);
+                MenuActions.removeSale(selectIdSale(read));
                 break;
             case 0:
                 break;
@@ -265,6 +268,44 @@ public class MenuController {
                 System.out.println("Invalid option. Please try again.");
         }
     }
+
+    private static int selectIdSale(Scanner read) {
+        List<Sale> sales = salesService.getAllSale();
+        if (sales.isEmpty()) {
+            System.out.println("No Sales found.");
+        } else {
+            System.out.println("Which sale do you want to eliminate?");
+            for (int i = 0; i < sales.size(); i++) {
+                System.out.println("[" + (i + 1) + "] Sale: " + sales.get(i).toString());
+            }
+            int selectedSale = -1;
+            boolean validInput = false;
+            do {
+                System.out.print("Enter the number of the sale: ");
+                try {
+                    selectedSale = read.nextInt() - 1;
+                    if (selectedSale >= 0 && selectedSale < sales.size()) {
+                        validInput = true;
+                        selectedID = sales.get(selectedSale).getId();
+                    } else {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    read.next();
+                }
+            } while (!validInput);
+            int userInput;
+            do {
+                System.out.print(MenuOptions.MANAGE_SALES_MENU.getMenuText());
+                userInput = read.nextInt();
+                handleManageSalesMenu(userInput, read);
+            } while (userInput != 0);
+        }
+        return selectedID;
+    }
+
+
 }
 
 

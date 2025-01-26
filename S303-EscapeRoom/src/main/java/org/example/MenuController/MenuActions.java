@@ -3,9 +3,11 @@ package org.example.MenuController;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
+import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Scanner;
 
 public class MenuActions {
     private static final EscapeRoomService escapeRoomService = new EscapeRoomService();
+    private static final SaleService salesService = new SaleService();
 
     public static void createEscapeRoom(Scanner read) {
         System.out.print("Enter the name of the escape room: ");
@@ -125,11 +128,20 @@ public class MenuActions {
 
     }
 
-    public static void displaySales(Scanner read) {
+    public static void displaySales() {
+        ArrayList<Sale> sales = salesService.getAllSale();
+        if (sales.isEmpty()) {
+            System.out.println("No rooms found for the selected escape room.");
+        } else {
+            //System.out.println("Rooms for Escape Room ID " + selectedID + ":");
+            for (Entity sale : sales) {
+                System.out.println(sale);
+            }
+        }
 
     }
 
-    public static void removeSale(Scanner read) {
-
+    public static void removeSale(int idSelected) {
+        salesService.deleteSale(idSelected);
     }
 }

@@ -40,15 +40,15 @@ public class SaleService {
 
 
     private void assertIfSaleIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.sale)
+        boolean roomFound = this.repository
+                .getAll(EntityAttributes.room)
                 .stream()
                 .map(this::castToSale)
-                .forEach(sale -> {
-                    if (sale.getId() != id) {
-                        throw new SaleIdNotFoundException();
-                    }
-                });
+                .anyMatch(room -> room.getId() == id);
+
+        if (!roomFound) {
+            throw new SaleIdNotFoundException();
+        }
     }
 
     public void createSale(

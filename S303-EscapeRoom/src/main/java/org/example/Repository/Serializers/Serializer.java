@@ -77,12 +77,19 @@ public class Serializer {
     public static void serialize(String query, EntityAttributes entity, String action, ArrayList<String> values) {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            for (int i = 0; i < values.size(); i++) {
-                statement.setString(i + 1, values.get(i));
+            if (action.equalsIgnoreCase("add")) {
+                for (int i = 0; i < values.size(); i++) {
+                    statement.setString(i + 1, values.get(i));
+                }
+                statement.executeUpdate();
+                dbConnection.closeConnection(connection);
+                logger.info(entity.name() + " serialized.");
+            } else if(action.equalsIgnoreCase("delete")) {
+                System.out.println(query);
+                statement.executeUpdate();
+                dbConnection.closeConnection(connection);
+                logger.info(entity.name() + " deleted.");
             }
-            statement.executeUpdate();
-            dbConnection.closeConnection(connection);
-            logger.info(entity.name() + " serialized.");
         } catch (SQLException e) {
             logger.error("Failed to serialize " + entity.name() + ": ", e);
             // Puedes manejar la excepción aquí, por ejemplo, lanzar una excepción personalizada
