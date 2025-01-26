@@ -51,10 +51,10 @@ public class CertificateService {
 
 
     public void createCertificate(
-            int playerId
+            Player player
     ) {
         try {
-            Certificate certificate = (Certificate) mainFactory.createCommunicate(CommunicateType.CERTIFICATE, playerId);
+            Certificate certificate = (Certificate) mainFactory.createCommunicate(CommunicateType.CERTIFICATE, player);
             this
                     .repository
                     .add(certificate, EntityAttributes.certificate);

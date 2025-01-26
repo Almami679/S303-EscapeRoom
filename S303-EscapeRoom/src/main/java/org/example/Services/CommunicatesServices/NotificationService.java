@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.NotificationNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
-import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -49,11 +48,9 @@ public class NotificationService {
     }
 
     public void createNotification(
-            int playerId
+            Notification notification
     )  {
         try {
-            Notification notification = (Notification) mainFactory.createCommunicate(CommunicateType.NOTIFICATION, playerId);
-
             if (notification != null) {
                 this.repository.add(notification, EntityAttributes.notification);
                 logger.info("Notificación creada y guardada: " + notification.getText());

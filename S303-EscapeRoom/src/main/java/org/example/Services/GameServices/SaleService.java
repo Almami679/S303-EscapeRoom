@@ -4,12 +4,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.SaleIdNotFoundException;
+import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
+import org.example.Modules.Communicates.CommunicateType;
+import org.example.Modules.Entities.CommunicatesEntities.Ticket;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.CommunicatesServices.TicketService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -112,5 +117,19 @@ public class SaleService {
             logger.info(e.getMessage());
             return null;
         }
+    }
+
+    public Ticket getTicketSale(int saleId, int playerId) {
+        CommunicateFactory mainFactory = new CommunicateFactory();
+        PlayerService playerService = new PlayerService();
+        TicketService ticketService = new TicketService();
+
+        Sale sale = this.getSaleById(saleId);
+        Player player = playerService.getPlayerById(playerId);
+        player.addSale(sale);
+        Ticket ticket = (Ticket) mainFactory.createCommunicate(CommunicateType.TICKET, player);
+        ticketService.createTicket(ticket);
+        ticket.send();
+        return ticket;
     }
 }

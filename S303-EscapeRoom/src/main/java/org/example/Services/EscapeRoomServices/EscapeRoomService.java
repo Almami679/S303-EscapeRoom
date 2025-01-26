@@ -93,12 +93,12 @@ public class EscapeRoomService {
                 }
             });
 
-            for (Player player : players) {
-                if (player.getConsentNotif() == 1) {
-                    notificationService.createNotification(player.getId());
-                    logger.info("Notificación enviada a: " + player.getName());
-                }
-            }
+//            for (Player player : players) {
+//                if (player.getConsentNotif() == 1) {
+//                    notificationService.createNotification(notification);
+//                    logger.info("Notificación enviada a: " + player.getName());
+//                }
+//            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
