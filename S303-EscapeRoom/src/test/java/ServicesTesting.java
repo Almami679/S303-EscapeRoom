@@ -137,6 +137,7 @@ public class ServicesTesting {
         Sale sale = commService.getSaleById(1);
         System.out.println(sale);
     }
+    
 
     @Test
     public void addTipsInRoom() {

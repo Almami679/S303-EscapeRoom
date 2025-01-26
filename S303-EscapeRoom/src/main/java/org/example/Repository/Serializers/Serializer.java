@@ -37,7 +37,7 @@ public class Serializer {
     }
 
     public static Entity deserialize(String query, EntityAttributes entityEnum) throws SQLException {
-        Entity entity = null;
+        Entity entity;
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -122,7 +122,7 @@ public class Serializer {
     }
 
     public static Entity createEntityToDeserialize(EntityAttributes entityEnum, Map<String, Object> entityData) throws SQLException {
-        Entity entity = null;
+        Entity entity;
         // Usamos los atributos que corresponden al enum para acceder a los datos
         ArrayList<String> attributes = entityEnum.getAttributes();
 
@@ -170,6 +170,9 @@ public class Serializer {
                 }
                 case game_has_player -> {
                     entity = gameHasPlayerConstructor(entityData, attributes);
+                }
+                case escaperoom_has_room -> {
+                    entity = escapeRoomHasRoomConstructor(entityData, attributes);
                 }
                 default -> throw new SQLException("Unsupported entity type");
             }

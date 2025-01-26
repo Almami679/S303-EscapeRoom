@@ -10,9 +10,11 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
 import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.CommunicatesServices.NotificationService;
 import org.example.observers.Observer;
 
@@ -148,5 +150,15 @@ public class EscapeRoomService {
             logger.info(e.getMessage());
             return null;
         }
+    }
+
+    public ArrayList<Room> getRoomInEscapeRoom(int roomId) {
+        RepositoryEscapeHasRoom repositoryEscapeHasRoom = new RepositoryEscapeHasRoom();
+        try {
+            return repositoryEscapeHasRoom.getAllRoomsByEscapeRoomId(roomId);
+        } catch (SQLException e) {
+            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+        }
+        return null;
     }
 }
