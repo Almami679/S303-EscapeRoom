@@ -31,7 +31,6 @@ public class EscapeRoomBuilder {
 
     public EscapeRoom build() {
         EscapeRoom escapeRoom = new EscapeRoom(name, price, theme);
-        notifier.notifyObservers("¡Nuevo EscapeRoom creado: " + name + " con tema " + theme + "!");
         return escapeRoom;
     }
 

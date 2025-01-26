@@ -71,7 +71,7 @@ public class SaleService {
                 this.repository
                         .delete(id, EntityAttributes.sale);
             }
-        } catch (PlayerNotFound | SQLException e) {
+        } catch (SaleIdNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
