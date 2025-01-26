@@ -41,7 +41,7 @@ public class TicketService {
 
     private void assertIfTicketIdNotFound(int id) throws SQLException {
         this.repository
-                .getAll(EntityAttributes.objectdeco)
+                .getAll(EntityAttributes.ticket)
                 .stream()
                 .map(this::castToTicket)
                 .forEach(ticket -> {
@@ -52,27 +52,27 @@ public class TicketService {
     }
 
     public void createTicket(
-            int idPlayer
+            Ticket ticket
     ) {
         try {
-            Ticket ticket = (Ticket) mainFactory.createCommunicate(CommunicateType.TICKET, idPlayer);
             this
                     .repository
-                    .add(ticket, EntityAttributes.objectdeco);
+                    .add(ticket, EntityAttributes.ticket);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    public void getObjectDecoById(
+    public Ticket getTicketById(
             int id
     ) {
         try {
-            this.assertIfTicketIdNotFound(id);
-            this.repository
+            //this.assertIfTicketIdNotFound(id);
+            return (Ticket) this.repository
                     .getById(id, EntityAttributes.ticket);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
@@ -91,8 +91,8 @@ public class TicketService {
     //Todo verificar estos metodos
     public void updateTicket(
             int id,
-            Player player,
-            Sale sale,
+            int player,
+            int sale,
             String text
     ) {
         try {

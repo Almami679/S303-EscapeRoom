@@ -1,12 +1,11 @@
-package org.example.Main.MenuController;
+package org.example.OLDMenuController;
 
 
 import org.example.Services.EscapeRoomServices.RoomService;
-import org.example.Repository.Common.RepositoryImpl;
 
 import java.util.Scanner;
 
-import static org.example.Main.MenuController.UserInputs.askString;
+import static org.example.OLDMenuController.UserInputs.askString;
 
 public class RemoveRoom implements ServiceProcessor {
     @Override

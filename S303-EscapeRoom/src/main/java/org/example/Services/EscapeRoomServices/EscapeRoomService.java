@@ -93,26 +93,27 @@ public class EscapeRoomService {
                 }
             });
 
-            for (Player player : players) {
-                if (player.getConsentNotif() == 1) {
-                    notificationService.createNotification(player.getId());
-                    logger.info("Notificación enviada a: " + player.getName());
-                }
-            }
+//            for (Player player : players) {
+//                if (player.getConsentNotif() == 1) {
+//                    notificationService.createNotification(notification);
+//                    logger.info("Notificación enviada a: " + player.getName());
+//                }
+//            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    public void getEscapeRoomById(
+    public EscapeRoom getEscapeRoomById(
             int id
     ) {
         try {
-            this.assertIfEscapeRoomIdNotFound(id);
-            this.repository
+            //this.assertIfEscapeRoomIdNotFound(id);
+            return (EscapeRoom) this.repository
                     .getById(id, EntityAttributes.escaperoom);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
@@ -154,7 +155,6 @@ public class EscapeRoomService {
     public ArrayList<EscapeRoom> getAllEscapeRooms() {
         ArrayList<EscapeRoom> outputList = new ArrayList<>();
         try {
-
             this.repository
                     .getAll(EntityAttributes.escaperoom).forEach(entity -> outputList.add((EscapeRoom) entity));
             return outputList;

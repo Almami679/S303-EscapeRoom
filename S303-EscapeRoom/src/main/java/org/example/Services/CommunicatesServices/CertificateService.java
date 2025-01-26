@@ -63,15 +63,16 @@ public class CertificateService {
         }
     }
 
-    public void getCertificateById(
+    public Certificate getCertificateById(
             int id
     ) {
         try {
-            this.assertIfCertificateIdNotFound(id);
-            this.repository
+            //this.assertIfCertificateIdNotFound(id);
+            return (Certificate) this.repository
                     .getById(id, EntityAttributes.certificate);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
@@ -90,9 +91,9 @@ public class CertificateService {
     //Todo verificar estos metodos
     public void updateCertificate(
             int id,
-            Player player,
+            int player,
             String text,
-            Game game
+            int gameId
     ) {
         try {
             this.assertIfCertificateIdNotFound(id);
@@ -103,7 +104,7 @@ public class CertificateService {
         Certificate certificate = this.castToCertificate(entity);
         certificate.setPlayer(player);
         certificate.setText(text);
-        certificate.setGame(game);
+        certificate.setGame(gameId);
 
         this.repository
                 .update(certificate, EntityAttributes.certificate);

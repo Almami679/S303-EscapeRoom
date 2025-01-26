@@ -7,6 +7,7 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.GameService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -14,16 +15,16 @@ import java.util.ArrayList;
 
 public class Certificate extends Communicate implements CommunicationInterface {
 
-    private static final RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private static GameService gameService = new GameService();
 
     Logger logger = LogManager.getLogger(Certificate.class);
     private String text;
-    private Game game;
+    private int gameId;
 
 
-    public Certificate(Player player, String text, Game game) {
-        super(player);
-        this.game = game;
+    public Certificate(int playerId , String text, int gameId) {
+        super(playerId);
+        this.gameId = gameId;
         this.text = text;
     }
     public Certificate(int id,
@@ -32,7 +33,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
                        String text,
                        Timestamp created_at) throws SQLException {
         super(id, playerId, created_at);
-        this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
+        this.gameId = gameId;
         this.text = text;
     }
 
@@ -42,25 +43,35 @@ public class Certificate extends Communicate implements CommunicationInterface {
     }
 
     public Game getGame() {
-        return game;
+        return gameService.getGameById(gameId);
     }
 
     public Timestamp getGameDate() {
-        return this.game.getGameDate();
+        return this.getGame().getGameDate();
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(int gameId) {
+        this.gameId = gameId;
+    }
+
+    @Override
+    public String toString() {
+        return "Certificate{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer().getName() +
+                "text='" + text + '\'' +
+                ", gameId=" + gameId +
+                '}';
     }
 
     @Override
     public void send() {
         logger.info("sending Certificate to " + super.getPlayer().getEmail() + "\n" +
-                "Game[" + this.game + "]\nFinished at[" +
+                "Game[" + this.gameId + "]\nFinished at[" +
                 this.getGameDate() + "]");
 
     }
@@ -72,7 +83,7 @@ public class Certificate extends Communicate implements CommunicationInterface {
         value = super.getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         value = super.getPlayer().getId() + "";
         values.add(value);
         return values;

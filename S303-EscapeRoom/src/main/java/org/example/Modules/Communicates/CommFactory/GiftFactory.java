@@ -4,22 +4,24 @@ import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.GameService;
+import org.example.Services.GameServices.PlayerService;
 
 import java.sql.SQLException;
 
 
 
 public class GiftFactory implements CommFactoryInterface{
-    RepositoryImpl repository = new RepositoryImpl();
-
+    private static final PlayerService playerService = new PlayerService();
+    private static final GameService gameService = new GameService();
     @Override
-    public Gift createCommunicate(int idPlayer) throws SQLException {
-        Player player = (Player) repository.getById(idPlayer, EntityAttributes.player);
+    public Gift createCommunicate(int playerId) {
+        int gameId = gameService.getLastGameByPlayer(playerId).getId();
         String text = "New Reward!\n" +
-                player.getName() +" You have finished our horror " +
+                playerService.getPlayerById(playerId).getName() +" You have finished our horror " +
                 "escape room without using clues\n "+
-                "you have a gift sent to email " + player.getEmail();
+                "you have a gift sent to email " + playerService.getPlayerById(playerId).getEmail();
 
-        return new Gift(player,text);
+        return new Gift(playerId,text,gameId);
     }
 }

@@ -65,7 +65,7 @@ public enum EntityAttributes {
             "player_id",
             "player_name",
             "player_email",
-            "player_consentNotif",
+            "player_consentNotif",  // Corregido aquí
             "player_deleted",
             "player_createdAt",
             "player_updatedAt"
@@ -91,7 +91,8 @@ public enum EntityAttributes {
             "sale_id",
             "sale_price",
             "sale_gameId",
-            "sale_deleted"
+            "sale_deleted",
+            "sale_createdAt"
     ),
     ticket(
             "ticket_id",

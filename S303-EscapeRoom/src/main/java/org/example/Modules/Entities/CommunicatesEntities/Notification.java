@@ -15,8 +15,8 @@ public class Notification extends Communicate implements CommunicationInterface 
     Logger logger = LogManager.getLogger(Notification.class);
     private String text;
 
-    public Notification(Player player, String text) {
-        super(player);
+    public Notification(int playerId, String text) {
+        super(playerId);
         this.text = text;
     }
 
@@ -32,6 +32,15 @@ public class Notification extends Communicate implements CommunicationInterface 
     public Notification setText(String text) {
         this.text = text;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                '}';
     }
 
     @Override
@@ -54,7 +63,7 @@ public class Notification extends Communicate implements CommunicationInterface 
         value = super.getPlayer().getId() + "";
         values.add(value);
         values.add(this.text);
-        values.add(super.getCreated_at().toString());
+        values.add(super.getCreatedAt().toString());
         return values;
     }
 

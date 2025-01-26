@@ -7,6 +7,7 @@ import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.GameService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -15,23 +16,23 @@ import java.util.ArrayList;
 public class Gift extends Communicate implements CommunicationInterface {
 
     Logger logger = LogManager.getLogger(Gift.class);
-    private static RepositoryImpl repositoryImpl = new RepositoryImpl();
+    private static GameService gameService = new GameService();
 
     private String text;
     private String discountKey;
     private static ArrayList<String> KeysInUse = new ArrayList<>();
-    private Game game;
+    private int gameId;
 
-    public Gift(Player player, String text) {
-        super(player);
+    public Gift(int playerId, String text, int gameId) {
+        super(playerId);
         this.text = text;
         this.discountKey = generateKey();
-        this.game = player.getGame();
+        this.gameId = gameId;
     }
 
-    public Gift(int id, int gameId, String text, int playerId, String giftKey/*, Timestamp created_at*/) throws SQLException {
-        super(id, playerId, new Timestamp(System.currentTimeMillis()));
-        this.game = (Game) repositoryImpl.getById(gameId, EntityAttributes.game);
+    public Gift(int id, int gameId, String text, int playerId, String giftKey, Timestamp createdAt) throws SQLException {
+        super(id, playerId, createdAt);
+        this.gameId = gameId;
         this.text = text;
         this.discountKey = giftKey;
         KeysInUse.add(giftKey);
@@ -48,10 +49,10 @@ public class Gift extends Communicate implements CommunicationInterface {
     }
 
     public Game getGame(){
-        return this.game;
+        return gameService.getGameById(gameId);
     }
 
-    public String getDiscountKey() {
+    public String getGiftKey() {
         return discountKey;
     }
 
@@ -74,6 +75,17 @@ public class Gift extends Communicate implements CommunicationInterface {
         KeysInUse.add(kb.toString());
 
         return kb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Gift{" +
+                "id= " + super.getId() +
+                "Player= " + super.getPlayer() +
+                "text='" + text + '\'' +
+                ", discountKey='" + discountKey + '\'' +
+                ", gameId=" + gameId +
+                '}';
     }
 
     @Override

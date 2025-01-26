@@ -5,10 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerAlreadyExistsException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,10 +39,11 @@ public class PlayerService {
         return this.repository
                 .getAll(EntityAttributes.player)
                 .stream()
-                .filter(entity -> entity instanceof Player) // Aseguramos que solo trabajamos con Player
-                .map(this::castToPlayer) // Realizamos el cast
-                .anyMatch(player -> player.getEmail().equalsIgnoreCase(email)); // Verificamos el email (case-insensitive)
+                .filter(entity -> entity instanceof Player)
+                .map(this::castToPlayer)
+                .anyMatch(player -> player.getEmail().equalsIgnoreCase(email));
     }
+
 
     public void createPlayer(
             String name,
@@ -79,7 +82,6 @@ public class PlayerService {
             return null;
         }
     }
-
 
     public void deletePlayer(
             int id
@@ -121,6 +123,7 @@ public class PlayerService {
 
             }
         } catch (PlayerNotFound | SQLException e) {
+
             logger.info(e.getMessage());
         }
     }
@@ -131,11 +134,27 @@ public class PlayerService {
 
             this.repository
                     .getAll(EntityAttributes.player)
-                    .forEach(player -> playerArrayList.add((Player) player));
+                    .forEach(player ->
+                            playerArrayList.add((Player) player)
+                    );
             return playerArrayList;
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
         }
+    }
+
+    public Game getGameForId(int playerId, int gameId) {
+        RepositoryGameHasPlayer repoGameHasPlayer = new RepositoryGameHasPlayer();
+        try {
+            return repoGameHasPlayer.getAllGamesByPlayerId(playerId).stream()
+                    .filter(game -> game.getId() == gameId)
+                    .findFirst()
+                    .orElse(null);
+
+        } catch (SQLException e) {
+            logger.info("Fail to get games for player[id: " + playerId + "]");
+        }
+        return null;
     }
 }

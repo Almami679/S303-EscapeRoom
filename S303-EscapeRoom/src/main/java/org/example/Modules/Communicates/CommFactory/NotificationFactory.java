@@ -5,24 +5,21 @@ import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.PlayerService;
 
 import java.sql.SQLException;
 
 
 
 public class NotificationFactory implements CommFactoryInterface{
-    Repository repository = new RepositoryImpl();
-    @Override
-    public Notification createCommunicate(int idPlayer) throws SQLException {
-        Player player = (Player) repository.getById(idPlayer, EntityAttributes.player);
-        if (player == null) {
-            throw new SQLException("Player with id " + idPlayer + " not found.");
-        }
-        String text = "News flash!\n" +
-                player.getName() +" You can't miss the new Christmas Escaperoom " +
-                "from November 12 to January 10.\n" +
-                "Notification sent to email: " + player.getEmail();
+    private static final PlayerService playerService = new PlayerService();    @Override
+    public Notification createCommunicate(int playerId) {
 
-        return new Notification(player,text);
+        String text = "News flash!\n" +
+                playerService.getPlayerById(playerId).getName() +" You can't miss the new Christmas Escaperoom " +
+                "from November 12 to January 10.\n" +
+                "Notification sent to email: " + playerService.getPlayerById(playerId).getEmail();
+
+        return new Notification(playerId,text);
     }
 }

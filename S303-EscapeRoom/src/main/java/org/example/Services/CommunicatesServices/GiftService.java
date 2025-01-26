@@ -51,10 +51,10 @@ public class GiftService {
     }
 
     public void createGift(
-            int playerId
+            int player
     ) {
         try {
-            Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, playerId);
+            Gift gift = (Gift) mainFactory.createCommunicate(CommunicateType.GIFT, player);
 
             this
                     .repository
@@ -64,15 +64,16 @@ public class GiftService {
         }
     }
 
-    public void getGiftById(
+    public Gift getGiftById(
             int id
     ) {
         try {
-            this.assertIfGiftIdNotFound(id);
-            this.repository
+            //this.assertIfGiftIdNotFound(id);
+            return (Gift) this.repository
                     .getById(id, EntityAttributes.gift);
         } catch (SQLException e) {
             logger.info(e.getMessage());
+            return null;
         }
     }
 
@@ -91,7 +92,7 @@ public class GiftService {
     //Todo verificar estos metodos
     public void updateGift(
             int id,
-            Player player,
+            int player,
             String text
     )  {
         try {
