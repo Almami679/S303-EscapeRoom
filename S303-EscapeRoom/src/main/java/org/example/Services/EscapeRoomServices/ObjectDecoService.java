@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.ObjectDecoNotFoundException;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -65,10 +66,14 @@ public class ObjectDecoService {
             int id
     ) {
         try {
-            //this.assertIfObjectDecoIdNotFound(id);
-            return (ObjectDeco) repository
-                    .getById(id, EntityAttributes.objectdeco);
-        } catch (SQLException e) {
+            ObjectDeco objectDeco = (ObjectDeco) this.repository.getById(id, EntityAttributes.objectdeco);
+            if (objectDeco == null) {
+                throw new ObjectDecoNotFoundException();
+            } else {
+                return (ObjectDeco) repository
+                        .getById(id, EntityAttributes.objectdeco);
+            }
+        } catch (SQLException | ObjectDecoNotFoundException e ) {
             logger.info(e.getMessage());
             return null;
         }
@@ -78,10 +83,14 @@ public class ObjectDecoService {
             int id
     ){
         try{
-            this.assertIfObjectDecoIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.objectdeco);
-        }catch (PlayerNotFound | SQLException e){
+            ObjectDeco objectDeco = (ObjectDeco) this.repository.getById(id, EntityAttributes.objectdeco);
+            if (objectDeco == null) {
+                throw new ObjectDecoNotFoundException();
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.objectdeco);
+            }
+        }catch (ObjectDecoNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -94,19 +103,20 @@ public class ObjectDecoService {
             double price
     )  {
         try{
-            
-        this.assertIfObjectDecoIdNotFound(id);
+            ObjectDeco objectDeco = (ObjectDeco) this.repository.getById(id, EntityAttributes.objectdeco);
+            if (objectDeco == null) {
+                throw new ObjectDecoNotFoundException();
+            } else {
+                objectDeco.setPrice(price);
+                objectDeco.setName(name);
+                objectDeco.setMaterial(material);
+                this.repository
+                        .update(objectDeco, EntityAttributes.objectdeco);
+            }
         }catch (SQLException e){
             logger.info(e.getMessage());
         }
 
-        ObjectDeco objectDeco = this.castToDecoObject(entity);
-        objectDeco.setPrice(price);
-        objectDeco.setName(name);
-        objectDeco.setMaterial(material);
-
-        this.repository
-                .update(objectDeco, EntityAttributes.objectdeco);
     }
 
 

@@ -8,9 +8,9 @@ import org.example.Repository.Serializers.Serializer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static org.example.Repository.Serializers.Serializer.deserialize;
+import static org.example.Repository.Serializers.Serializer.*;
 
-public class RepositoryImpl implements Repository{
+public class RepositoryImpl implements Repository {
 
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
 
@@ -85,4 +85,32 @@ public class RepositoryImpl implements Repository{
         Serializer.serialize(queryString, enumAttributes, "update", values);
     }
 
+    public void update1(Entity entity, EntityAttributes enumAttributes) {
+        ArrayList<String> attributes = enumAttributes.getAttributes();
+        ArrayList<String> values = entity.getValues();
+        String tableName = enumAttributes.name();
+
+        StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
+
+        for (int i = 0; i < attributes.size(); i++) {
+            String attribute = attributes.get(i);
+            String value = values.get(i);
+
+            if (value.matches("\\d+")) { // Si es un número
+                query.append(attribute).append(" = ").append(value);
+            } else { // Si es texto
+                query.append(attribute).append(" = '").append(value).append("'");
+            }
+            if (i < attributes.size() - 1) {
+                query.append(", ");
+            }
+        }
+        query.append(" WHERE ").append(attributes.get(0)).append(" = ").append(entity.getId()).append(";");
+
+        String queryString = query.toString();
+        logger.info("Query created and formatted:\n[" + queryString + "]");
+
+        serialize(queryString, enumAttributes, "set", attributes);
+
+    }
 }

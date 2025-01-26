@@ -3,9 +3,11 @@ package org.example.Services.CommunicatesServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.CertificateNotFoundException;
+import org.example.Exceptions.GiftNotFoundException;
 import org.example.Modules.Communicates.CommFactory.CommunicateFactory;
 import org.example.Modules.Communicates.CommunicateType;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
+import org.example.Modules.Entities.CommunicatesEntities.Gift;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
@@ -29,26 +31,6 @@ public class CertificateService {
         this.repository = new RepositoryImpl();
     }
 
-    private Certificate castToCertificate(Entity entity) {
-        Certificate certificate = null;
-        if (entity instanceof Certificate) {
-            certificate = (Certificate) entity;
-        }
-        return certificate;
-    }
-
-    private void assertIfCertificateIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.certificate)
-                .stream()
-                .map(this::castToCertificate)
-                .forEach(certificate -> {
-                    if (certificate.getId() != id) {
-                        throw new CertificateNotFoundException("Certificate with " + id + " id not found");
-                    }
-                });
-    }
-
 
     public void createCertificate(
             int playerId
@@ -67,9 +49,14 @@ public class CertificateService {
             int id
     ) {
         try {
-            //this.assertIfCertificateIdNotFound(id);
-            return (Certificate) this.repository
-                    .getById(id, EntityAttributes.certificate);
+            Certificate certificate = (Certificate) this.repository.getById(id, EntityAttributes.certificate);
+
+            if (certificate == null) {
+                throw new CertificateNotFoundException("Certificate with id " + id + " not found");
+            } else {
+                return (Certificate) this.repository
+                        .getById(id, EntityAttributes.certificate);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -80,15 +67,19 @@ public class CertificateService {
             int id
     ) {
         try {
-            this.assertIfCertificateIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.certificate);
+            Certificate certificate = (Certificate) this.repository.getById(id, EntityAttributes.certificate);
+
+            if (certificate == null) {
+                throw new CertificateNotFoundException("Certificate with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.certificate);
+            }
         } catch (CertificateNotFoundException | SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateCertificate(
             int id,
             int player,
@@ -96,19 +87,24 @@ public class CertificateService {
             int gameId
     ) {
         try {
-            this.assertIfCertificateIdNotFound(id);
+            Certificate certificate = (Certificate) this.repository.getById(id, EntityAttributes.certificate);
+
+            if (certificate == null) {
+                throw new CertificateNotFoundException("Certificate with id " + id + " not found");
+            } else {
+                certificate.setPlayer(player);
+                certificate.setText(text);
+                certificate.setGame(gameId);
+
+                this.repository
+                        .update(certificate, EntityAttributes.certificate);
+
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
 
-        Certificate certificate = this.castToCertificate(entity);
-        certificate.setPlayer(player);
-        certificate.setText(text);
-        certificate.setGame(gameId);
-
-        this.repository
-                .update(certificate, EntityAttributes.certificate);
-    }
+            }
 
     public ArrayList<Certificate> getAllCertificate() {
         ArrayList<Certificate> certificateArrayList = new ArrayList<>();

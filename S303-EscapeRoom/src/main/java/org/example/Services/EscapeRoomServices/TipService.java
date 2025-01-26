@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.TipNotFoundException;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
@@ -28,25 +29,13 @@ public class TipService {
 
     private Tips castToTip(Entity entity) {
         Tips tip = null;
-        if (entity instanceof Room) {
+        if (entity instanceof Tips) {
             tip = (Tips) entity;
         }
         return tip;
     }
 
 
-
-    private void assertIfTipIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.tips)
-                .stream()
-                .map(this::castToTip)
-                .forEach(tip -> {
-                    if (tip.getId() != id) {
-                        throw new TipNotFoundException();
-                    }
-                });
-    }
 
     public void createTip(
             String text
@@ -64,10 +53,15 @@ public class TipService {
             int id
     ) {
         try {
-            //this.assertIfTipIdNotFound(id);
-            return (Tips) this.repository
-                    .getById(id, EntityAttributes.tips);
-        } catch (SQLException e) {
+            Tips tips = (Tips) this.repository.getById(id, EntityAttributes.tips);
+
+            if (tips == null) {
+                throw new TipNotFoundException();
+            } else {
+                return (Tips) this.repository
+                        .getById(id, EntityAttributes.tips);
+            }
+        } catch (SQLException | TipNotFoundException e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -77,9 +71,14 @@ public class TipService {
             int id
     ){
         try{
-            this.assertIfTipIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.tips);
+            Tips tips = (Tips) this.repository.getById(id, EntityAttributes.tips);
+
+            if (tips == null) {
+                throw new TipNotFoundException();
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.tips);
+            }
         }catch (PlayerNotFound | SQLException e){
             logger.info(e.getMessage());
         }
@@ -91,17 +90,20 @@ public class TipService {
             String text
     )  {
         try {
-            
-        this.assertIfTipIdNotFound(id);
-        }catch (SQLException e){
+            Tips tips = (Tips) this.repository.getById(id, EntityAttributes.tips);
+            if (tips == null) {
+                throw new TipNotFoundException();
+            } else {
+                Tips tip = this.castToTip(entity);
+                tip.setText(text);
+                this.repository
+                        .update(tip, EntityAttributes.tips);
+        }
+        }catch (SQLException | TipNotFoundException e){
             logger.info(e.getMessage());
         }
 
-        Tips tip = this.castToTip(entity);
-        tip.setText(text);
 
-        this.repository
-                .update(tip, EntityAttributes.tips);
     }
 
     public ArrayList<Tips> getAllTips(){

@@ -30,27 +30,6 @@ public class SaleService {
         this.repository = new RepositoryImpl();
     }
 
-    private Sale castToSale(Entity entity) {
-        Sale sale = null;
-        if (entity instanceof Sale) {
-            sale = (Sale) entity;
-        }
-        return sale;
-    }
-
-
-    private void assertIfSaleIdNotFound(int id) throws SQLException {
-        this.repository
-                .getAll(EntityAttributes.sale)
-                .stream()
-                .map(this::castToSale)
-                .forEach(sale -> {
-                    if (sale.getId() != id) {
-                        throw new SaleIdNotFoundException();
-                    }
-                });
-    }
-
     public void createSale(
             double price,
             Game game
@@ -68,9 +47,13 @@ public class SaleService {
             int id
     ) {
         try {
-            //this.assertIfSaleIdNotFound(id);
-            return (Sale) this.repository
-                    .getById(id, EntityAttributes.sale);
+            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
+            if (sale == null) {
+                throw new SaleIdNotFoundException();
+            } else {
+                return (Sale) this.repository
+                        .getById(id, EntityAttributes.sale);
+            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
@@ -81,28 +64,38 @@ public class SaleService {
             int id
     ) {
         try {
-            this.assertIfSaleIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.sale);
+            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
+            if (sale == null) {
+                throw new SaleIdNotFoundException();
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.sale);
+            }
         } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
+
     public void updateSale(
             int id,
             double price,
             Game game
-    ) throws SQLException {
-        this.assertIfSaleIdNotFound(id);
-
-        Sale sale = this.castToSale(entity);
-        sale.setPrice(price);
-        sale.setGame(game.getId());
-
-        this.repository
-                .update(sale, EntityAttributes.sale);
+    ) {
+        try {
+            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
+            if (sale == null) {
+                throw new SaleIdNotFoundException();
+            } else {
+                sale.setPrice(price);
+                sale.setGame(game.getId());
+                this.repository
+                        .update(sale, EntityAttributes.sale);
+                logger.info(sale.getValues());
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     public ArrayList<Sale> getAllSale() {

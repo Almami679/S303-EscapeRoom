@@ -196,6 +196,7 @@ public class ServicesTesting {
     @Test
     public void createTicketSale() {
         SaleService saleService = new SaleService();
+
         saleService.getTicketSale(1,2);
 
     }

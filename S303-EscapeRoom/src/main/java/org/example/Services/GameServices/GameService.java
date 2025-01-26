@@ -3,11 +3,13 @@ package org.example.Services.GameServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.GameNotFoundException;
+import org.example.Exceptions.SaleIdNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -54,7 +56,6 @@ public class GameService {
     public void createGame(
             int escapeRoomId
     ) {
-        // assertIfGameAlreadyExists(email); //todo no se si este metodo debe ir aqui o dentro de try
         try {
             this
                     .repository
@@ -68,10 +69,14 @@ public class GameService {
             int id
     ) {
         try {
-            //this.assertIfGameIdNotFound(id);
-            return (Game) this.repository
-                    .getById(id, EntityAttributes.game);
-        } catch (SQLException e) {
+            Game game = (Game) this.repository.getById(id, EntityAttributes.game);
+            if (game == null) {
+                throw new GameNotFoundException("Game not found");
+            } else {
+                return (Game) this.repository
+                        .getById(id, EntityAttributes.game);
+            }
+        } catch (SQLException | GameNotFoundException e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -81,31 +86,34 @@ public class GameService {
             int id
     ){
         try{
-            this.assertIfGameIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.game);
+            Game game = (Game) this.repository.getById(id, EntityAttributes.game);
+            if (game == null) {
+                throw new GameNotFoundException("Game not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.game);
+            }
         }catch (GameNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
 
-    //Todo verificar estos metodos
     public void updateGame(
             int id,
             int escapeRoomId
     ){
         try {
-
-        this.assertIfGameIdNotFound(id);
-        }catch (SQLException e){
+            Game game = (Game) this.repository.getById(id, EntityAttributes.game);
+            if (game == null) {
+                throw new GameNotFoundException("Game not found");
+            } else {
+                game.setEscapeRoom(escapeRoomId);
+                this.repository
+                        .update(game, EntityAttributes.game);
+            }
+        }catch (SQLException | GameNotFoundException e){
             logger.info(e.getMessage());
         }
-
-        Game game = this.castToGame(entity);
-        game.setEscapeRoom(escapeRoomId);
-
-        this.repository
-                .update(game, EntityAttributes.game);
     }
 
     public ArrayList<Game> getAllGame(){
@@ -127,18 +135,20 @@ public class GameService {
             int id,
             int finish
     ){
-        try{
+        try {
 
-        assertIfGameIdNotFound(id);
-        }catch (SQLException e){
-            logger.info(e.getMessage());
-        }
-        Game game = this.castToGame(entity);
-        game.setFinish(finish);
-
-        if(finish == 0){
-            game.setFinishedAt(new Timestamp(System.currentTimeMillis()));
-        }
+            Game game = (Game) this.repository.getById(id, EntityAttributes.game);
+            if (game == null) {
+                throw new GameNotFoundException("Game not found");
+            } else {
+                game.setFinish(finish);
+                if (finish == 0) {
+                    game.setFinishedAt(new Timestamp(System.currentTimeMillis()));
+                }
+           }
+        }catch (SQLException | GameNotFoundException e){
+                logger.info(e.getMessage());
+            }
     }
 
     public void addPlayerInGame(int playerId, int gameId) {

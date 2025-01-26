@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.Tips;
@@ -78,10 +79,14 @@ public class RoomService {
             int id
     ){
         try{
-            this.assertIfRoomIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.room);
-        }catch (PlayerNotFound | SQLException e){
+            Room room = (Room) this.repository.getById(id, EntityAttributes.room);
+            if (room == null) {
+                throw new RoomNotFoundException();
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.room);
+            }
+        }catch (RoomNotFoundException | SQLException e){
             logger.info(e.getMessage());
         }
     }
@@ -95,16 +100,13 @@ public class RoomService {
     ) throws SQLException {
         this.assertIfRoomIdNotFound(id);
         Room room = (Room) this.repository.getById(id, EntityAttributes.room);
-        if (room == null) {
-            throw new RoomNotFoundException();
-        }
         room.setPrice(price);
         room.setName(name);
         room.setDifficulty(difficulty);
         room.setDeleted(deleted);
-
         this.repository.update(room, EntityAttributes.room);
     }
+
 
     public ArrayList<Room> getAllRoom(){
         ArrayList<Room> roomArrayList = new ArrayList<>();
