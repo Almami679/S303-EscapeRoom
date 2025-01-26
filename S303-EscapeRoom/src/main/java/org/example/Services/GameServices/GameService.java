@@ -6,6 +6,7 @@ import org.example.Exceptions.GameNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Repository.Common.EntityAttributes;
@@ -140,10 +141,11 @@ public class GameService {
         }
     }
 
-    public void addPlayerInGame(int PlayerId, int GameId) {
+    public void addPlayerInGame(int playerId, int gameId) {
         RepositoryGameHasPlayer repo = new RepositoryGameHasPlayer();
+        Entity entity = new GameHasPlayer(playerId, gameId);
         try {
-            repo.addGameHasPlayer(PlayerId , GameId);
+            repo.addGameHasPlayer(entity);
         } catch (SQLException e) {
             logger.info("Fail to fetch player in game");
         }

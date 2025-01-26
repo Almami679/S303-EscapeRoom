@@ -27,7 +27,6 @@ public class Serializer {
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
-                logger.info("Columna: " + attribute + " Valor: " + value);  // Ver qué datos tienes
                 entityData.put(attribute, value);
             } catch (SQLException e) {
                 logger.info("Error al obtener el valor de la columna " + attribute + ": " + e.getMessage());
@@ -44,10 +43,8 @@ public class Serializer {
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                // Primero deserializamos el ResultSet a un Map
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
 
-                // Luego creamos la entidad a partir del Map
                 entity = createEntityToDeserialize(entityEnum, entityData);
                 return entity;
             } else {
@@ -66,10 +63,8 @@ public class Serializer {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                // Deserializamos el ResultSet a Map<String, Object>
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
 
-                // Ahora pasamos ese Map a createEntityToDeserialize
                 entities.add(createEntityToDeserialize(entityEnum, entityData));
             }
         } catch (SQLException e) {
@@ -86,11 +81,12 @@ public class Serializer {
                 statement.setString(i + 1, values.get(i));
             }
             statement.executeUpdate();
-            logger.info(entity.name() + " " + action + "d.");
             dbConnection.closeConnection(connection);
             logger.info(entity.name() + " serialized.");
         } catch (SQLException e) {
             logger.error("Failed to serialize " + entity.name() + ": ", e);
+            // Puedes manejar la excepción aquí, por ejemplo, lanzar una excepción personalizada
+            throw new RuntimeException("Serialization failed for " + entity.name(), e);
         }
     }
 
