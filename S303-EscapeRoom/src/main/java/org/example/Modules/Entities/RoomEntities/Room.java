@@ -93,9 +93,8 @@ public class Room extends Entity {
         this.updated_at = (new Timestamp(System.currentTimeMillis()));
     }
 
-    @Override
-    public String toString() {
-        return "RoomTEST{" +
+    public String toStringSQL() {
+        return "Room{" +
                 "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", difficulty='" + difficulty + '\'' +
@@ -104,6 +103,12 @@ public class Room extends Entity {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
+    }
+    @Override
+    public String toString() {
+        return  "name: '" + name + '\'' +
+                ", difficulty: '" + difficulty + '\'' +
+                ", price: '" + price + '\'';
     }
 
     public ArrayList<String> getValues(){
@@ -119,5 +124,10 @@ public class Room extends Entity {
         values.add(this.created_at.toString());
         values.add(this.updated_at.toString());
         return values;
+    }
+
+    @Override
+    public int getId() {
+        return super.getId();
     }
 }

@@ -1,8 +1,14 @@
 package org.example.MenuController;
 
+import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
+import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -42,8 +48,16 @@ public class MenuActions {
 
     }
 
-    public static void displayRooms(Scanner read) {
-
+    public static void displayRooms(int selectedID) {
+        ArrayList<Room> rooms = escapeRoomService.getRoomInEscapeRoom(selectedID);
+        if (rooms.isEmpty()) {
+            System.out.println("No rooms found for the selected escape room.");
+        } else {
+            //System.out.println("Rooms for Escape Room ID " + selectedID + ":");
+            for (Entity room : rooms) {
+                System.out.println(room);
+            }
+        }
 
     }
 
