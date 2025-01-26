@@ -93,6 +93,8 @@ public class Room extends Entity {
         this.updated_at = (new Timestamp(System.currentTimeMillis()));
     }
 
+
+
     public String toStringSQL() {
         return "Room{" +
                 "id=" + super.getId() +

@@ -200,4 +200,21 @@ public class ServicesTesting {
 
     }
 
+
+
+
+
+    @Test
+    public void addRoomToEscapeRoom() {
+        System.out.println("___________________________");
+        EscapeRoomService escapeRoomService = new EscapeRoomService();
+        RoomService roomService = new RoomService();
+        ArrayList<Room> rooms = roomService.getAllRoom();
+        Room room = roomService.getRoomById(4);
+        escapeRoomService.addRoomToEscapeRoom(1, room.getId());
+        //rooms.forEach(room -> escapeRoomService.addRoomToEscapeRoom(room.getId(), 1));
+        escapeRoomService.getRoomInEscapeRoom(1).forEach(System.out::println);
+        System.out.println(escapeRoomService.getRoomInEscapeRoom(1));
+    }
+
 }

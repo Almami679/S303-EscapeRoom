@@ -1,8 +1,6 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
-import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.RepositoryImpl;
 import org.example.Services.GameServices.GameService;
 
 import java.sql.SQLException;

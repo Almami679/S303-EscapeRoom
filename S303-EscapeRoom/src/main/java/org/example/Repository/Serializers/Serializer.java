@@ -22,8 +22,7 @@ public class Serializer {
 
     public static Map<String, Object> deserialize(ResultSet resultSet, EntityAttributes entityEnum) throws SQLException {
         Map<String, Object> entityData = new HashMap<>();
-        logger.info("Deserializando ResultSet...");
-
+        //logger.info("Deserializando ResultSet...");
         for (String attribute : entityEnum.getAttributes()) {
             try {
                 Object value = resultSet.getObject(attribute);
@@ -41,10 +40,8 @@ public class Serializer {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
-
             if (resultSet.next()) {
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
                 entity = createEntityToDeserialize(entityEnum, entityData);
                 return entity;
             } else {
@@ -61,10 +58,8 @@ public class Serializer {
         try (Connection connection = dbConnection.dbConnect();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
-
             while (resultSet.next()) {
                 Map<String, Object> entityData = deserialize(resultSet, entityEnum);
-
                 entities.add(createEntityToDeserialize(entityEnum, entityData));
             }
         } catch (SQLException e) {
@@ -82,7 +77,7 @@ public class Serializer {
             }
             statement.executeUpdate();
             dbConnection.closeConnection(connection);
-            logger.info(entity.name() + " serialized.");
+            //logger.info(entity.name() + " serialized.");
         } catch (SQLException e) {
             logger.error("Failed to serialize " + entity.name() + ": ", e);
             // Puedes manejar la excepción aquí, por ejemplo, lanzar una excepción personalizada

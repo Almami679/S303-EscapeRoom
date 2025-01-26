@@ -36,7 +36,7 @@ public class RepositoryImpl implements Repository{
         }
         query.append(");");
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
+        //logger.info("Query created, and casted to String.\n[" + queryString + "]");
         Serializer.serialize(queryString, enumAttributes, "add", values);
     }
 

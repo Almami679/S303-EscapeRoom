@@ -8,13 +8,16 @@ import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
+import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 import org.example.Services.CommunicatesServices.NotificationService;
 import org.example.observers.Observer;
 
@@ -166,13 +169,23 @@ public class EscapeRoomService {
         }
     }
 
-    public ArrayList<Room> getRoomInEscapeRoom(int roomId) {
+    public ArrayList<Room> getRoomInEscapeRoom(int escapeRoomId) {
         RepositoryEscapeHasRoom repositoryEscapeHasRoom = new RepositoryEscapeHasRoom();
         try {
-            return repositoryEscapeHasRoom.getAllRoomsByEscapeRoomId(roomId);
+            return repositoryEscapeHasRoom.getAllRoomsByEscapeRoomId(escapeRoomId);
         } catch (SQLException e) {
-            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+            logger.info("Failed to get rooms in escaperoom[id: " + escapeRoomId + "]");
         }
         return null;
+    }
+
+    public void addRoomToEscapeRoom(int escapeRoomId, int roomID) {
+        RepositoryEscapeHasRoom repo = new RepositoryEscapeHasRoom();
+        Entity entity = new EscapeRoomHasRoom(roomID, escapeRoomId);
+        try {
+            repo.addEscapeRoomHasRoom(entity);
+        } catch (SQLException e) {
+            logger.info("Failed to add room[id: " + roomID + "] to escape room[id: " + escapeRoomId + "]");
+        }
     }
 }
