@@ -1,5 +1,6 @@
 package org.example.MenuController;
 
+import org.example.Exceptions.SaleIdNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
@@ -142,6 +143,14 @@ public class MenuActions {
     }
 
     public static void removeSale(int idSelected) {
-        salesService.deleteSale(idSelected);
+        Sale selectedSale = salesService.getSaleById(idSelected);
+        try {
+            salesService.updateSale(selectedSale.getId(), selectedSale.getPrice(), selectedSale.getGameId(), 1,selectedSale.getCreatedAt());
+            System.out.println("Sale deleted successfully!");
+        } catch (SaleIdNotFoundException e) {
+            System.out.println("Failed to delete SaleId not found.");
+        } catch (SQLException e) {
+            System.out.println("Failed to delete sale: " + e.getMessage());
+        }
     }
 }

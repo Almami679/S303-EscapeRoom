@@ -49,6 +49,10 @@ public class Sale extends Entity {
         this.price = price;
     }
 
+    public int getGameId(){
+        return this.gameId;
+    }
+
     public Game getGame() {
         return gameService.getGameById(this.gameId);
     }
