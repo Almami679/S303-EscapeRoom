@@ -42,19 +42,6 @@ public class PlayerService {
                 .anyMatch(player -> player.getEmail().equalsIgnoreCase(email)); // Verificamos el email (case-insensitive)
     }
 
-    private boolean assertIfPlayerIdNotFound(int id) throws SQLException {
-        boolean notFound = this.repository
-                .getAll(EntityAttributes.player)
-                .stream()
-                .map(this::castToPlayer)
-                .anyMatch(player -> player.getId() != id);
-
-        if(notFound){
-            throw new PlayerNotFound("Player with id " + id + " not found");
-        }
-        return notFound;
-    }
-
     public void createPlayer(
             String name,
             String email,
@@ -62,35 +49,51 @@ public class PlayerService {
     ) {
         try {
             if (assertIfPlayerAlreadyExists(email)) {
-                logger.warn("Usurio con email " + email + " ya existe") ;
+                logger.warn("Usurio con email " + email + " ya existe");
             }
-                this
-                        .repository
-                        .add(new Player(name, email, consentNotif), EntityAttributes.player);
-        } catch (SQLException | PlayerAlreadyExistsException e ) {
+            this
+                    .repository
+                    .add(new Player(name, email, consentNotif), EntityAttributes.player);
+        } catch (SQLException | PlayerAlreadyExistsException e) {
             logger.info(e.getMessage());
         }
     }
 
-    public void getPlayerById(
-            int id
-    ) {
+    public Player getPlayerById(int id) {
         try {
-           // this.assertIfPlayerIdNotFound(id);
-            this.repository
-                    .getById(id, EntityAttributes.player);
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                logger.info(player.getValues());
+            }
+
+            return player;
+
+        } catch (PlayerNotFound e) {
+            logger.warn(e.getMessage());
+            return null;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.error("Database error: " + e.getMessage());
+            return null;
         }
     }
+
 
     public void deletePlayer(
             int id
     ) {
         try {
-            this.assertIfPlayerIdNotFound(id);
-            this.repository
-                    .delete(id, EntityAttributes.player);
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                this.repository
+                        .delete(id, EntityAttributes.player);
+
+            }
         } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
@@ -105,18 +108,21 @@ public class PlayerService {
     ) {
         try {
 
-            this.assertIfPlayerIdNotFound(id);
-        } catch (SQLException e) {
+            Player player = (Player) this.repository.getById(id, EntityAttributes.player);
+
+            if (player == null) {
+                throw new PlayerNotFound("Player with id " + id + " not found");
+            } else {
+                player.setName(name);
+                player.setEmail(email);
+                player.setConsentNotif(consentNotif);
+                this.repository
+                        .update(player, EntityAttributes.player);
+
+            }
+        } catch (PlayerNotFound | SQLException e) {
             logger.info(e.getMessage());
         }
-
-        Player player = this.castToPlayer(entity);
-        player.setName(name);
-        player.setEmail(email);
-        player.setConsentNotif(consentNotif);
-
-        this.repository
-                .update(player, EntityAttributes.player);
     }
 
     public ArrayList<Player> getAllPlayer() {

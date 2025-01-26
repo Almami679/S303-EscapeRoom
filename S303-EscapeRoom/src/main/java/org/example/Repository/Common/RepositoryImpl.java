@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.example.Repository.Serializers.Serializer.deserialize;
+import static org.example.Repository.Serializers.Serializer.*;
 
 public class RepositoryImpl implements Repository{
 
@@ -41,7 +41,7 @@ public class RepositoryImpl implements Repository{
         query.append(");");
         String queryString = query.toString();
         logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        Serializer.serialize(queryString, enumAttributes, "add", values);
+        serialize(queryString, enumAttributes, "add", values);
     }
 
     @Override
@@ -69,39 +69,77 @@ public class RepositoryImpl implements Repository{
                 "WHERE " + idAttribute + " = ?";
         ArrayList<String> values = new ArrayList<>();
         values.add(String.valueOf(id));
-        Serializer.serialize(query, enumAttributes, "delete", values);
+        serialize(query, enumAttributes, "delete", values);
     }
+
+//    @Override
+//    public void update(Entity entity, EntityAttributes enumAttributes) {
+//
+//        ///UPDATE escaperoomdb.certificate
+//        ///SET Certificate_text = "Segunda Prueba de update",
+//        ///Certificate_gameId = 3,
+//        ///Certificate_playerId = 3
+//        ///WHERE Certificate_id = 1;
+//
+//        ArrayList<String> attributes = enumAttributes.getAttributes();
+//        ArrayList<String> values = entity.getValues();
+//        String tableName = enumAttributes.name();
+//
+//        ///Consultar esto del atomic
+//
+//        AtomicInteger pos = new AtomicInteger();
+//        StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
+//        attributes.forEach(attribute -> {
+//            if(attribute.equals(attributes.get(attributes.size() -1))) {
+//                query.append(attribute + " = " + values.get(attributes.size() -1) +
+//                        " WHERE " + enumAttributes.getAttributes().get(0) +
+//                        " = " + entity.getId() + ";");
+//            } else {
+//                query.append(attribute + " = " + values.get(pos.get()) + ", ");
+//                pos.getAndIncrement();
+//            }
+//        });
+//        String queryString = query.toString();
+//        logger.info("Query created, and casted to String.\n[" + queryString + "]");
+//        serializeUpdate(queryString, enumAttributes, "set", attributes);
+//    }
 
     @Override
     public void update(Entity entity, EntityAttributes enumAttributes) {
-
-        ///UPDATE escaperoomdb.certificate
-        ///SET Certificate_text = "Segunda Prueba de update",
-        ///Certificate_gameId = 3,
-        ///Certificate_playerId = 3
-        ///WHERE Certificate_id = 1;
-
+        // Obtén los nombres de los atributos y los valores
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
 
-        ///Consultar esto del atomic
-
-        AtomicInteger pos = new AtomicInteger();
+        // Construcción de la consulta SQL
         StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
-        attributes.forEach(attribute -> {
-            if(attribute.equals(attributes.get(attributes.size() -1))) {
-                query.append(attribute + " = " + values.get(attributes.size() -1) +
-                        " WHERE " + enumAttributes.getAttributes().get(0) +
-                        " = " + entity.getId() + ";");
-            } else {
-                query.append(attribute + " = " + values.get(pos.get()) + ", ");
-                pos.getAndIncrement();
+
+        for (int i = 0; i < attributes.size(); i++) {
+            String attribute = attributes.get(i);
+            String value = values.get(i);
+
+            // Formatea el valor según su tipo
+            if (value.matches("\\d+")) { // Si es un número
+                query.append(attribute).append(" = ").append(value);
+            } else { // Si es texto
+                query.append(attribute).append(" = '").append(value).append("'");
             }
-        });
+
+            // Agrega una coma si no es el último atributo
+            if (i < attributes.size() - 1) {
+                query.append(", ");
+            }
+        }
+
+        // Agrega la cláusula WHERE con el identificador
+        query.append(" WHERE ").append(attributes.get(0)).append(" = ").append(entity.getId()).append(";");
+
+        // Loguea la consulta final
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        //serialize(queryString, enumAttributes, "set");
+        logger.info("Query created and formatted:\n[" + queryString + "]");
+
+        // Llama al método para ejecutar la consulta
+        serialize(queryString, enumAttributes, "set", attributes);
     }
 
 }

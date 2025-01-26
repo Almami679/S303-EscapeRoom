@@ -16,12 +16,12 @@ public class MainSQLTest {
     static Logger logger = LogManager.getLogger(MainSQLTest.class);
 
     public static void main(String[] args) {
-      //  PlayerService playerService = new PlayerService();
+        PlayerService playerService = new PlayerService();
       //  playerService.createPlayer("player2", "example2@email.com", 0);
-       // playerService.getPlayerById(1);
+        playerService.updatePlayer(6, "inga", "example3@email.com", 1);
 
-        EscapeRoomService escapeRoomService = new EscapeRoomService();
-        escapeRoomService.createEscapeRoom("escape room 1", 60, "tema");
+       // EscapeRoomService escapeRoomService = new EscapeRoomService();
+       // escapeRoomService.createEscapeRoom("escape room 1", 60, "tema");
 
        // EscapeRoomTesting();
         /*RoomTesting();
