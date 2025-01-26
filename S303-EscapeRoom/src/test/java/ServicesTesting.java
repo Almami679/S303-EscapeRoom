@@ -137,6 +137,7 @@ public class ServicesTesting {
         Sale sale = commService.getSaleById(1);
         System.out.println(sale);
     }
+    
 
     @Test
     public void addTipsInRoom() {
@@ -195,8 +196,6 @@ public class ServicesTesting {
     @Test
     public void createTicketSale() {
         SaleService saleService = new SaleService();
-
-
         saleService.getTicketSale(1,2);
 
     }
