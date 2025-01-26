@@ -1,5 +1,7 @@
 // RelationsTables.java
 import org.assertj.core.api.Assertions;
+import org.example.Modules.Entities.Entity;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 import org.example.Repository.RepositoryRelations.RepositoryRoomHasTips;
@@ -23,8 +25,9 @@ public class RelationsTables {
     @Test
     public void testAddGameHasPlayer() {
         RepositoryGameHasPlayer repositoryGameHasPlayer = new RepositoryGameHasPlayer();
+        Entity entity = new GameHasPlayer(1,4);
         try {
-            repositoryGameHasPlayer.addGameHasPlayer(1, 4);
+            repositoryGameHasPlayer.addGameHasPlayer(entity);
         } catch (SQLException e) {
             Assertions.fail("Failed to add game and player relationship", e);
         }
