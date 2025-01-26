@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class SaleService {
     private static final Logger logger = LogManager.getLogger(SaleService.class);
 
-    private final Repository repository;
+    private final RepositoryImpl repository;
     private final Entity entity = new Entity();
 
 
@@ -63,37 +63,27 @@ public class SaleService {
 
     public void deleteSale(
             int id
-    ) {
-        try {
-            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
-            if (sale == null) {
-                throw new SaleIdNotFoundException();
-            } else {
-                this.repository
-                        .delete(id, EntityAttributes.sale);
-            }
-        } catch (PlayerNotFound | SQLException e) {
-            logger.info(e.getMessage());
-        }
+    ) throws SQLException {
+        //this.assertIfSaleIdNotFound(id);
+
+        Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
+        sale.setDeleted(1);
+        System.out.println(sale);
+        this.repository.update1(sale, EntityAttributes.sale);
     }
 
 
     public void updateSale(
             int id,
             double price,
-            int gameId,
-            int deleted,
-            Timestamp createdat
+            int gameId
     ) throws SQLException {
-        this.assertIfSaleIdNotFound(id);
+        //this.assertIfSaleIdNotFound(id);
 
         Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
         sale.setPrice(price);
         sale.setGame(gameId);
-        sale.setDeleted(deleted);
-        sale.setCreatedAt(createdat);
-        this.repository
-                .update(sale, EntityAttributes.sale);
+        this.repository.update1(sale, EntityAttributes.sale);
     }
 
     public ArrayList<Sale> getAllSale() {

@@ -260,7 +260,7 @@ public class MenuActions {
     public static void removeSale(int idSelected) {
         Sale selectedSale = salesService.getSaleById(idSelected);
         try {
-            salesService.updateSale(selectedSale.getId(), selectedSale.getPrice(), selectedSale.getGameId(), 1,selectedSale.getCreatedAt());
+            salesService.deleteSale(selectedSale.getId());
             System.out.println("Sale deleted successfully!");
         } catch (SaleIdNotFoundException e) {
             System.out.println("Failed to delete SaleId not found.");

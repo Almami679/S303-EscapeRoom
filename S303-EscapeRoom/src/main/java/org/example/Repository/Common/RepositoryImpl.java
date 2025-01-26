@@ -79,7 +79,7 @@ public class RepositoryImpl implements Repository {
                 query.append(", ");
             }
         }
-        query.append(" WHERE ").append(attributes.get(0)).append(" = ?;");
+        query.append(" WHERE ").append(attributes.getFirst()).append(" = ?;");
         values.add(String.valueOf(entity.getId()));
         String queryString = query.toString();
         Serializer.serialize(queryString, enumAttributes, "update", values);
@@ -110,7 +110,7 @@ public class RepositoryImpl implements Repository {
         String queryString = query.toString();
         logger.info("Query created and formatted:\n[" + queryString + "]");
 
-        serialize(queryString, enumAttributes, "set", attributes);
+        serializeUpdate(queryString, enumAttributes, "set", attributes);
 
     }
 }
