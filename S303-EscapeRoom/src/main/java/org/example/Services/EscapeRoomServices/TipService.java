@@ -5,9 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.TipNotFoundException;
 import org.example.Modules.Entities.Entity;
-import org.example.Modules.Entities.GameEntities.Player;
-import org.example.Modules.Entities.RoomEntities.Room;
-import org.example.Modules.Entities.RoomEntities.RoomHasTips;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 
 public class TipService {
 
-    private static Logger logger = LogManager.getLogger(RoomService.class);
+    private static Logger logger = LogManager.getLogger(TipService.class);
 
     private final Repository repository;
     private final Entity entity = new Entity();

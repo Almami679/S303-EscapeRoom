@@ -3,21 +3,17 @@ package org.example.Services.EscapeRoomServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.EscapeRoomNotFoundException;
-import org.example.Exceptions.PlayerNotFound;
-import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomBuilder;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomNotifier;
-import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
-import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 import org.example.Services.CommunicatesServices.NotificationService;
 import org.example.observers.Observer;
 
@@ -26,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EscapeRoomService {
-    private static Logger logger = LogManager.getLogger(RoomService.class);
+    private static Logger logger = LogManager.getLogger(EscapeRoomService.class);
     private final EscapeRoomNotifier notifier;
     private final EscapeRoomBuilder builder;
     private final Repository repository;
