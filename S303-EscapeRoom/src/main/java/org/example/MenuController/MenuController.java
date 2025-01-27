@@ -194,10 +194,11 @@ public class MenuController {
     private static void handleManageGameMenu(int userInput, Scanner read) throws SQLException {
         switch (userInput) {
             case 1:
-                MenuActions.addNewGame(read);
+                displayManageEscapeRoomFromSale(read);
+                MenuActions.addNewGame(selectedID, read);
                 break;
             case 2:
-                MenuActions.displayGames(read);
+                MenuActions.displayGames();
                 break;
             case 3:
                 MenuActions.finishGame(read);
@@ -309,31 +310,40 @@ public class MenuController {
 
     private static void displayManageEscapeRoomFromSale(Scanner read) throws SQLException {
         List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
+
         if (escapeRooms.isEmpty()) {
             System.out.println("No escape rooms found.");
-        } else {
-            System.out.println("Select an Escape Room:");
-            for (int i = 0; i < escapeRooms.size(); i++) {
-                System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
-            }
-            int selectedEscapeRoom = -1;
-            boolean validInput = false;
-            do {
-                System.out.print("Enter the number of the escape room: ");
-                try {
-                    selectedEscapeRoom = read.nextInt();
-                    if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
-                        validInput = true;
-                        selectedID = selectedEscapeRoom;
-                    } else {
-                        System.out.println("Invalid selection. Please try again.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a number.");
-                    read.next();
-                }
-            } while (!validInput);
+            return;
+        }
 
+        System.out.println("Select an Escape Room:");
+        for (int i = 0; i < escapeRooms.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
+        }
+
+        int selectedEscapeRoom = -1;
+        while (true) {
+            System.out.print("Enter the number of the escape room (or 0 to cancel): ");
+            try {
+                selectedEscapeRoom = read.nextInt();
+
+                if (selectedEscapeRoom == 0) {
+                    System.out.println("Operation cancelled.");
+                    return;
+                }
+
+                if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
+                    int selectedID = escapeRooms.get(selectedEscapeRoom - 1).getId();
+                    System.out.println("You selected: " + escapeRooms.get(selectedEscapeRoom - 1).getName());
+
+                    break;
+                } else {
+                    System.out.println("Invalid selection. Please select a number between 1 and " + escapeRooms.size() + ".");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                read.next();
+            }
         }
     }
 
