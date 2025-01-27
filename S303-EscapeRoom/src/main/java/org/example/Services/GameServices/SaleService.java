@@ -33,12 +33,12 @@ public class SaleService {
 
     public void createSale(
             double price,
-            Game game
+            int gameId
     ) {
         try {
             this
                     .repository
-                    .add(new Sale(price, game), EntityAttributes.sale);
+                    .add(new Sale(price, gameId), EntityAttributes.sale);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
