@@ -71,18 +71,6 @@ public class SaleService {
         System.out.println(sale);
         this.repository.update1(sale, EntityAttributes.sale);
 
-    ) {
-        try {
-            Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
-            if (sale == null) {
-                throw new SaleIdNotFoundException();
-            } else {
-                this.repository
-                        .delete(id, EntityAttributes.sale);
-            }
-        } catch (SaleIdNotFoundException | SQLException e) {
-            logger.info(e.getMessage());
-        }
     }
 
 
