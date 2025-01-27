@@ -69,7 +69,9 @@ Patrones Utlizados:
 
 Todos los communicates se generan desde un Factory usando un player como referencia e implementando una interfaz para el envio.
 
-El EscapeRoom se genera a partir de un builder
+El EscapeRoom se genera a partir de un builder.
+
+El envio de communicates se ejecuta con un patron obserber.
 
 Para connection y service queriamos implementar un singleton para no tener que ir creando muchas instancias, pero al final no resulto ser muy optimo.
 
