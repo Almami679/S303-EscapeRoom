@@ -20,7 +20,7 @@ public enum MenuOptions {
                             "[1] Manage rooms\n" +
                             "[2] Manage tips\n" +
                             "[3] Manage Inventory\n" +
-                            "[0] Exit\n" +
+                            "[0] Back\n" +
                             "---------------------------------------------------------------------------\n" +
                             "-> "),
 
@@ -32,7 +32,7 @@ public enum MenuOptions {
                       "[3] Update room\n" +
                       "[4] Remove room\n" +
                       "[5] Manage tips\n" +
-                      "[0] Exit\n" +
+                      "[0] Back\n" +
                       "---------------------------------------------------------------------------\n" +
                       "-> "),
 
@@ -42,7 +42,7 @@ public enum MenuOptions {
                      "[1] Add new tip\n" +
                      "[2] Display tips\n" +
                      "[3] Remove tip\n" +
-                     "[0] Exit\n" +
+                     "[0] Back\n" +
                      "---------------------------------------------------------------------------\n" +
                      "-> "),
 
@@ -52,7 +52,7 @@ public enum MenuOptions {
                           "[1] Add new object\n" +
                           "[2] Display inventory\n" +
                           "[3] Remove object\n" +
-                          "[0] Exit\n" +
+                          "[0] Back\n" +
                           "---------------------------------------------------------------------------\n" +
                           "-> "),
 
@@ -63,7 +63,7 @@ public enum MenuOptions {
                      "[2] Display games\n" +
                      "[3] Finish game\n" +
                      "[4] Manage players\n" +
-                     "[0] Exit\n" +
+                     "[0] Back\n" +
                      "---------------------------------------------------------------------------\n" +
                      "-> "),
 
@@ -74,7 +74,7 @@ public enum MenuOptions {
                         "[2] Display players\n" +
                         "[3] Update player\n" +
                         "[4] Remove player\n" +
-                        "[0] Exit\n" +
+                        "[0] Back\n" +
                         "---------------------------------------------------------------------------\n" +
                         "-> "),
 
@@ -84,7 +84,7 @@ public enum MenuOptions {
                       "[1] Generate new sale\n" +
                       "[2] Display sales\n" +
                       "[3] Remove sale\n" +
-                      "[0] Exit\n" +
+                      "[0] Back\n" +
                       "---------------------------------------------------------------------------\n" +
                       "-> ");
 

@@ -3,7 +3,9 @@ package org.example.MenuController;
 import org.example.Exceptions.InvalidMenuOptionException;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
+import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Scanner;
 
 public class MenuController {
     private static EscapeRoomService escapeRoomService = new EscapeRoomService();
+    private static SaleService salesService = new SaleService();
     private static int selectedID;
     public static void handleMainMenu(int userInput, Scanner read) throws SQLException, InvalidMenuOptionException {
         switch (userInput) {
@@ -216,10 +219,11 @@ public class MenuController {
     private static void handleManageGameMenu(int userInput, Scanner read) throws SQLException {
         switch (userInput) {
             case 1:
-                MenuActions.addNewGame(read);
+                displayManageEscapeRoomFromSale(read);
+                MenuActions.addNewGame(selectedID, read);
                 break;
             case 2:
-                MenuActions.displayGames(read);
+                MenuActions.displayGames();
                 break;
             case 3:
                 MenuActions.finishGame(read);
@@ -264,7 +268,7 @@ public class MenuController {
         }
     }
 
-    private static void displayManageSalesMenu(Scanner read) {
+    private static void displayManageSalesMenu(Scanner read) throws SQLException {
         int userInput;
         do {
             System.out.print(MenuOptions.MANAGE_SALES_MENU.getMenuText());
@@ -273,16 +277,18 @@ public class MenuController {
         } while (userInput != 0);
     }
 
-    private static void handleManageSalesMenu(int userInput, Scanner read) {
+    private static void handleManageSalesMenu(int userInput, Scanner read) throws SQLException {
         switch (userInput) {
             case 1:
-                MenuActions.generateNewSale(read);
+                System.out.println("Select a Escaperoom to generate Sale");
+                displayManageEscapeRoomFromSale(read);
+                MenuActions.generateNewSale(selectedID);
                 break;
             case 2:
-                MenuActions.displaySales(read);
+                MenuActions.displaySales();
                 break;
             case 3:
-                MenuActions.removeSale(read);
+                MenuActions.removeSale(selectIdSale(read));
                 break;
             case 0:
                 break;
@@ -290,6 +296,83 @@ public class MenuController {
                 System.out.println("Invalid option. Please try again.");
         }
     }
+
+    private static int selectIdSale(Scanner read) throws SQLException {
+        List<Sale> sales = salesService.getAllSale();
+        if (sales.isEmpty()) {
+            System.out.println("No Sales found.");
+        } else {
+            System.out.println("Which sale do you want to eliminate?");
+            for (int i = 0; i < sales.size(); i++) {
+                System.out.println("[" + (i + 1) + "] Sale: " + sales.get(i).toString());
+            }
+            int selectedSale = -1;
+            boolean validInput = false;
+            do {
+                System.out.print("Enter the number of the sale: ");
+                try {
+                    selectedSale = read.nextInt() - 1;
+                    if (selectedSale >= 0 && selectedSale < sales.size()) {
+                        validInput = true;
+                        selectedID = sales.get(selectedSale).getId();
+                    } else {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    read.next();
+                }
+            } while (!validInput);
+            int userInput;
+            do {
+                System.out.print(MenuOptions.MANAGE_SALES_MENU.getMenuText());
+                userInput = read.nextInt();
+                handleManageSalesMenu(userInput, read);
+            } while (userInput != 0);
+        }
+        return selectedID;
+    }
+
+    private static void displayManageEscapeRoomFromSale(Scanner read) throws SQLException {
+        List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
+
+        if (escapeRooms.isEmpty()) {
+            System.out.println("No escape rooms found.");
+            return;
+        }
+
+        System.out.println("Select an Escape Room:");
+        for (int i = 0; i < escapeRooms.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
+        }
+
+        int selectedEscapeRoom = -1;
+        while (true) {
+            System.out.print("Enter the number of the escape room (or 0 to cancel): ");
+            try {
+                selectedEscapeRoom = read.nextInt();
+
+                if (selectedEscapeRoom == 0) {
+                    System.out.println("Operation cancelled.");
+                    return;
+                }
+
+                if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
+                    int selectedID = escapeRooms.get(selectedEscapeRoom - 1).getId();
+                    System.out.println("You selected: " + escapeRooms.get(selectedEscapeRoom - 1).getName());
+
+                    break;
+                } else {
+                    System.out.println("Invalid selection. Please select a number between 1 and " + escapeRooms.size() + ".");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                read.next();
+            }
+        }
+    }
+
+
 }
 
 

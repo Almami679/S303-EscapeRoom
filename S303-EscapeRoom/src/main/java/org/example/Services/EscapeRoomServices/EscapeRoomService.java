@@ -39,8 +39,30 @@ public class EscapeRoomService {
         this.builder = new EscapeRoomBuilder(notifier);
         this.repository = new RepositoryImpl();
         this.notificationService = new NotificationService();
+        //registerPlayersAsObservers();
 
     }
+
+    public void registerPlayersAsObservers() {
+        try {
+            List<Player> players = new ArrayList<>();
+            this.repository
+                    .getAll(EntityAttributes.player)
+                    .forEach(player ->
+                            players.add((Player) player)
+                    );
+
+            players.forEach(player -> {
+                if (player.getConsentNotif() == 1) {
+                    notifier.addObserver(player); // Registra solo a los jugadores que consienten notificaciones
+                }
+            });
+            logger.info("Jugadores registrados como observadores exitosamente.");
+        } catch (SQLException e) {
+            logger.error("Error al registrar jugadores como observadores: " + e.getMessage());
+        }
+    }
+
 
     public void addObserver(Observer observer) {
         notifier.addObserver(observer);
@@ -57,24 +79,12 @@ public class EscapeRoomService {
             builder.setPrice(price);
             builder.setTheme(theme);
             EscapeRoom escaperoom = builder.build();
+            registerPlayersAsObservers();
             this    .repository
                     .add(escaperoom, EntityAttributes.escaperoom);
             String message = "Se ha creado un nuevo EscapeRoom: " + name + " con el tema " + theme;
             notifier.notifyObservers(message);
 
-            List<Player> players = new ArrayList<>();
-            this.repository.getAll(EntityAttributes.player).forEach(entity -> {
-                if (entity instanceof Player) {
-                    players.add((Player) entity);
-                }
-            });
-
-//            for (Player player : players) {
-//                if (player.getConsentNotif() == 1) {
-//                    notificationService.createNotification(notification);
-//                    logger.info("Notificación enviada a: " + player.getName());
-//                }
-//            }
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }

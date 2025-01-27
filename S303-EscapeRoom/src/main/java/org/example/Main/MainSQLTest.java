@@ -12,18 +12,15 @@ import org.example.Services.GameServices.PlayerService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MainSQLTest {
-    static Logger logger = LogManager.getLogger(MainSQLTest.class);
-
-    public static void main(String[] args) {
-        PlayerService playerService = new PlayerService();
-      //  playerService.createPlayer("player2", "example2@email.com", 0);
-      //  playerService.updatePlayer(6, "inga", "example3@email.com", 1);
-        playerService.getPlayerById(1);
-
-       // EscapeRoomService escapeRoomService = new EscapeRoomService();
-       // escapeRoomService.createEscapeRoom("escape room 1", 60, "tema");
-
+//public class MainSQLTest {
+//    static Logger logger = LogManager.getLogger(MainSQLTest.class);
+//
+//    public static void main(String[] args) {
+//        PlayerService playerService = new PlayerService();
+//        playerService.createPlayer("player2", "example@email.com", 0);
+//
+//    }
+//}
        // EscapeRoomTesting();
         /*RoomTesting();
         PlayerTesting();
@@ -33,7 +30,7 @@ public class MainSQLTest {
         logicGiftTest(createPlayerTEST2());
         //logicNotificationTest();
         //logicCertificate();*/
-    }
+ //   }
 
 //    private static void EscapeRoomTesting() {
 //        RepositoryImpl repository = new RepositoryImpl();
@@ -63,5 +60,5 @@ public class MainSQLTest {
         } catch (SQLException e) {
             logger.error("Failed to add escape room and room relationship: ", e);
         }*/
-    }
+ //   }
 //}

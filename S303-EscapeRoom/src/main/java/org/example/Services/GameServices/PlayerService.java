@@ -13,13 +13,13 @@ import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.RepositoryRelations.RepositoryGameHasPlayer;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class PlayerService {
     private static Logger logger = LogManager.getLogger(PlayerService.class);
 
-    private final Repository repository;
-    private final Entity entity = new Entity();
+    private final RepositoryImpl repository;
 
 
     public PlayerService() {
@@ -52,13 +52,16 @@ public class PlayerService {
     ) {
         try {
             if (assertIfPlayerAlreadyExists(email)) {
-                logger.warn("Usurio con email " + email + " ya existe");
-            }
+                throw new PlayerAlreadyExistsException();
+            }else{
             this
                     .repository
                     .add(new Player(name, email, consentNotif), EntityAttributes.player);
-        } catch (SQLException | PlayerAlreadyExistsException e) {
+            }
+        } catch (SQLException e) {
             logger.info(e.getMessage());
+        }catch (PlayerAlreadyExistsException e){
+            logger.info("Player with email: " + email + " already exists. " + e.getMessage());
         }
     }
 
@@ -101,7 +104,7 @@ public class PlayerService {
         }
     }
 
-    //Todo verificar estos metodos
+
     public void updatePlayer(
             int id,
             String name,
@@ -118,6 +121,7 @@ public class PlayerService {
                 player.setName(name);
                 player.setEmail(email);
                 player.setConsentNotif(consentNotif);
+                player.setUpdateAt(new Timestamp(System.currentTimeMillis()));
                 this.repository
                         .update(player, EntityAttributes.player);
 

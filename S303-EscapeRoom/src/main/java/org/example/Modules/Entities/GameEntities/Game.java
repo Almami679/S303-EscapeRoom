@@ -24,6 +24,7 @@ public class Game extends Entity {
     private Timestamp createdAt;
     private Timestamp updateAt;
     private Timestamp finishedAt;
+    private ArrayList<Player> playersInGame;
 
     public Game(int escapeRoomId) {
         this.escapeRoomId = escapeRoomId;
@@ -59,6 +60,10 @@ public class Game extends Entity {
         return super.getId();
     }
 
+    public void addPlayerInGame(Player player) {
+        playersInGame.add(player);
+    }
+
     public void setGameCertificate(Certificate gameCertificate) {
         this.gameCertificate = gameCertificate;
     }
@@ -76,6 +81,15 @@ public class Game extends Entity {
         return playersObj;
     }
 
+    public String getStatusFinish() {
+        if(finish == 1) {
+            return "Finished";
+        } else {
+            return "in Progres";
+
+        }
+    }
+
     public void setFinish(int finish) {
         this.finish = finish;
     }
@@ -88,17 +102,16 @@ public class Game extends Entity {
         this.finish = 1;
         this.finishedAt = new Timestamp(System.currentTimeMillis());
         LogManager.getLogger(Game.class).info("GameId: " + super.getId() +
-                " has finish.");
-        ArrayList<Player> players = getPlayers();
-        players.forEach(player -> {
+                " has finish.");;
+        playersInGame.forEach(player -> {
             player.addGame(super.getId());
             LogManager.getLogger(Game.class).info("Finish Game with Id: " + super.getId() +
                     " added to player " + player.getName());
         });
     }
 
-    @Override
-    public String toString() {
+
+    public String toStringSql() {
         return "Game{" +
                 "escapeRoomId=" + escapeRoomId +
                 ", gameDate=" + gameDate +
@@ -108,6 +121,13 @@ public class Game extends Entity {
                 ", updateAt=" + updateAt +
                 ", finishedAt=" + finishedAt +
                 '}';
+    }
+
+    public String toString() {
+        return "Game" +
+                "escapeRoom: " + escaperoomService.getEscapeRoomById(escapeRoomId).getName() +
+                ", gameDate: " + createdAt.toString() +
+                ", finish: " + getStatusFinish();
     }
 
     public ArrayList<String> getValues(){

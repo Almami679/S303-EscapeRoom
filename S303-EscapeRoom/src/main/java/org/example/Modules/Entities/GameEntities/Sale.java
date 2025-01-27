@@ -17,18 +17,23 @@ public class Sale extends Entity {
     private int gameId;
     private int deleted;
 
-    public Sale(double price, Game game) {
+    public Sale(double price, int gameId) {
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.price = price;
-        this.gameId = game.getId();
+        this.gameId = gameId;
+        this.deleted = 0;
+    }
+
+    public Sale(double price) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.price = price;
         this.deleted = 0;
     }
 
     public Sale(int id, double price, int gameId, int deleted, Timestamp createdAt) throws SQLException {
-        this.id = id;
+        super(id, deleted);
         this.price = price;
         this.gameId = gameId;
-        this.deleted = deleted;
         this.createdAt = createdAt;
     }
 
@@ -46,6 +51,10 @@ public class Sale extends Entity {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getGameId(){
+        return this.gameId;
     }
 
     public Game getGame() {
@@ -73,8 +82,8 @@ public class Sale extends Entity {
         this.deleted = deleted;
     }
 
-    @Override
-    public String toString() {
+
+    public String toStringSQL() {
         return "SaleTEST{" +
                 "id=" + id +
                 ", created_at=" + createdAt +
@@ -82,6 +91,14 @@ public class Sale extends Entity {
                 ", gameId=" + this.gameId +
                 ", deleted=" + deleted +
                 '}';
+    }
+
+    @Override
+    public String toString() {
+        return
+                " Date: '" + createdAt + '\'' +
+                ", GameId: '" + gameId + '\'' +
+                ", Price: '" + price + "€" + '\'';
     }
 
     public ArrayList<String> getValues() {
@@ -94,6 +111,7 @@ public class Sale extends Entity {
         values.add(value);
         value = super.getDeleted() + "";
         values.add(value);
+        values.add(createdAt.toString());
         return values;
     }
 

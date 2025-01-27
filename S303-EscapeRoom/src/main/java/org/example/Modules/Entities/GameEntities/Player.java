@@ -1,6 +1,8 @@
 package org.example.Modules.Entities.GameEntities;
 
+import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
+import org.example.Services.CommunicatesServices.NotificationService;
 import org.example.Services.GameServices.GameService;
 import org.example.Services.GameServices.SaleService;
 import org.example.observers.Observer;
@@ -77,6 +79,10 @@ public class Player extends Entity implements Observer {
         this.consentNotif = consentNotif;
     }
 
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+
     public void addSale(int saleId){
         this.playerSalesIds.add(saleId);
     }
@@ -143,8 +149,17 @@ public class Player extends Entity implements Observer {
 
     @Override
     public void update(String msg) {
-        if(this.consentNotif == 1){
-            System.out.println("Notificación para " + this.name + " " +  this.email + " : " + msg);
+        if (this.consentNotif == 1) {
+            Notification notification = new Notification(super.getId(), msg);
+            notification.setPlayer(super.getId()); // Suponiendo que Notification tiene este campo
+            notification.setText(msg);
+
+            // Crear y guardar la notificación usando el servicio
+            NotificationService notificationService = new NotificationService();
+            notificationService.createNotification(notification);
+
+            System.out.println("Notificación para " + this.name + " (" + this.email + "): " + msg);
         }
     }
+
 }
