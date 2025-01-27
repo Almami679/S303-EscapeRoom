@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class SaleService {
     private static final Logger logger = LogManager.getLogger(SaleService.class);
 
-    private final Repository repository;
+    private final RepositoryImpl repository;
     private final Entity entity = new Entity();
 
 
@@ -33,12 +33,12 @@ public class SaleService {
 
     public void createSale(
             double price,
-            Game game
+            int gameId
     ) {
         try {
             this
                     .repository
-                    .add(new Sale(price, game), EntityAttributes.sale);
+                    .add(new Sale(price, gameId), EntityAttributes.sale);
         } catch (SQLException e) {
             logger.info(e.getMessage());
         }
@@ -63,6 +63,14 @@ public class SaleService {
 
     public void deleteSale(
             int id
+    ) throws SQLException {
+        //this.assertIfSaleIdNotFound(id);
+
+        Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
+        sale.setDeleted(1);
+        System.out.println(sale);
+        this.repository.update1(sale, EntityAttributes.sale);
+
     ) {
         try {
             Sale sale = (Sale) this.repository.getById(id, EntityAttributes.sale);
@@ -81,18 +89,13 @@ public class SaleService {
     public void updateSale(
             int id,
             double price,
-            int gameId,
-            int deleted,
-            Timestamp createdat
+            int gameId
     ) throws SQLException {
 
         Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
         sale.setPrice(price);
         sale.setGame(gameId);
-        sale.setDeleted(deleted);
-        sale.setCreatedAt(createdat);
-        this.repository
-                .update(sale, EntityAttributes.sale);
+        this.repository.update1(sale, EntityAttributes.sale);
     }
 
     public ArrayList<Sale> getAllSale() {

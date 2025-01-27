@@ -104,6 +104,7 @@ public class RoomService {
         room.setName(name);
         room.setDifficulty(difficulty);
         room.setDeleted(deleted);
+        room.setUpdated_at();
         this.repository.update(room, EntityAttributes.room);
     }
 

@@ -31,8 +31,8 @@ public class DatabaseConnection {
                 PASSWORD = "password";
                 break;
             case 3://Pau
-//                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
-//                PASSWORD = "";
+                URL = "jdbc:mysql://127.0.0.1:3306/escaperoomdb";
+                PASSWORD = "";
                 break;
         }
     }

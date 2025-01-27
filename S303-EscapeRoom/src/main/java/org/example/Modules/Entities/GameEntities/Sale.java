@@ -17,10 +17,16 @@ public class Sale extends Entity {
     private int gameId;
     private int deleted;
 
-    public Sale(double price, Game game) {
+    public Sale(double price, int gameId) {
         this.createdAt = new Timestamp(System.currentTimeMillis());
         this.price = price;
-        this.gameId = game.getId();
+        this.gameId = gameId;
+        this.deleted = 0;
+    }
+
+    public Sale(double price) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.price = price;
         this.deleted = 0;
     }
 
@@ -105,6 +111,7 @@ public class Sale extends Entity {
         values.add(value);
         value = super.getDeleted() + "";
         values.add(value);
+        values.add(createdAt.toString());
         return values;
     }
 

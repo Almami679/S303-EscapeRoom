@@ -6,6 +6,7 @@ import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.GameEntities.Sale;
+import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
@@ -240,7 +241,23 @@ public class MenuActions {
 
     }
 
-    public static void generateNewSale(Scanner read) {
+    public static void generateNewSale(int escapeRoomId) {
+        ArrayList<Room> roomsInEscaperoom = escapeRoomService.getRoomInEscapeRoom(escapeRoomId);
+        ArrayList<ObjectDeco> objectsInRoom = new ArrayList<>();
+        roomsInEscaperoom.forEach(room -> {
+            ArrayList<ObjectDeco> objects = roomService.getAllObjectsInRoom(room.getId());
+            objectsInRoom.addAll(objects);
+        });
+        double finalPrice = 0;
+        for (int i = 0; i < roomsInEscaperoom.size(); i++) {
+            finalPrice += roomsInEscaperoom.get(i).getPrice();
+        }
+        for (int i = 0; i < objectsInRoom.size(); i++) {
+            finalPrice += objectsInRoom.get(i).getPrice();
+        }
+        Sale newSale = new Sale(finalPrice);
+        salesService.createSale(finalPrice, escapeRoomId);
+        System.out.println("Sale: " + newSale.toString() + " created Successful");
 
     }
 
@@ -260,7 +277,7 @@ public class MenuActions {
     public static void removeSale(int idSelected) {
         Sale selectedSale = salesService.getSaleById(idSelected);
         try {
-            salesService.updateSale(selectedSale.getId(), selectedSale.getPrice(), selectedSale.getGameId(), 1,selectedSale.getCreatedAt());
+            salesService.deleteSale(selectedSale.getId());
             System.out.println("Sale deleted successfully!");
         } catch (SaleIdNotFoundException e) {
             System.out.println("Failed to delete SaleId not found.");
