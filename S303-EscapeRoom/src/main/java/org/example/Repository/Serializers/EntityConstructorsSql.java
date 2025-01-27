@@ -158,7 +158,7 @@ public class EntityConstructorsSql {
     }
 
     public static RoomHasTips roomHasTipsConstructor(Map<String, Object> entityData, ArrayList<String> attributes) throws SQLException {
-        RoomHasTips entity = null;
+        RoomHasTips entity;
         int idTip = (Integer) entityData.get(attributes.get(0));
         int idRoom = (Integer) entityData.get(attributes.get(1));
         entity = new RoomHasTips(idTip, idRoom);

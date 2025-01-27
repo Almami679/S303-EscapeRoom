@@ -3,11 +3,12 @@ package org.example.MenuController;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.RoomEntities.Room;
-import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
+import org.example.Modules.Entities.RoomEntities.RoomHasTips;
+import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Services.EscapeRoomServices.RoomService;
+import org.example.Services.EscapeRoomServices.TipService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Scanner;
 public class MenuActions {
     private static final EscapeRoomService escapeRoomService = new EscapeRoomService();
     private static final RoomService roomService = new RoomService();
+    private static final TipService tipService = new TipService();
 
     public static void createEscapeRoom(Scanner read) {
         System.out.print("Enter the name of the escape room: ");
@@ -72,7 +74,6 @@ public class MenuActions {
                 .orElse(null);
         if (createdRoom != null) {
             int roomId = createdRoom.getId();
-            //System.out.println("Room id: " + roomId);
             escapeRoomService.addRoomToEscapeRoom(selectedID, roomId);
             System.out.println("Room added successfully!");
         } else {
@@ -150,49 +151,90 @@ public class MenuActions {
         ArrayList<Room> roomsInSelectedER = escapeRoomService.getRoomInEscapeRoom(selectedEscapeRoomID);
         if (roomsInSelectedER.isEmpty()) {
             System.out.println("No rooms found for the selected escape room.");
-            return;
-        }
-
-        System.out.println("Rooms available:");
-        for (int i = 0; i < roomsInSelectedER.size(); i++) {
-            System.out.println((i + 1) + ". " + roomsInSelectedER.get(i));
-        }
-
-        int roomIndex = -1;
-        do {
-            System.out.print("Select the room to delete (1-" + roomsInSelectedER.size() + "): ");
-            try {
-                roomIndex = read.nextInt() - 1;
-                if (roomIndex < 0 || roomIndex >= roomsInSelectedER.size()) {
-                    System.out.println("Invalid selection. Please try again.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number.");
-                read.next();
+        }else {
+            System.out.println("Rooms available:");
+            for (int i = 0; i < roomsInSelectedER.size(); i++) {
+                System.out.println((i + 1) + ". " + roomsInSelectedER.get(i));
             }
-        } while (roomIndex < 0 || roomIndex >= roomsInSelectedER.size());
-
-        Room selectedRoom = roomsInSelectedER.get(roomIndex);
-        try {
-            roomService.updateRoom(selectedRoom.getId(), selectedRoom.getName(), selectedRoom.getDifficulty(), selectedRoom.getPrice(), 1);
-            System.out.println("Room deleted successfully!");
-        } catch (RoomNotFoundException e) {
-            System.out.println("Failed to delete room: Room not found.");
-        } catch (SQLException e) {
-            System.out.println("Failed to delete room: " + e.getMessage());
+            int roomIndex = -1;
+            do {
+                System.out.print("Select the room to delete (1-" + roomsInSelectedER.size() + "): ");
+                try {
+                    roomIndex = read.nextInt() - 1;
+                    if (roomIndex < 0 || roomIndex >= roomsInSelectedER.size()) {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    read.next();
+                }
+            } while (roomIndex < 0 || roomIndex >= roomsInSelectedER.size());
+            Room selectedRoom = roomsInSelectedER.get(roomIndex);
+            try {
+                roomService.updateRoom(selectedRoom.getId(), selectedRoom.getName(), selectedRoom.getDifficulty(), selectedRoom.getPrice(), 1);
+                System.out.println("Room deleted successfully!");
+            } catch (RoomNotFoundException e) {
+                System.out.println("Failed to delete room: Room not found.");
+            } catch (SQLException e) {
+                System.out.println("Failed to delete room: " + e.getMessage());
+            }
         }
     }
 
-    public static void addNewTip(Scanner read) {
-
+    public static void addNewTip(Scanner read, int selectedRoomID) {
+        System.out.print("Enter the tip text: ");
+        String tipText = read.next();
+        tipService.createTip(tipText);
+        ArrayList<Tips> tips = tipService.getAllTips();
+        Tips createdTip = tips.stream()
+                .filter(tip -> tip.getText().equals(tipText))
+                .findFirst()
+                .orElse(null);
+        if (createdTip != null) {
+            int tipId = createdTip.getId();
+            roomService.addTipToRoom(tipId, selectedRoomID);
+            System.out.println("Room added successfully!");
+        } else {
+            System.out.println("Failed to create room.");
+        }
     }
 
-    public static void displayTips(Scanner read) {
-
+    public static void displayTips(int selectedRoomID) {
+        ArrayList<Tips> tips = roomService.getTipsInRoom(selectedRoomID);
+        if (tips.isEmpty()) {
+            System.out.println("No tips found for the selected room.");
+        } else {
+            for (Tips tip : tips) {
+                System.out.println(tip);
+            }
+        }
     }
 
-    public static void removeTip(Scanner read) {
-
+    public static void removeTip(Scanner read, int selectedRoomID) {
+        ArrayList<Tips> tipsInSelectedRoom = roomService.getTipsInRoom(selectedRoomID);
+        if (tipsInSelectedRoom.isEmpty()) {
+            System.out.println("No tips found for the selected room.");
+        } else {
+            System.out.println("Tips available:");
+            for (int i = 0; i < tipsInSelectedRoom.size(); i++)
+                System.out.println((i + 1) + ". " + tipsInSelectedRoom.get(i));
+            int tipIndex = -1;
+            do {
+                System.out.print("Select the tip to delete (1-" + tipsInSelectedRoom.size() + "): ");
+                try {
+                    tipIndex = read.nextInt() - 1;
+                    if (tipIndex < 0 || tipIndex >= tipsInSelectedRoom.size()) {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    read.next();
+                }
+            } while (tipIndex < 0 || tipIndex >= tipsInSelectedRoom.size());
+            Tips selectedTip = tipsInSelectedRoom.get(tipIndex);
+            tipService.deleteTip(selectedTip.getId());
+            System.out.println("Tip deleted successfully!");
+        }
     }
 
     public static void addObjectToRoom(Scanner read) {

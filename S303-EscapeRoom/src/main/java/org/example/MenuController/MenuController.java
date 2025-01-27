@@ -2,9 +2,11 @@ package org.example.MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -125,25 +127,48 @@ public class MenuController {
         }
     }
 
-    private static void displayManageTipsMenu(Scanner read) {
+  private static void displayManageTipsMenu(Scanner read) throws SQLException {
+    ArrayList<Room> roomsInSelectedER = escapeRoomService.getRoomInEscapeRoom(selectedID);
+    if (roomsInSelectedER.isEmpty()) {
+        System.out.println("No rooms found for the selected escape room.");
+    }else {
+        System.out.println("Rooms available:");
+        for (int i = 0; i < roomsInSelectedER.size(); i++) {
+            System.out.println((i + 1) + ". " + roomsInSelectedER.get(i));
+        }
+        int roomIndex = -1;
+        do {
+            System.out.print("Select the room to manage tips (1-" + roomsInSelectedER.size() + "): ");
+            try {
+                roomIndex = read.nextInt() - 1;
+                if (roomIndex < 0 || roomIndex >= roomsInSelectedER.size()) {
+                    System.out.println("Invalid selection. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                read.next();
+            }
+        } while (roomIndex < 0 || roomIndex >= roomsInSelectedER.size());
+        int selectedRoomID = roomsInSelectedER.get(roomIndex).getId();
         int userInput;
         do {
             System.out.print(MenuOptions.MANAGE_TIPS_MENU.getMenuText());
             userInput = read.nextInt();
-            handleManageTipsMenu(userInput, read);
+            handleManageTipsMenu(userInput, read, selectedRoomID);
         } while (userInput != 0);
     }
+}
 
-    private static void handleManageTipsMenu(int userInput, Scanner read) {
+    private static void handleManageTipsMenu(int userInput, Scanner read, int selectedRoomID) {
         switch (userInput) {
             case 1:
-                MenuActions.addNewTip(read);
+                MenuActions.addNewTip(read, selectedRoomID);
                 break;
             case 2:
-                MenuActions.displayTips(read);
+                MenuActions.displayTips(selectedRoomID);
                 break;
             case 3:
-                MenuActions.removeTip(read);
+                MenuActions.removeTip(read, selectedID);
                 break;
             case 0:
                 break;

@@ -34,7 +34,11 @@ public class Tips extends Entity {
 
     @Override
     public String toString() {
-        return "TipsTEST{" +
+        return   "text: '" + text + '\'' ;
+    }
+
+    public String toStringSQL() {
+        return "Tips{" +
                 "id=" + super.getId() +
                 ", text='" + text + '\'' +
                 '}';
