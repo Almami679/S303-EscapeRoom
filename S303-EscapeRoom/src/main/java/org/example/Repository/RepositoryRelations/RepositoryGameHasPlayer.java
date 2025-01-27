@@ -8,10 +8,14 @@ import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.RoomHasObject;
+import org.example.Repository.Common.DatabaseConnection;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.RepositoryImpl;
 import org.example.Repository.Serializers.Serializer;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -63,4 +67,24 @@ public class RepositoryGameHasPlayer extends RepositoryImpl {
         });
         return games;
     }
+
+    public int getLastIdGame(){
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        String query = "SELECT game_game_id FROM GameHasPlayer ORDER BY id DESC LIMIT 1;";
+        int lastId = -1;
+
+        try (Connection connection = dbConnection.dbConnect();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                lastId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lastId;
+    }
+
 }

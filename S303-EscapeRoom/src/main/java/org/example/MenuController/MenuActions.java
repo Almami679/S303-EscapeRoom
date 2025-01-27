@@ -5,12 +5,17 @@ import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
+import org.example.Modules.Entities.GameEntities.Game;
+import org.example.Modules.Entities.GameEntities.GameHasPlayer;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Services.EscapeRoomServices.RoomService;
+import org.example.Services.GameServices.GameService;
+import org.example.Services.GameServices.PlayerService;
 import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
@@ -23,6 +28,9 @@ public class MenuActions {
     private static final EscapeRoomService escapeRoomService = new EscapeRoomService();
     private static final SaleService salesService = new SaleService();
     private static final RoomService roomService = new RoomService();
+    private static final GameService gameService = new GameService();
+    private static final PlayerService playerService = new PlayerService();
+
 
     public static void createEscapeRoom(Scanner read) {
         System.out.print("Enter the name of the escape room: ");
@@ -213,11 +221,71 @@ public class MenuActions {
 
     }
 
-    public static void addNewGame(Scanner read) {
+    public static void addNewGame(int escaperoomId, Scanner read) {
+        ArrayList<Integer> playerIds = selectPlayers(read);
+        Game game = new Game(escaperoomId);
+        gameService.createGame(escaperoomId);
+        int idGame = gameService.getLastGameId();
+        playerIds.forEach(playerId -> {
+            gameService.addPlayerInGame(idGame, playerId);
+        });
+        System.out.println("Game [id:"+ idGame +"] created with " + playerIds.size() + " players");
+
 
     }
 
-    public static void displayGames(Scanner read) {
+    public static ArrayList<Integer> selectPlayers(Scanner read) {
+        ArrayList<Integer> playerIds = new ArrayList<>();
+        List<Player> players = playerService.getAllPlayer();
+        boolean exit = false;
+
+        if (players.isEmpty()) {
+            System.out.println("No players found.");
+        } else {
+            do {
+                System.out.println("Select one Player:\nPress [0] to finish selection.");
+                for (int i = 0; i < players.size(); i++) {
+                    System.out.println("[" + (i + 1) + "] " + players.get(i).getName());
+                }
+
+                int selectedPlayer = -1;
+                try {
+                    System.out.print("Your choice: ");
+                    selectedPlayer = read.nextInt();
+
+                    if (selectedPlayer == 0) {
+                        exit = true;
+                    } else if (selectedPlayer > 0 && selectedPlayer <= players.size()) {
+                        int playerId = players.get(selectedPlayer - 1).getId();
+                        if (playerIds.contains(playerId)) {
+                            System.out.println("Player already selected. Choose a different player.");
+                        } else {
+                            playerIds.add(playerId);
+                            System.out.println("Player added.");
+                        }
+                    } else {
+                        System.out.println("Invalid selection. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    read.next();
+                }
+            } while (!exit);
+        }
+
+        return playerIds;
+    }
+
+    public static void displayGames() {
+        ArrayList<Game> games = gameService.getAllGame();
+        if (games.isEmpty()) {
+            System.out.println("No games found.");
+        } else {
+            //System.out.println("Rooms for Escape Room ID " + selectedID + ":");
+            for (Entity game : games) {
+                System.out.println(game);
+            }
+        }
 
     }
 
