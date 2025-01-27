@@ -3,7 +3,6 @@ package org.example.Modules.Entities.RoomEntities;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 
 public class ObjectDeco extends Entity {
@@ -13,17 +12,28 @@ public class ObjectDeco extends Entity {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public ObjectDeco(
-            String name,
-            String material,
-            double price
-    ) {
+    public ObjectDeco(String name, String material, double price) {
         super();
         this.name = name;
         this.material = material;
         this.price = price;
-        this.createdAt = Timestamp.from(Instant.now());
-        this.updatedAt = Timestamp.from(Instant.now());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    public ObjectDeco(int id,
+                      String name,
+                      String material,
+                      double price,
+                      int deleted,
+                      Timestamp createdAt,
+                      Timestamp updatedAt) {
+        super(id,deleted);
+        this.name = name;
+        this.material = material;
+        this.price = price;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getName() {

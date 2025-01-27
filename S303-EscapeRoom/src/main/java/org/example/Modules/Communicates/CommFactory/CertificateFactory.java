@@ -3,21 +3,25 @@ package org.example.Modules.Communicates.CommFactory;
 import org.example.Modules.Entities.CommunicatesEntities.Certificate;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Repository.Common.EntityAttributes;
+import org.example.Repository.Common.RepositoryImpl;
+import org.example.Services.GameServices.GameService;
+import org.example.Services.GameServices.PlayerService;
 
-import static org.example.Repository.Old.SqlPlayerRepository.getPlayerById;
+import java.sql.SQLException;
 
 
 public class CertificateFactory implements CommFactoryInterface{
+    private final PlayerService playerService = new PlayerService();
     @Override
-    public Certificate createCommunicate(int idPlayer) {
-        Player player = getPlayerById(idPlayer);
-        Game game = player.getGame();
+    public Certificate createCommunicate(int playerId) {
+        Game game = playerService.getPlayerById(playerId).getLastGame();
         String text = "Congratulations!\n" +
-                player.getName() +" You have finished our " + game.getEscapeRoom() +
+                playerService.getPlayerById(playerId).getName() +" You have finished our " + game.getEscapeRoom().getName() +
                 "Escape Room \n "+
-                "you have a Game Certificate sent to email " + player.getEmail();
+                "you have a Game Certificate sent to email " + playerService.getPlayerById(playerId).getEmail();
 
-        return new Certificate(player,text,game);
+        return new Certificate(playerId,text,game.getId());
 
     }
 

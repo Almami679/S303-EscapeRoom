@@ -12,18 +12,15 @@ public class Tips extends Entity {
     private static RepositoryImpl repositoryImpl = new RepositoryImpl();
 
     private String text;
-    private Room room;
 
-    public Tips(String text, Room room) {
+    public Tips(String text) {
         super();
         this.text = text;
-        this.room = room;
     }
 
-    public Tips(int id, String text, int roomId, int deleted) throws SQLException {
+    public Tips(int id, String text, int deleted) throws SQLException {
         super(id, deleted);
         this.text = text;
-        this.room = (Room) repositoryImpl.getById(roomId, EntityAttributes.room);
     }
 
     public String getText() {
@@ -34,20 +31,16 @@ public class Tips extends Entity {
         this.text = text;
     }
 
-    public int getRoomId() {
-        return room.getId();
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     @Override
     public String toString() {
-        return "TipsTEST{" +
+        return   "text: '" + text + '\'' ;
+    }
+
+    public String toStringSQL() {
+        return "Tips{" +
                 "id=" + super.getId() +
                 ", text='" + text + '\'' +
-                ", roomId=" + room.getId() +
                 '}';
     }
 

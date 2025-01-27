@@ -1,50 +1,57 @@
 package org.example.Modules.Entities.GameEntities;
 
+import org.example.Modules.Entities.CommunicatesEntities.Notification;
 import org.example.Modules.Entities.Entity;
+import org.example.Services.CommunicatesServices.NotificationService;
+import org.example.Services.GameServices.GameService;
+import org.example.Services.GameServices.SaleService;
+import org.example.observers.Observer;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class Player extends Entity {
+public class Player extends Entity implements Observer {
+
+    private static GameService gameService = new GameService();
+    private static SaleService saleService = new SaleService();
 
     private String name;
     private String email;
     private int consentNotif;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
-    private ArrayList<Game> completedGames;
-    private ArrayList<Sale> playerSales;
+    private Timestamp updateAt;
+    private ArrayList<Integer> completedGamesIds;
+    private ArrayList<Integer> playerSalesIds;
 
 
-    public Player(
-            String name,
-            String email,
-            int consentNotif
-    ) {
+    public Player(String name,
+                      String email,
+                      int consentNotif) {
         super();
         this.name = name;
         this.email = email;
-        this.createdAt = Timestamp.from(Instant.now());
-        this.updatedAt = Timestamp.from(Instant.now());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updateAt = new Timestamp(System.currentTimeMillis());
         this.consentNotif = consentNotif;
-        this.completedGames = new ArrayList<>();
-        this.playerSales = new ArrayList<>();
+        this.completedGamesIds = new ArrayList<>();
+        this.playerSalesIds = new ArrayList<>();
     }
 
     public Player(int id,
-                  String name,
-                  String email,
-                  int consentNotif,
-                  int deleted,
-                  Timestamp createdAt,
-                  Timestamp updatedAt) {
+                      String name,
+                      String email,
+                      int consentNotif,
+                      int deleted,
+                      Timestamp createdAt,
+                      Timestamp updateAt) {
         super(id, deleted);
         this.consentNotif = consentNotif;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updateAt = updateAt;
 
     }
 
@@ -72,25 +79,50 @@ public class Player extends Entity {
         this.consentNotif = consentNotif;
     }
 
-    public void addSale(Sale sale) {
-        this.playerSales.add(sale);
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
     }
 
-    public Game getGame() {
-        return this.completedGames.getLast();
+    public void addSale(int saleId){
+        this.playerSalesIds.add(saleId);
     }
 
-    public Sale getSale() {
-        return this.playerSales.getLast();
+    public ArrayList<Game> getGames(){
+        return gameService.getAllGamesInPlayer(super.getId());
     }
 
-    public void addGame(Game game) {
-        this.completedGames.add(game);
+//    public Game getLastGame(){
+//        return this.getGames().getLast();
+//    }
+
+    public Game getLastGame() {
+        List<Game> games = this.getGames();
+        if (games != null && !games.isEmpty()) {
+            return games.get(games.size() - 1);
+        }
+        return null; // Si no hay juegos, devuelve null o lanza una excepción.
+    }
+
+    public ArrayList<Sale> getSales(){
+        ArrayList<Sale> salesForPlayer = new ArrayList<>();
+        playerSalesIds.forEach(saleId-> salesForPlayer.add(saleService.getSaleById(saleId)));
+        return salesForPlayer;
+    }
+
+    public Sale getLastSale(){
+        return getSales().stream()
+                .filter(sale -> sale.getDeleted() == 0)
+                .max(Comparator.comparing(Sale::getCreatedAt))
+                .orElse(null);
+    }
+
+    public void addGame(int gameId){
+        this.completedGamesIds.add(gameId);
     }
 
     @Override
     public String toString() {
-        return "PlayerTEST{" +
+        return "Player{" +
                 "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
@@ -101,17 +133,33 @@ public class Player extends Entity {
 
     @Override
     public ArrayList<String> getValues() {
-        ArrayList<String> values = new ArrayList<>();
+        ArrayList<String> values =  new ArrayList<>();
         String value = super.getId() + "";
         values.add(value);
         values.add(name);
         values.add(email);
-        value = this.consentNotif + "";
+        value = this.consentNotif+"";
         values.add(value);
-        value = super.getDeleted() + "";
+        value = super.getDeleted()+"";
         values.add(value);
         values.add(createdAt.toString());
-        values.add(updatedAt.toString());
+        values.add(updateAt.toString());
         return values;
     }
+
+    @Override
+    public void update(String msg) {
+        if (this.consentNotif == 1) {
+            Notification notification = new Notification(super.getId(), msg);
+            notification.setPlayer(super.getId()); // Suponiendo que Notification tiene este campo
+            notification.setText(msg);
+
+            // Crear y guardar la notificación usando el servicio
+            NotificationService notificationService = new NotificationService();
+            notificationService.createNotification(notification);
+
+            System.out.println("Notificación para " + this.name + " (" + this.email + "): " + msg);
+        }
+    }
+
 }

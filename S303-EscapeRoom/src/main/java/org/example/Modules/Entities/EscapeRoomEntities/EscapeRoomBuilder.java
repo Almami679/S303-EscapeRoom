@@ -1,41 +1,40 @@
 package org.example.Modules.Entities.EscapeRoomEntities;
 
+import org.example.observers.Observer;
+
 import java.sql.Timestamp;
 
 public class EscapeRoomBuilder {
     private String name;
+    private double price;
     private String theme;
-    private Double price;
-    private int deleted;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private final EscapeRoomNotifier notifier;
 
-    /*public EscapeRoom build() { //arreglar builder
-        return new EscapeRoom(name, price, theme, deleted, created_at, updated_at);
-    }*/
+    public EscapeRoomBuilder(EscapeRoomNotifier notifier) {
+        this.notifier = notifier;
+    }
 
-    public void setName(String name) {
+    public EscapeRoomBuilder setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public void setPrice(Double price) {
+    public EscapeRoomBuilder setPrice(double price) {
         this.price = price;
+        return this;
     }
 
-    public void setDeleted(int deleted) {
-        this.deleted = deleted;
+    public EscapeRoomBuilder setTheme(String theme) {
+        this.theme = theme;
+        return this;
     }
 
-    public void setCreatedAt(Timestamp created_at) {
-        this.created_at = created_at;
+    public EscapeRoom build() {
+        EscapeRoom escapeRoom = new EscapeRoom(name, price, theme);
+        return escapeRoom;
     }
 
-    public void setUpdatedAt(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void addObserver(Observer observer) {
+        notifier.addObserver(observer);
     }
-
 }

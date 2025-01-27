@@ -84,14 +84,15 @@ public enum EntityAttributes {
             "objectdeco_objectdeco_id"
     ),
     room_has_tips(
-            "room_room_id",
-            "tips_tips_id"
+            "tips_tips_id",
+            "room_room_id"
     ),
     sale(
             "sale_id",
             "sale_price",
             "sale_gameId",
-            "sale_deleted"
+            "sale_deleted",
+            "sale_createdAt"
     ),
     ticket(
             "ticket_id",

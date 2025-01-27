@@ -3,105 +3,109 @@ package org.example.Repository.Common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Entity;
+import org.example.Repository.Serializers.Serializer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.example.Repository.Serializer.deserialize;
-import static org.example.Repository.Serializer.serialize;
+import static org.example.Repository.Serializers.Serializer.*;
 
-public class RepositoryImpl implements Repository{
+public class RepositoryImpl implements Repository {
 
     private static Logger logger = LogManager.getLogger(RepositoryImpl.class);
-    private static DatabaseConnection dbConnection;
+
 
     @Override
     public void add(Entity entity, EntityAttributes enumAttributes) throws SQLException {
-
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
-        StringBuilder query = new StringBuilder("INSERT INTO escaperomdb." + tableName + " (");
-        attributes.forEach(attribute -> {
-            if(attribute.equals(attributes.getLast())) {
-                query.append(") VALUES (");
-            } else {
-                query.append(attribute +", ");
+        StringBuilder query = new StringBuilder("INSERT INTO escaperoomdb." + tableName + " (");
+        for (int i = 0; i < attributes.size(); i++) {
+            query.append(attributes.get(i));
+            if (i < attributes.size() - 1) {
+                query.append(", ");
             }
-        });
-        values.forEach(value -> {
-            if(value.equals(values.getLast())) {
-                query.append(");");
-            } else {
-                query.append(value +", ");
+        }
+        query.append(") VALUES (");
+        for (int i = 0; i < values.size(); i++) {
+            query.append("?");
+            if (i < values.size() - 1) {
+                query.append(", ");
             }
-        });
+        }
+        query.append(");");
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        serialize(queryString, enumAttributes, dbConnection, "add");
+        //logger.info("Query created, and casted to String.\n[" + queryString + "]");
+        Serializer.serialize(queryString, enumAttributes, "add", values);
+    }
+
+    @Override
+    public ArrayList<Entity> getAll(EntityAttributes enumAttributes) throws SQLException {
+        String tableName = enumAttributes.name();
+        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + tableName + "_deleted = 0;";
+        return Serializer.deserializeGetAll(query, enumAttributes);
     }
 
     @Override
     public Entity getById(int id, EntityAttributes enumAttributes) throws SQLException {
         String tableName = enumAttributes.name();
-        String attribute = enumAttributes.getAttributes().getFirst();
-        String query = "SELECT * FROM escaperomdb." + tableName + " WHERE " + attribute + " = " + id + ";";
-        return deserialize(query, enumAttributes, dbConnection);
+        String query = "SELECT * FROM escaperoomdb." + tableName + " WHERE " + tableName + "_id = " + id + ";";
+        return deserialize(query, enumAttributes);
     }
 
     @Override
     public void delete(int id, EntityAttributes enumAttributes) {
         String tableName = enumAttributes.name();
-        String attribute = tableName + "_deleted";
-        String query = "UPDATE escaperomdb." + tableName +
-                " SET " + attribute + " = 1 " +
-                "WHERE " + enumAttributes.getAttributes().getFirst() + " = " + id + ";";
-        serialize(query, enumAttributes, dbConnection, "delete");
-
-        ///Donde cambiamos el estado de deleted en la clase local?
-        ///aqui, o antes de entrar en este metodo cuando aun tenemos el objeto en si
-        ///i no solo el Id.
-
+        String deletedAttribute = tableName + "_deleted";
+        String idAttribute = tableName + "_id";
+        String query = "UPDATE escaperoomdb." + tableName +
+                " SET " + deletedAttribute + " = 1 " +
+                "WHERE " + idAttribute + " = ?";
+        ArrayList<String> values = new ArrayList<>();
+        values.add(String.valueOf(id));
+        Serializer.serialize(query, enumAttributes, "delete", values);
     }
 
     @Override
     public void update(Entity entity, EntityAttributes enumAttributes) {
-
-        ///UPDATE escaperoomdb.certificate
-        ///SET Certificate_text = "Segunda Prueba de update",
-        ///Certificate_gameId = 3,
-        ///Certificate_playerId = 3
-        ///WHERE Certificate_id = 1;
-
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
-
-        ///Consultar esto del atomic
-
-        AtomicInteger pos = new AtomicInteger();
-        StringBuilder query = new StringBuilder("UPDATE escaperomdb." + tableName + " SET ");
-        attributes.forEach(attribute -> {
-            if(attribute.equals(attributes.getLast())) {
-                query.append(attribute + " = " + values.getLast() +
-                        " WHERE " + enumAttributes.getAttributes().getFirst() +
-                        " = " + entity.getId() + ";");
-            } else {
-                query.append(attribute + " = " + values.get(pos.get()) + ", ");
-                pos.getAndIncrement();
+        StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
+        for (int i = 0; i < attributes.size(); i++) {
+            query.append(attributes.get(i)).append(" = ?");
+            if (i < attributes.size() - 1) {
+                query.append(", ");
             }
-        });
+        }
+        query.append(" WHERE ").append(attributes.get(0)).append(" = ?;");
+        values.add(String.valueOf(entity.getId()));
         String queryString = query.toString();
-        logger.info("Query created, and casted to String.\n[" + queryString + "]");
-        serialize(queryString, enumAttributes, dbConnection, "set");
+        Serializer.serialize(queryString, enumAttributes, "update", values);
     }
 
-
-    @Override
-    public ArrayList<Entity> getAll(EntityAttributes enumAttributes) {
-
-        return null;
+    public void update1(Entity entity, EntityAttributes enumAttributes) {
+        ArrayList<String> attributes = enumAttributes.getAttributes();
+        ArrayList<String> values = entity.getValues();
+        String tableName = enumAttributes.name();
+        StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
+        for (int i = 0; i < attributes.size(); i++) {
+            String attribute = attributes.get(i);
+            String value = values.get(i);
+            if (value.matches("\\d+")) { // Si es un número
+                query.append(attribute).append(" = ").append(value);
+            } else { // Si es texto
+                query.append(attribute).append(" = '").append(value).append("'");
+            }
+            if (i < attributes.size() - 1) {
+                query.append(", ");
+            }
+        }
+        query.append(" WHERE ").append(attributes.get(0)).append(" = ").append(entity.getId()).append(";");
+        String queryString = query.toString();
+        logger.info("Query created and formatted:\n[" + queryString + "]");
+        serialize(queryString, enumAttributes, "set", attributes);
+        serializeUpdate(queryString, enumAttributes, "set", attributes);
     }
-
 }

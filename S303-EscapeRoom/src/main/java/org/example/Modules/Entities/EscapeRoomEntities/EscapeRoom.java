@@ -5,11 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.example.Modules.Entities.Entity;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EscapeRoom extends Entity {
-    // quitado el logger, los loggers no deben ir en las clases modelos
+    private static final Logger logger = LogManager.getLogger(EscapeRoom.class);
     private int id;
     private String name;
     private Double price;
@@ -19,29 +19,17 @@ public class EscapeRoom extends Entity {
     private Timestamp updatedAt;
 
 
-    public EscapeRoom(
-            String name,
-            Double price,
-            String theme
-    ) {
+    public EscapeRoom(String name, Double price, String theme) {
         super();
         this.name = name;
         this.price = price;
         this.theme = theme;
         this.deleted = 0;
-        this.createdAt = Timestamp.from(Instant.now());
-        this.updatedAt = Timestamp.from(Instant.now());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
-    public EscapeRoom(
-            int id,
-            String name,
-            Double price,
-            String theme,
-            int deleted,
-            Timestamp createdAt,
-            Timestamp updatedAt
-    ) {
+    public EscapeRoom(int id, String name, Double price, String theme, int deleted, Timestamp createdAt, Timestamp updatedAt) {
         super(id,deleted);
         this.id = id;
         this.name = name;
@@ -49,7 +37,8 @@ public class EscapeRoom extends Entity {
         this.theme = theme;
         this.deleted = deleted;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updatedAt = Objects.requireNonNullElseGet(
+                updatedAt, () -> new Timestamp(System.currentTimeMillis()));
     }
 
 
@@ -59,6 +48,16 @@ public class EscapeRoom extends Entity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public EscapeRoom setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public EscapeRoom setTheme(String theme) {
+        this.theme = theme;
+        return this;
     }
 
     public String getName() {
@@ -95,41 +94,41 @@ public class EscapeRoom extends Entity {
 
     @Override
     public ArrayList<String> getValues() {
-        ArrayList<String> values =  new ArrayList<>();
-        String value = super.getId() + "";
-        values.add(value);
-        value = this.name+ "";
-        values.add(value);
+        ArrayList<String> values = new ArrayList<>();
+        values.add(String.valueOf(this.getId()));
+        values.add(this.name);
         values.add(String.valueOf(this.price));
-        value = this.theme + "";
-        values.add(value);
-        values.add(this.deleted + "");
-        value = this.createdAt + "";
-        values.add(value);
-        value = this.updatedAt + "";
-        values.add(value);
+        values.add(this.theme);
+        values.add(String.valueOf(this.getDeleted()));
+        values.add(String.valueOf(this.createdAt));
+        values.add(String.valueOf(this.updatedAt));
         return values;
     }
 
-    public void setUpdated_at(Timestamp escapeRoomUpdatedAt) {
-        this.updated_at = escapeRoomUpdatedAt;
+    public void setUpdatedAt(Timestamp escapeRoomUpdatedAt) {
+        this.updatedAt = escapeRoomUpdatedAt;
     }
 
-    public void setCreated_at(Timestamp escapeRoomCreatedAt) {
-        this.created_at = escapeRoomCreatedAt;
+    public void setCreatedAt(Timestamp escapeRoomCreatedAt) {
+        this.createdAt = escapeRoomCreatedAt;
     }
 
+
+    public String toStringDisplay() {
+        return  "name: '" + name + '\'' +
+                ", price: ' " + price +
+                ", theme: '" + theme + '\'';
+    }
     @Override
     public String toString() {
-        return "EscapeRoomTEST{" +
+        return "EscapeRoom{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", theme='" + theme + '\'' +
                 ", deleted=" + deleted +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
-
 }

@@ -1,32 +1,40 @@
 package org.example.Modules.Entities.GameEntities;
 
 import org.example.Modules.Entities.Entity;
+import org.example.Services.GameServices.GameService;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
-
-import static org.example.Repository.Old.SqlGameRepository.getGameById;
+import java.util.ArrayList;
 
 public class Sale extends Entity {
 
+    private final GameService gameService = new GameService();
+
     private int id;
-    private Timestamp date;
+    private Timestamp createdAt;
     private double price;
-    private Game game;
+    private int gameId;
     private int deleted;
 
-    public Sale(Timestamp date, double price, Game game, int deleted) {
-        this.date = date;
+    public Sale(double price, int gameId) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.price = price;
-        this.game = game;
-        this.deleted = deleted;
+        this.gameId = gameId;
+        this.deleted = 0;
     }
 
-    public Sale(int id, Timestamp date, double price, int gameId, int deleted) {
-        this.id = id;
-        this.date = date;
+    public Sale(double price) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.price = price;
-        this.game = getGameById(gameId);
-        this.deleted = deleted;
+        this.deleted = 0;
+    }
+
+    public Sale(int id, double price, int gameId, int deleted, Timestamp createdAt) throws SQLException {
+        super(id, deleted);
+        this.price = price;
+        this.gameId = gameId;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -37,14 +45,6 @@ public class Sale extends Entity {
         this.id = id;
     }
 
-    public Timestamp getDate() {
-        return date;
-    }
-
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -53,12 +53,25 @@ public class Sale extends Entity {
         this.price = price;
     }
 
-    public int getGameId() {
-        return game.getId();
+    public int getGameId(){
+        return this.gameId;
     }
 
-    public void setGame(int gameId) {
-        this.game = getGameById(gameId);
+    public Game getGame() {
+        return gameService.getGameById(this.gameId);
+    }
+
+    public void setGame(int gameId) throws SQLException {
+        this.gameId = gameId;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public Sale setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+        return this;
     }
 
     public int getDeleted() {
@@ -69,14 +82,38 @@ public class Sale extends Entity {
         this.deleted = deleted;
     }
 
-    @Override
-    public String toString() {
+
+    public String toStringSQL() {
         return "SaleTEST{" +
                 "id=" + id +
-                ", date=" + date +
+                ", created_at=" + createdAt +
                 ", price=" + price +
-                ", gameId=" + game.getId() +
+                ", gameId=" + this.gameId +
                 ", deleted=" + deleted +
                 '}';
     }
+
+    @Override
+    public String toString() {
+        return
+                " Date: '" + createdAt + '\'' +
+                ", GameId: '" + gameId + '\'' +
+                ", Price: '" + price + "€" + '\'';
+    }
+
+    public ArrayList<String> getValues() {
+        ArrayList<String> values =  new ArrayList<>();
+        String value = super.getId() + "";
+        values.add(value);
+        value = this.price + "";
+        values.add(value);
+        value = this.gameId +"";
+        values.add(value);
+        value = super.getDeleted() + "";
+        values.add(value);
+        values.add(createdAt.toString());
+        return values;
+    }
+
+
 }
