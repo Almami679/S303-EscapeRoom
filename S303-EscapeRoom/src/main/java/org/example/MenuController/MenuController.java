@@ -2,11 +2,13 @@ package org.example.MenuController;
 
 import org.example.Exceptions.InvalidMenuOptionException;
 import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoom;
+import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Services.GameServices.SaleService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -128,25 +130,48 @@ public class MenuController {
         }
     }
 
-    private static void displayManageTipsMenu(Scanner read) {
+  private static void displayManageTipsMenu(Scanner read) throws SQLException {
+    ArrayList<Room> roomsInSelectedER = escapeRoomService.getRoomInEscapeRoom(selectedID);
+    if (roomsInSelectedER.isEmpty()) {
+        System.out.println("No rooms found for the selected escape room.");
+    }else {
+        System.out.println("Rooms available:");
+        for (int i = 0; i < roomsInSelectedER.size(); i++) {
+            System.out.println((i + 1) + ". " + roomsInSelectedER.get(i));
+        }
+        int roomIndex = -1;
+        do {
+            System.out.print("Select the room to manage tips (1-" + roomsInSelectedER.size() + "): ");
+            try {
+                roomIndex = read.nextInt() - 1;
+                if (roomIndex < 0 || roomIndex >= roomsInSelectedER.size()) {
+                    System.out.println("Invalid selection. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                read.next();
+            }
+        } while (roomIndex < 0 || roomIndex >= roomsInSelectedER.size());
+        int selectedRoomID = roomsInSelectedER.get(roomIndex).getId();
         int userInput;
         do {
             System.out.print(MenuOptions.MANAGE_TIPS_MENU.getMenuText());
             userInput = read.nextInt();
-            handleManageTipsMenu(userInput, read);
+            handleManageTipsMenu(userInput, read, selectedRoomID);
         } while (userInput != 0);
     }
+}
 
-    private static void handleManageTipsMenu(int userInput, Scanner read) {
+    private static void handleManageTipsMenu(int userInput, Scanner read, int selectedRoomID) {
         switch (userInput) {
             case 1:
-                MenuActions.addNewTip(read);
+                MenuActions.addNewTip(read, selectedRoomID);
                 break;
             case 2:
-                MenuActions.displayTips(read);
+                MenuActions.displayTips(selectedRoomID);
                 break;
             case 3:
-                MenuActions.removeTip(read);
+                MenuActions.removeTip(read, selectedID);
                 break;
             case 0:
                 break;
@@ -197,10 +222,11 @@ public class MenuController {
     private static void handleManageGameMenu(int userInput, Scanner read) throws SQLException {
         switch (userInput) {
             case 1:
-                MenuActions.addNewGame(read);
+                displayManageEscapeRoomFromSale(read);
+                MenuActions.addNewGame(selectedID, read);
                 break;
             case 2:
-                MenuActions.displayGames(read);
+                MenuActions.displayGames();
                 break;
             case 3:
                 MenuActions.finishGame(read);
@@ -312,31 +338,40 @@ public class MenuController {
 
     private static void displayManageEscapeRoomFromSale(Scanner read) throws SQLException {
         List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
+
         if (escapeRooms.isEmpty()) {
             System.out.println("No escape rooms found.");
-        } else {
-            System.out.println("Select an Escape Room:");
-            for (int i = 0; i < escapeRooms.size(); i++) {
-                System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
-            }
-            int selectedEscapeRoom = -1;
-            boolean validInput = false;
-            do {
-                System.out.print("Enter the number of the escape room: ");
-                try {
-                    selectedEscapeRoom = read.nextInt();
-                    if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
-                        validInput = true;
-                        selectedID = selectedEscapeRoom;
-                    } else {
-                        System.out.println("Invalid selection. Please try again.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a number.");
-                    read.next();
-                }
-            } while (!validInput);
+            return;
+        }
 
+        System.out.println("Select an Escape Room:");
+        for (int i = 0; i < escapeRooms.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + escapeRooms.get(i).getName());
+        }
+
+        int selectedEscapeRoom = -1;
+        while (true) {
+            System.out.print("Enter the number of the escape room (or 0 to cancel): ");
+            try {
+                selectedEscapeRoom = read.nextInt();
+
+                if (selectedEscapeRoom == 0) {
+                    System.out.println("Operation cancelled.");
+                    return;
+                }
+
+                if (selectedEscapeRoom > 0 && selectedEscapeRoom <= escapeRooms.size()) {
+                    int selectedID = escapeRooms.get(selectedEscapeRoom - 1).getId();
+                    System.out.println("You selected: " + escapeRooms.get(selectedEscapeRoom - 1).getName());
+
+                    break;
+                } else {
+                    System.out.println("Invalid selection. Please select a number between 1 and " + escapeRooms.size() + ".");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                read.next();
+            }
         }
     }
 

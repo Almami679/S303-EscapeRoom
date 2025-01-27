@@ -79,11 +79,8 @@ public class EscapeRoomService {
             builder.setPrice(price);
             builder.setTheme(theme);
             EscapeRoom escaperoom = builder.build();
-
             registerPlayersAsObservers();
-
-            this
-                    .repository
+            this    .repository
                     .add(escaperoom, EntityAttributes.escaperoom);
             String message = "Se ha creado un nuevo EscapeRoom: " + name + " con el tema " + theme;
             notifier.notifyObservers(message);

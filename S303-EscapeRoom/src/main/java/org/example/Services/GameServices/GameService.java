@@ -26,6 +26,7 @@ public class GameService {
     private static Logger logger = LogManager.getLogger(GameService.class);
 
     private final Repository repository;
+    private final RepositoryGameHasPlayer repositoryGamePlayer = new RepositoryGameHasPlayer();
     private final Entity entity = new Entity();
 
 
@@ -187,5 +188,9 @@ public class GameService {
                 .filter(game -> game.getDeleted() == 0) // Ignorar juegos eliminados
                 .max(Comparator.comparing(Game::getGameDate)) // Buscar el máximo por `gameDate`
                 .orElse(null); // Si no hay juegos, devuelve null
+    }
+
+    public int getLastGameId(){
+        return repositoryGamePlayer.getLastIdGame();
     }
 }

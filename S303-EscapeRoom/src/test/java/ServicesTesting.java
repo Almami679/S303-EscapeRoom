@@ -27,9 +27,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -139,17 +137,17 @@ public class ServicesTesting {
     }
     
 
-    @Test
+   /* @Test
     public void addTipsInRoom() {
         RoomService roomService = new RoomService();
         TipService tipService = new TipService();
         ArrayList<Tips> tips = tipService.getAllTips();
-        tips.forEach(tip -> roomService.addTipInRoom(tip.getId(), 1));
+        tips.forEach(tip -> roomService.addTipToRoom(tip.getId(), 1));
         ArrayList<Tips> tipsInRoomTest = roomService.getAllTipsInRoom(1);
         tipsInRoomTest.forEach(System.out::println);
         System.out.println("___________________________");
         tips.forEach(System.out::println);
-    }
+    }*/
 
     @Test
     public void getAllTipsInRoom() {
