@@ -12,6 +12,7 @@ import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
+import org.example.Services.EscapeRoomServices.ObjectDecoService;
 import org.example.Services.EscapeRoomServices.RoomService;
 import org.example.Services.GameServices.PlayerService;
 import org.example.Services.GameServices.SaleService;
@@ -27,6 +28,7 @@ public class MenuActions {
     private static final SaleService salesService = new SaleService();
     private static final RoomService roomService = new RoomService();
     private static final PlayerService playerService = new PlayerService();
+    private static final ObjectDecoService objectDecoService = new ObjectDecoService();
 
     public static void createEscapeRoom(Scanner read) {
         System.out.print("Enter the name of the escape room: ");
@@ -207,15 +209,130 @@ public class MenuActions {
 
     }
 
-    public static void addObjectToRoom(Scanner read) {
+    public static void addObjectDeco(Scanner read) {
+        System.out.print("Enter the name of the decoration object ");
+        String name = read.next();
+        System.out.println("Enter material of the decoration object ");
+        String material = read.next();
+        double price = 0;
+        boolean validInput = false;
+        do {
+            System.out.println("Enter the price of decoration object");
+            try {
+                price = read.nextDouble();
+                validInput = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                read.next();
+            }
+        } while (!validInput);
 
+        objectDecoService.createObjectDeco(name, material, price);
+        System.out.println("Decoration object created successfully!");
+
+    }
+    public static void addObjectToRoom(Scanner read) {
+        List<Room> rooms = roomService.getAllRoom();
+        List<ObjectDeco> objectDecos = objectDecoService.getAllObjectDeco();
+        if (rooms.isEmpty()) {
+            System.out.println("No room was found.");
+        } else {
+            rooms.forEach(room -> {
+                System.out.println("Room ID: " + room.getId() + ", Name: " + room.getName());
+            });
+
+            System.out.print("Enter the ID of the room you want to add an object to: ");
+            int roomId = read.nextInt();
+            Room selectedRoom = rooms.stream().filter(r -> r.getId() == roomId).findFirst().orElse(null);
+
+            if (selectedRoom == null) {
+                System.out.println("Invalid room ID.");
+                return;
+            }
+
+            objectDecos.forEach(objectDeco -> {
+                System.out.println("Object ID: " + objectDeco.getId() + ", Name: " + objectDeco.getName());
+            });
+
+            System.out.print("Enter the ID of the object you want to add to the room: ");
+            int objectId = read.nextInt();
+            ObjectDeco selectedObject = objectDecos.stream().filter(o -> o.getId() == objectId).findFirst().orElse(null);
+
+            if (selectedObject == null) {
+                System.out.println("Invalid object ID.");
+            } else {
+                roomService.addObjectInRoom(selectedRoom.getId(), selectedObject.getId());
+                System.out.println("Object added to the room successfully!");
+            }
+        }
     }
 
     public static void displayInventory(Scanner read) {
+        List<ObjectDeco> objectDecos = objectDecoService.getAllObjectDeco();
+        double totalPrice = 0;
+        if (objectDecos.isEmpty()) {
+            System.out.println("No decoration object was found.");
+        } else {
+            objectDecos.forEach(objectDeco -> System.out.println(objectDeco.toString()));
+            for(ObjectDeco objectDeco : objectDecos){
+                if(objectDeco.getDeleted() != 1){
+                    totalPrice += objectDeco.getPrice();
+                }
+            }
+                System.out.println("Decoration objects total price is: " + totalPrice);
+        }
 
     }
 
     public static void removeObject(Scanner read) {
+        List<ObjectDeco> objectDecos = objectDecoService.getAllObjectDeco();
+        if (objectDecos.isEmpty()) {
+            System.out.println("No decoration objects were found.");
+        } else {
+            System.out.println("Decoration objects available:");
+            for (ObjectDeco objectDeco : objectDecos) {
+                if (objectDeco.getDeleted() == 0) { // Mostrar solo jugadores no eliminados
+                    System.out.println("ID: " + objectDeco.getId()
+                            + ", Name: " + objectDeco.getName()
+                            + ", Material: " + objectDeco.getMaterial()
+                            + ", Price: " + objectDeco.getPrice()
+                    );
+                }
+            }
+
+            int objectDecoId = -1;
+            boolean validId = false;
+
+            do {
+                System.out.print("Enter the ID of the decoration object to delete: ");
+                try {
+                    objectDecoId = read.nextInt();
+                    ObjectDeco objectDecoToDelete = objectDecoService.getObjectDecoById(objectDecoId);
+
+                    if (objectDecoToDelete != null && objectDecoToDelete.getDeleted() == 0) {
+                        validId = true;
+
+                        System.out.print("Are you sure you want to delete this decoration object? (yes/no): ");
+                        String confirmation = read.next();
+
+                        if (confirmation.equalsIgnoreCase("yes")) {
+                            objectDecoService.deleteObjectDeco(objectDecoId);
+                            System.out.println("Decoration object deleted successfully!");
+                        } else {
+                            System.out.println("Deletion cancelled.");
+                        }
+                    } else if (objectDecoToDelete != null && objectDecoToDelete.getDeleted() == 1) {
+                        System.out.println("Decoration object with this ID is already deleted.");
+                    } else {
+                        System.out.println("Invalid ID. Decoration object not found.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    read.next();
+                }
+            } while (!validId);
+        }
+
 
     }
 
@@ -270,7 +387,10 @@ public class MenuActions {
         } else {
             System.out.println("Players available:");
             for (Player player : players) {
-                System.out.println("ID: " + player.getId() + ", Name: " + player.getName());
+                System.out.println("ID: " + player.getId()
+                        + ", Name: " + player.getName()
+                        + ", Email: " + player.getEmail()
+                        + ", Consent Notification: " + player.getConsentNotif());
             }
 
             int playerId = -1;
@@ -341,14 +461,14 @@ public class MenuActions {
                     playerId = read.nextInt();
                     Player playerToDelete = playerService.getPlayerById(playerId);
 
-                    if (playerToDelete != null && playerToDelete.getDeleted() == 0) { // Verificar que el jugador no esté eliminado
+                    if (playerToDelete != null && playerToDelete.getDeleted() == 0) {
                         validId = true;
 
                         System.out.print("Are you sure you want to delete this player? (yes/no): ");
                         String confirmation = read.next();
 
                         if (confirmation.equalsIgnoreCase("yes")) {
-                            playerService.deletePlayer(playerId); // Llama al servicio para realizar la eliminación lógica
+                            playerService.deletePlayer(playerId);
                             System.out.println("Player deleted successfully!");
                         } else {
                             System.out.println("Deletion cancelled.");
@@ -360,7 +480,7 @@ public class MenuActions {
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid input. Please enter a valid number.");
-                    read.next(); // Limpia el buffer de entrada
+                    read.next();
                 }
             } while (!validId);
         }

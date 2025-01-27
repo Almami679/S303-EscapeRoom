@@ -49,9 +49,10 @@ public enum MenuOptions {
     MANAGE_INVENTORY_MENU("---------------------------------------------------------------------------\n" +
                           "------------------------MANAGE INVENTORY-------------------------\n" +
                           "---------------------------------------------------------------------------\n" +
-                          "[1] Add new object\n" +
-                          "[2] Display inventory\n" +
-                          "[3] Remove object\n" +
+                          "[1] Add new decoration object\n" +
+                          "[2] Add object to room\n" +
+                          "[3] Display inventory\n" +
+                          "[4] Remove object\n" +
                           "[0] Back\n" +
                           "---------------------------------------------------------------------------\n" +
                           "-> "),

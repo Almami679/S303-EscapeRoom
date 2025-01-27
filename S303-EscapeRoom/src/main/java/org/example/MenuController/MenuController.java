@@ -167,12 +167,15 @@ public class MenuController {
     private static void handleManageInventoryMenu(int userInput, Scanner read) {
         switch (userInput) {
             case 1:
-                MenuActions.addObjectToRoom(read);
+                MenuActions.addObjectDeco(read);
                 break;
             case 2:
-                MenuActions.displayInventory(read);
+                MenuActions.addObjectToRoom(read);
                 break;
             case 3:
+                MenuActions.displayInventory(read);
+                break;
+            case 4:
                 MenuActions.removeObject(read);
                 break;
             case 0:

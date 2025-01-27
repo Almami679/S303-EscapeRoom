@@ -64,7 +64,6 @@ public class SaleService {
     public void deleteSale(
             int id
     ) throws SQLException {
-        //this.assertIfSaleIdNotFound(id);
 
         Sale sale = (Sale) repository.getById(id, EntityAttributes.sale);
         sale.setDeleted(1);
