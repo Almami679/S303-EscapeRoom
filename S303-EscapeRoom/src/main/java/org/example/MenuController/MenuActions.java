@@ -33,7 +33,6 @@ public class MenuActions {
     private static final RoomService roomService = new RoomService();
     private static final PlayerService playerService = new PlayerService();
     private static final GameService gameService = new GameService();
-    private static final PlayerService playerService = new PlayerService();
 
 
     public static void createEscapeRoom(Scanner read) {
