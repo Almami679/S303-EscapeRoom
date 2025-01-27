@@ -515,6 +515,8 @@ public class MenuActions {
             System.out.println("Sale deleted successfully!");
         } catch (SaleIdNotFoundException e) {
             System.out.println("Failed to delete SaleId not found.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
