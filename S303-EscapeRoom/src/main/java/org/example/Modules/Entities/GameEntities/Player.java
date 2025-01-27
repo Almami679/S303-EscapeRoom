@@ -79,6 +79,10 @@ public class Player extends Entity implements Observer {
         this.consentNotif = consentNotif;
     }
 
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+
     public void addSale(int saleId){
         this.playerSalesIds.add(saleId);
     }

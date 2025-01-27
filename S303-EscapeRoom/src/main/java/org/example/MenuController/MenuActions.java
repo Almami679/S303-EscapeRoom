@@ -1,5 +1,6 @@
 package org.example.MenuController;
 
+import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.SaleIdNotFoundException;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
@@ -8,12 +9,14 @@ import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.GameEntities.Game;
 import org.example.Modules.Entities.GameEntities.GameHasPlayer;
 import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.GameEntities.Sale;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Services.EscapeRoomServices.EscapeRoomService;
 import org.example.Services.EscapeRoomServices.RoomService;
+import org.example.Services.GameServices.PlayerService;
 import org.example.Services.GameServices.GameService;
 import org.example.Services.GameServices.PlayerService;
 import org.example.Services.GameServices.SaleService;
@@ -28,6 +31,7 @@ public class MenuActions {
     private static final EscapeRoomService escapeRoomService = new EscapeRoomService();
     private static final SaleService salesService = new SaleService();
     private static final RoomService roomService = new RoomService();
+    private static final PlayerService playerService = new PlayerService();
     private static final GameService gameService = new GameService();
     private static final PlayerService playerService = new PlayerService();
 
@@ -52,6 +56,7 @@ public class MenuActions {
         escapeRoomService.createEscapeRoom(name, price, theme);
         System.out.println("Escape room created successfully!");
     }
+
     public static void displayEscapeRoom() {
         List<EscapeRoom> escapeRooms = escapeRoomService.getAllEscapeRooms();
         if (escapeRooms.isEmpty()) {
@@ -60,6 +65,7 @@ public class MenuActions {
             escapeRooms.forEach(escapeRoom -> System.out.println(escapeRoom.toStringDisplay()));
         }
     }
+
     public static void addNewRoom(Scanner read, int selectedID) {
         System.out.print("Enter the name of the room: ");
         String name = read.next();
@@ -109,7 +115,7 @@ public class MenuActions {
         ArrayList<Room> roomsInSelectedER = escapeRoomService.getRoomInEscapeRoom(selectedEscapeRoomID);
         if (roomsInSelectedER.isEmpty()) {
             System.out.println("No rooms found for the selected escape room.");
-        }else {
+        } else {
             System.out.println("Rooms available:");
             for (int i = 0; i < roomsInSelectedER.size(); i++) {
                 System.out.println((i + 1) + ". " + roomsInSelectedER.get(i));
@@ -149,7 +155,7 @@ public class MenuActions {
                     }
                 } while (!validInput);
                 try {
-                    roomService.updateRoom(roomToUpdate.getId(), name, difficulty, price,roomToUpdate.getDeleted());
+                    roomService.updateRoom(roomToUpdate.getId(), name, difficulty, price, roomToUpdate.getDeleted());
                     System.out.println("Room updated successfully!");
                 } catch (RoomNotFoundException e) {
                     System.out.println("Failed to update room: Room not found.");
@@ -294,18 +300,138 @@ public class MenuActions {
     }
 
     public static void createPlayer(Scanner read) {
+        System.out.print("Enter the name of the player ");
+        String name = read.next();
+        System.out.println("Enter the email of the player ");
+        String email = read.next();
+        int consentNotif = 0;
+        boolean validInput = false;
+        do {
+            System.out.println("Enter 1 if you want receive notification otherwise enter 0");
+            try {
+                consentNotif = read.nextInt();
+                validInput = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input.");
+                read.next();
+            }
+        } while (!validInput);
+
+        playerService.createPlayer(name, email, consentNotif);
+        //System.out.println("Player created successfully!");
 
     }
 
     public static void displayPlayers(Scanner read) {
-
+        List<Player> players = playerService.getAllPlayer();
+        if (players.isEmpty()) {
+            System.out.println("No players was found.");
+        } else {
+            players.forEach(player -> System.out.println(player.toString()));
+        }
     }
 
     public static void updatePlayer(Scanner read) {
+        List<Player> players = playerService.getAllPlayer();
+        if (players.isEmpty()) {
+            System.out.println("No players were found.");
+        } else {
+            System.out.println("Players available:");
+            for (Player player : players) {
+                System.out.println("ID: " + player.getId() + ", Name: " + player.getName());
+            }
 
+            int playerId = -1;
+            boolean validId = false;
+
+            do {
+                System.out.print("Enter the ID of the player to update: ");
+                try {
+                    playerId = read.nextInt();
+                    Player playerToUpdate = playerService.getPlayerById(playerId);
+                    if (playerToUpdate != null) {
+                        validId = true; // ID válido
+                        System.out.print("Enter the new name of the player: ");
+                        String name = read.next();
+
+                        System.out.print("Enter the email of the player: ");
+                        String email = read.next();
+
+                        int consentNotif = 0;
+                        boolean validInput = false;
+
+                        do {
+                            System.out.print("Enter 1 if you want to receive notifications, otherwise enter 0: ");
+                            try {
+                                consentNotif = read.nextInt();
+                                if (consentNotif == 0 || consentNotif == 1) {
+                                    validInput = true;
+                                } else {
+                                    System.out.println("Invalid input. Please enter 1 or 0.");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Please enter a number.");
+                                read.next();
+                            }
+                        } while (!validInput);
+
+                        playerService.updatePlayer(playerId, name, email, consentNotif);
+                        System.out.println("Player updated successfully!");
+                    } else {
+                        System.out.println("Invalid ID. Player not found.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    read.next();
+                }
+            } while (!validId);
+        }
     }
 
     public static void removePlayer(Scanner read) {
+        List<Player> players = playerService.getAllPlayer();
+        if (players.isEmpty()) {
+            System.out.println("No players were found.");
+        } else {
+            System.out.println("Players available:");
+            for (Player player : players) {
+                if (player.getDeleted() == 0) { // Mostrar solo jugadores no eliminados
+                    System.out.println("ID: " + player.getId() + ", Name: " + player.getName());
+                }
+            }
+
+            int playerId = -1;
+            boolean validId = false;
+
+            do {
+                System.out.print("Enter the ID of the player to delete: ");
+                try {
+                    playerId = read.nextInt();
+                    Player playerToDelete = playerService.getPlayerById(playerId);
+
+                    if (playerToDelete != null && playerToDelete.getDeleted() == 0) { // Verificar que el jugador no esté eliminado
+                        validId = true;
+
+                        System.out.print("Are you sure you want to delete this player? (yes/no): ");
+                        String confirmation = read.next();
+
+                        if (confirmation.equalsIgnoreCase("yes")) {
+                            playerService.deletePlayer(playerId); // Llama al servicio para realizar la eliminación lógica
+                            System.out.println("Player deleted successfully!");
+                        } else {
+                            System.out.println("Deletion cancelled.");
+                        }
+                    } else if (playerToDelete != null && playerToDelete.getDeleted() == 1) {
+                        System.out.println("Player with this ID is already deleted.");
+                    } else {
+                        System.out.println("Invalid ID. Player not found.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                    read.next(); // Limpia el buffer de entrada
+                }
+            } while (!validId);
+        }
 
     }
 
