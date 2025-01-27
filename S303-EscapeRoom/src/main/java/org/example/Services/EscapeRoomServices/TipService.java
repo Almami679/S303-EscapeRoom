@@ -7,10 +7,12 @@ import org.example.Exceptions.TipNotFoundException;
 import org.example.Modules.Entities.Entity;
 import org.example.Modules.Entities.GameEntities.Player;
 import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.RoomEntities.RoomHasTips;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
 import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
+import org.example.Repository.RepositoryRelations.RepositoryRoomHasTips;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class TipService {
 
     private final Repository repository;
     private final Entity entity = new Entity();
+    private final RepositoryRoomHasTips repositoryRoomHasTips = new RepositoryRoomHasTips();
+
 
 
     public TipService() {
@@ -35,14 +39,11 @@ public class TipService {
         return tip;
     }
 
-
-
     public void createTip(
             String text
     ) {
         try {
-            this
-                    .repository
+            this.repository
                     .add(new Tips(text), EntityAttributes.tips);
         } catch (SQLException e) {
             logger.info(e.getMessage());
@@ -53,15 +54,9 @@ public class TipService {
             int id
     ) {
         try {
-            Tips tips = (Tips) this.repository.getById(id, EntityAttributes.tips);
-
-            if (tips == null) {
-                throw new TipNotFoundException();
-            } else {
-                return (Tips) this.repository
-                        .getById(id, EntityAttributes.tips);
-            }
-        } catch (SQLException | TipNotFoundException e) {
+            return (Tips) this.repository
+                    .getById(id, EntityAttributes.tips);
+        } catch (SQLException e) {
             logger.info(e.getMessage());
             return null;
         }
@@ -102,14 +97,11 @@ public class TipService {
         }catch (SQLException | TipNotFoundException e){
             logger.info(e.getMessage());
         }
-
-
     }
 
     public ArrayList<Tips> getAllTips(){
         ArrayList<Tips> tipsArrayList = new ArrayList<>();
         try{
-
         this.repository
                 .getAll(EntityAttributes.tips)
                 .forEach(tips -> tipsArrayList.add((Tips) tips));

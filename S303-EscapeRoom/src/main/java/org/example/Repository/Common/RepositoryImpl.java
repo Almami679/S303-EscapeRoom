@@ -89,13 +89,10 @@ public class RepositoryImpl implements Repository {
         ArrayList<String> attributes = enumAttributes.getAttributes();
         ArrayList<String> values = entity.getValues();
         String tableName = enumAttributes.name();
-
         StringBuilder query = new StringBuilder("UPDATE escaperoomdb." + tableName + " SET ");
-
         for (int i = 0; i < attributes.size(); i++) {
             String attribute = attributes.get(i);
             String value = values.get(i);
-
             if (value.matches("\\d+")) { // Si es un número
                 query.append(attribute).append(" = ").append(value);
             } else { // Si es texto
@@ -106,11 +103,9 @@ public class RepositoryImpl implements Repository {
             }
         }
         query.append(" WHERE ").append(attributes.get(0)).append(" = ").append(entity.getId()).append(";");
-
         String queryString = query.toString();
         logger.info("Query created and formatted:\n[" + queryString + "]");
-
+        serialize(queryString, enumAttributes, "set", attributes);
         serializeUpdate(queryString, enumAttributes, "set", attributes);
-
     }
 }

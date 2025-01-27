@@ -65,7 +65,7 @@ public enum EntityAttributes {
             "player_id",
             "player_name",
             "player_email",
-            "player_consentNotif",  // Corregido aquí
+            "player_consentNotif",
             "player_deleted",
             "player_createdAt",
             "player_updatedAt"
@@ -84,8 +84,8 @@ public enum EntityAttributes {
             "objectdeco_objectdeco_id"
     ),
     room_has_tips(
-            "room_room_id",
-            "tips_tips_id"
+            "tips_tips_id",
+            "room_room_id"
     ),
     sale(
             "sale_id",

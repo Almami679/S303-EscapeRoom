@@ -23,7 +23,9 @@ public class RepositoryEscapeHasRoom extends RepositoryImpl {
     }
 
     public ArrayList<Room> getAllRoomsByEscapeRoomId(int escapeRoomId) throws SQLException {
-        String query = "SELECT * FROM escaperoomdb.escaperoom_has_room WHERE escaperoom_escaperoom_id = " + escapeRoomId + ";";
+        String query = "SELECT * FROM escaperoomdb.escaperoom_has_room ehr " +
+                "INNER JOIN escaperoomdb.room r ON ehr.room_room_id = r.room_id " +
+                "WHERE ehr.escaperoom_escaperoom_id = " + escapeRoomId + " AND r.room_deleted = 0;";
         ArrayList<Entity> IdRoomsInEscapeRoom;
         ArrayList<Room> roomList = new ArrayList<>();
         IdRoomsInEscapeRoom = Serializer.deserializeGetAll(query,EntityAttributes.escaperoom_has_room);

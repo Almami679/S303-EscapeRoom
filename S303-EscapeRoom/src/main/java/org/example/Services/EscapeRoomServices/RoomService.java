@@ -2,17 +2,15 @@ package org.example.Services.EscapeRoomServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.Exceptions.PlayerNotFound;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
-import org.example.Modules.Entities.GameEntities.Player;
+import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
+import org.example.Modules.Entities.RoomEntities.RoomHasTips;
 import org.example.Modules.Entities.RoomEntities.Tips;
 import org.example.Repository.Common.EntityAttributes;
-import org.example.Repository.Common.Repository;
 import org.example.Repository.Common.RepositoryImpl;
-import org.example.Repository.RepositoryRelations.RepositoryEscapeHasRoom;
 import org.example.Repository.RepositoryRelations.RepositoryRoomHasTips;
 import org.example.Repository.RepositoryRelations.RepositroyRoomHasObjectDeco;
 
@@ -108,11 +106,9 @@ public class RoomService {
         this.repository.update(room, EntityAttributes.room);
     }
 
-
     public ArrayList<Room> getAllRoom(){
         ArrayList<Room> roomArrayList = new ArrayList<>();
         try{
-
             this.repository
                     .getAll(EntityAttributes.room)
                     .forEach(room -> roomArrayList.add((Room) room));
@@ -142,22 +138,23 @@ public class RoomService {
         return null;
     }
 
-    public void addTipInRoom(int TipId, int roomId) {
-        RepositoryRoomHasTips repo = new RepositoryRoomHasTips();
+    public ArrayList<Tips> getTipsInRoom(int roomId) {
+        RepositoryRoomHasTips roomHasTips = new RepositoryRoomHasTips();
         try {
-            repo.addRoomHasTips(roomId, TipId);
+            return roomHasTips.getAllTipsByRoomId(roomId);
         } catch (SQLException e) {
-            logger.info("Fail to fetch object in room");
-        }
-    }
-
-    public ArrayList<Tips> getAllTipsInRoom(int roomId) {
-        RepositoryRoomHasTips repoRoomHasTips = new RepositoryRoomHasTips();
-        try {
-            return repoRoomHasTips.getAllTipsByRoomId(roomId);
-        } catch (SQLException e) {
-            logger.info("Fail to get Objects in Room[id: " + roomId + "]");
+            logger.info("Failed to get tips in room[id: " + roomId + "]");
         }
         return null;
+    }
+
+    public void addTipToRoom(int roomId, int tipID) {
+        RepositoryRoomHasTips repo = new RepositoryRoomHasTips();
+        Entity entity = new RoomHasTips(tipID, roomId);
+        try {
+            repo.addTipToRoom(entity);
+        } catch (SQLException e) {
+            logger.info("Failed to add tip[id: " + tipID + "] to room[id: " + roomId + "]");
+        }
     }
 }

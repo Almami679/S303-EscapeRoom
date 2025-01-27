@@ -174,7 +174,6 @@ public class Serializer {
         } else {
             throw new SQLException("No data found in the provided map");
         }
-
         return entity;
     }
 }

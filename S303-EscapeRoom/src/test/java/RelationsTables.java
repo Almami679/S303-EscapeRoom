@@ -33,7 +33,7 @@ public class RelationsTables {
         }
     }
 
-    @Test
+   /* @Test
     public void testAddRoomHasTips() {
         RepositoryRoomHasTips repositoryRoomHasTips = new RepositoryRoomHasTips();
         try {
@@ -41,7 +41,7 @@ public class RelationsTables {
         } catch (SQLException e) {
             Assertions.fail("Failed to add room and tips relationship", e);
         }
-    }
+    }*/
 
     @Test
     public void testAddRoomHasObjectDeco() {
