@@ -30,7 +30,7 @@ Repository: Clases para interactuar con la base de datos.
 Services: Servicios de lógica de negocio para manejar las operaciones del juego.
 Controller: Toda la logica de negocio y menu.
 
-
+"
 ─S303-EscapeRoom
     ├───.idea
     ├───schema
@@ -162,7 +162,7 @@ Controller: Toda la logica de negocio y menu.
 │               RelationsTableTables.java
 │               ServicesTesting.java
 │
-    
+  "  
 Patrones Utlizados:
 ------------------
 
