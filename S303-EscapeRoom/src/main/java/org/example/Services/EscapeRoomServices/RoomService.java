@@ -149,7 +149,7 @@ public class RoomService {
 
     public void addTipToRoom(int roomId, int tipID) {
         RepositoryRoomHasTips repo = new RepositoryRoomHasTips();
-        Entity entity = new RoomHasTips(tipID, roomId);
+        Entity entity = new RoomHasTips(roomId, tipID);
         try {
             repo.addTipToRoom(entity);
         } catch (SQLException e) {
