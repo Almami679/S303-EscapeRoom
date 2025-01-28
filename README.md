@@ -35,34 +35,133 @@ Controller: Toda la logica de negocio y menu.
     ├───.idea
     ├───schema
     ├───src
-        ├───main
-        │   ├───java
-        │   │   └───org
-        │   │       └───example
-        │   │           ├───Exceptions
-        │   │           ├───Main
-        │   │           ├───MenuController
-        │   │           ├───Modules
-        │   │           │   ├───Communicates
-        │   │           │   │   └───CommFactory
-        │   │           │   └───Entities
-        │   │           │       ├───CommunicatesEntities
-        │   │           │       ├───EscapeRoomEntities
-        │   │           │       ├───GameEntities
-        │   │           │       └───RoomEntities
-        │   │           ├───observers
-        │   │           ├
-        │   │           ├───Repository
-        │   │           │   ├───Common
-        │   │           │   ├───RepositoryRelations
-        │   │           │   └───Serializers
-        │   │           └───Services
-        │   │               ├───CommunicatesServices
-        │   │               ├───EscapeRoomServices
-        │   │               └───GameServices
-        │   └───resources
-        └───test
-              └───java
+│   ├───main
+│   │   ├───java
+│   │   │   └───org
+│   │   │       └───example
+│   │   │           ├───Exceptions
+│   │   │           │       CertificateNotFoundException.java
+│   │   │           │       DatabaseConnectionFailed.java
+│   │   │           │       EscapeRoomNotFoundException.java
+│   │   │           │       GameNotFoundException.java
+│   │   │           │       GameStatusNotFinish.java
+│   │   │           │       GiftNotFoundException.java
+│   │   │           │       InvalidMenuOptionException.java
+│   │   │           │       NotificationNotFoundException.java
+│   │   │           │       ObjectAvailabilityException.java
+│   │   │           │       ObjectDecoNotFoundException.java
+│   │   │           │       PlayerAlreadyExistsException.java
+│   │   │           │       PlayerNotFound.java
+│   │   │           │       RoomAvailabilityException.java
+│   │   │           │       RoomNotFoundException.java
+│   │   │           │       SaleIdNotFoundException.java
+│   │   │           │       TicketNotFoundException.java
+│   │   │           │       TipAvailabilityException.java
+│   │   │           │       TipNotFoundException.java
+│   │   │           │
+│   │   │           ├───Main
+│   │   │           │       Main.java
+│   │   │           │
+│   │   │           ├───MenuController
+│   │   │           │       Menu.java
+│   │   │           │       MenuActions.java
+│   │   │           │       MenuController.java
+│   │   │           │       MenuOptions.java
+│   │   │           │
+│   │   │           ├───Modules
+│   │   │           │   ├───Communicates
+│   │   │           │   │   │   CommunicateType.java
+│   │   │           │   │   │   CommunicationInterface.java
+│   │   │           │   │   │
+│   │   │           │   │   └───CommFactory
+│   │   │           │   │           CertificateFactory.java
+│   │   │           │   │           CommFactoryInterface.java
+│   │   │           │   │           CommunicateFactory.java
+│   │   │           │   │           GiftFactory.java
+│   │   │           │   │           NotificationFactory.java
+│   │   │           │   │           TicketFactory.java
+│   │   │           │   │
+│   │   │           │   └───Entities
+│   │   │           │       │   Entity.java
+│   │   │           │       │
+│   │   │           │       ├───CommunicatesEntities
+│   │   │           │       │       Certificate.java
+│   │   │           │       │       Communicate.java
+│   │   │           │       │       Gift.java
+│   │   │           │       │       Notification.java
+│   │   │           │       │       Ticket.java
+│   │   │           │       │
+│   │   │           │       ├───EscapeRoomEntities
+│   │   │           │       │       EscapeRoom.java
+│   │   │           │       │       EscapeRoomBuilder.java
+│   │   │           │       │       EscapeRoomHasRoom.java
+│   │   │           │       │       EscapeRoomNotifier.java
+│   │   │           │       │
+│   │   │           │       ├───GameEntities
+│   │   │           │       │       Game.java
+│   │   │           │       │       GameHasPlayer.java
+│   │   │           │       │       Player.java
+│   │   │           │       │       Sale.java
+│   │   │           │       │
+│   │   │           │       └───RoomEntities
+│   │   │           │               ObjectDeco.java
+│   │   │           │               Room.java
+│   │   │           │               RoomHasObject.java
+│   │   │           │               RoomHasTips.java
+│   │   │           │               Tips.java
+│   │   │           │
+│   │   │           ├───observers
+│   │   │           │       Observer.java
+│   │   │           │       Subject.java
+│   │   │           │
+│   │   │           ├───Repository
+│   │   │           │   ├───Common
+│   │   │           │   │       DatabaseConnection.java
+│   │   │           │   │       EntityAttributes.java
+│   │   │           │   │       Repository.java
+│   │   │           │   │       RepositoryImpl.java
+│   │   │           │   │
+│   │   │           │   ├───RepositoryRelations
+│   │   │           │   │       RepositoryEscapeHasRoom.java
+│   │   │           │   │       RepositoryGameHasPlayer.java
+│   │   │           │   │       RepositoryRoomHasObjectDeco.java
+│   │   │           │   │       RepositoryRoomHasTips.java
+│   │   │           │   │       RepositroyRoomHasObjectDeco.java
+│   │   │           │   │
+│   │   │           │   └───Serializers
+│   │   │           │           EntityConstructorsSql.java
+│   │   │           │           Serializer.java
+│   │   │           │
+│   │   │           └───Services
+│   │   │               ├───CommunicatesServices
+│   │   │               │       CertificateService.java
+│   │   │               │       GiftService.java
+│   │   │               │       NotificationService.java
+│   │   │               │       TicketService.java
+│   │   │               │
+│   │   │               ├───EscapeRoomServices
+│   │   │               │       EscapeRoomService.java
+│   │   │               │       ObjectDecoService.java
+│   │   │               │       RoomService.java
+│   │   │               │       TipService.java
+│   │   │               │
+│   │   │               └───GameServices
+│   │   │                       GameService.java
+│   │   │                       PlayerService.java
+│   │   │                       SaleService.java
+│   │   │
+│   │   └───resources
+│   │           log4j2.xml
+│   │
+│   └───test
+│       └───java
+│               EscapeRoomServiceTest.java
+│               EscapeRoomTesting.java
+│               ObserverTest.java
+│               RelationsTables.java
+│               RelationsTableTables.java
+│               ServicesTesting.java
+│
     
 Patrones Utlizados:
 ------------------
