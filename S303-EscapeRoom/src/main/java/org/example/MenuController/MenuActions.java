@@ -550,8 +550,11 @@ public class MenuActions {
         } else {
             System.out.println("Players available:");
             for (Player player : players) {
-                if (player.getDeleted() == 0) { // Mostrar solo jugadores no eliminados
-                    System.out.println("ID: " + player.getId() + ", Name: " + player.getName());
+                if (player.getDeleted() == 0) {
+                    System.out.println("ID: " + player.getId()
+                            + ", Name: " + player.getName()
+                            + ", Email: " + player.getEmail()
+                    );
                 }
             }
 

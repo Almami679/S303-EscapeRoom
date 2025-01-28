@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.Exceptions.RoomNotFoundException;
 import org.example.Modules.Entities.Entity;
-import org.example.Modules.Entities.EscapeRoomEntities.EscapeRoomHasRoom;
 import org.example.Modules.Entities.RoomEntities.ObjectDeco;
 import org.example.Modules.Entities.RoomEntities.Room;
 import org.example.Modules.Entities.RoomEntities.RoomHasTips;
@@ -119,7 +118,7 @@ public class RoomService {
         }
     }
 
-    public void addObjectInRoom(int objectId, int roomId) {
+    public void addObjectInRoom(int roomId, int objectId) {
         RepositroyRoomHasObjectDeco repo = new RepositroyRoomHasObjectDeco();
         try {
             repo.addRoomHasObjectDeco(roomId, objectId);
@@ -150,7 +149,7 @@ public class RoomService {
 
     public void addTipToRoom(int roomId, int tipID) {
         RepositoryRoomHasTips repo = new RepositoryRoomHasTips();
-        Entity entity = new RoomHasTips(tipID, roomId);
+        Entity entity = new RoomHasTips(roomId, tipID);
         try {
             repo.addTipToRoom(entity);
         } catch (SQLException e) {
