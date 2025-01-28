@@ -172,7 +172,7 @@ public class EscapeRoomService {
 
     public void addRoomToEscapeRoom(int escapeRoomId, int roomID) {
         RepositoryEscapeHasRoom repo = new RepositoryEscapeHasRoom();
-        Entity entity = new EscapeRoomHasRoom(roomID, escapeRoomId);
+        Entity entity = new EscapeRoomHasRoom(escapeRoomId, roomID);
         try {
             repo.addEscapeRoomHasRoom(entity);
         } catch (SQLException e) {
